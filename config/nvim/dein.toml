@@ -1,0 +1,48 @@
+[[plugins]]
+repo = 'ulwlu/elly.vim'
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+rev = "release"
+hook_add = '''
+  source ~/.config/nvim/plugins/coc.vim
+'''
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+hook_add = '''
+  source ~/.config/nvim/plugins/defx.vim
+'''
+
+[[plugins]]
+repo =  'junegunn/fzf'
+build = './install --all'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+hook_add = '''
+  source ~/.config/nvim/plugins/fzf.vim
+'''
+
+[[plugins]]
+repo = 'simeji/winresizer'
+hook_add = '''
+  source ~/.config/nvim/plugins/winresizer.vim
+'''
+
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+hook_add = '''
+  nmap <silent><C-k> :TComment<CR>
+  vmap <silent><C-k> :TComment<CR>
+'''
+

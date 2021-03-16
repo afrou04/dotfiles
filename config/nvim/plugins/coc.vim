@@ -7,7 +7,6 @@ highlight CocErrorSign guifg=red guibg=0
 highlight CocWarningSign guifg=yellow guibg=0
 
 " keymap settings
-let mapleader = "\<Space>"
 nmap <silent> <C-[> <Plug>(coc-diagnostic-prev)
 nmap <silent> <C-]> <Plug>(coc-diagnostic-next)
 

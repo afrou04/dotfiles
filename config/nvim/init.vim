@@ -23,7 +23,6 @@ endif
 filetype on
 set encoding=utf-8
 scriptencoding utf-8
-set ambiwidth=double
 set showcmd
 set wildmenu
 set expandtab
@@ -60,8 +59,6 @@ nmap j gj
 nmap k gk
 nmap <down> gj
 nmap <up> gk
-nmap / /\v
-nmap / /\v
 nmap ; :
 nmap f *
 noremap <S-h>   ^
@@ -69,6 +66,7 @@ noremap <S-j>   L
 noremap <S-k>   H
 nnoremap <S-l>   $
 vnoremap <S-l>   $h
+tnoremap <Esc> <C-\><C-n>
 let mapleader = "\<Space>"
 nnoremap <Leader>g :te tig<CR>i
 

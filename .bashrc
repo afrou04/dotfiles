@@ -108,3 +108,4 @@ PROMPT_COMMAND='share_history'
 shopt -u histappend
 
 eval "`npm completion`"
+eval "$(hub alias -s)"

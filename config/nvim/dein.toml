@@ -45,3 +45,5 @@ hook_add = '''
   source ~/.config/nvim/plugins/tcomment_vim.vim
 '''
 
+[[plugins]]
+repo = 'pgr0ss/vim-github-url'

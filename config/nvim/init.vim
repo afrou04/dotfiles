@@ -70,4 +70,5 @@ noremap <S-k>   H
 nnoremap <S-l>   $
 vnoremap <S-l>   $h
 let mapleader = "\<Space>"
+nnoremap <Leader>g :te tig<CR>i
 

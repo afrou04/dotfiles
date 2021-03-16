@@ -24,35 +24,16 @@ alias gst="git stash"
 # ex) ngrok http 3000
 alias ngrok='~/../../Applications/ngrok'
 
-# 辞書を開く
-dict () { open dict:///"$1" ; }
-
-#コマンドの設定
-alias his="history"
-alias hg="his | grep"
-
-#phpの設定
-alias lp="php -S localhost:8080"
-
-# 翻訳機能
-alias trans="trans -b"
-
-alias line="open ~/../../Applications/LINE.app"
-
 alias ll="ls -la"
 
 alias ..="cd .."
 
 # docker設定
-alias dp="docker ps"
-alias dpa="dp -a"
-alias dst="docker start"
-alias dsp="docker stop"
 alias dc="docker-compose"
 
 export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 
-# gitで保管できるようにする
+# gitで補完できるようにする
 source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
 
 # vimでclipboardにcopyできるようにする

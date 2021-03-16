@@ -42,7 +42,6 @@ repo = 'jiangmiao/auto-pairs'
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 hook_add = '''
-  nmap <silent><C-k> :TComment<CR>
-  vmap <silent><C-k> :TComment<CR>
+  source ~/.config/nvim/plugins/tcomment_vim.vim
 '''
 

@@ -6,3 +6,15 @@ set diff-context = 6
 
 bind generic D !git difftool --tool=vimdiff --no-prompt --trust-exit-code %(commit)^!
 
+bind generic F      ?git fetch %(remote)
+bind generic U      ?git pull %(remote)
+bind generic P      ?git push -u %(remote) %(repo:head)
+bind generic +      !git commit --amend
+
+bind main    =      ?git checkout %(branch)
+bind refs    =      ?git checkout %(branch)
+bind main    <Esc>= ?git checkout %(commit)
+
+bind main    w      @hub browse -- compare/%(branch)?expand=1
+bind diff    w      @hub browse -- compare/%(branch)?expand=1
+bind refs    w      @hub browse -- compare/%(branch)?expand=1

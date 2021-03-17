@@ -25,3 +25,6 @@ export PATH="${GOPATH}/bin:${PATH}"
 
 export CLOUD_SQL_PROXY_PATH=${HOME}/cloud_sql_proxy
 export PATH="${CLOUD_SQL_PROXY_PATH}/bin:${PATH}"
+
+export BAT_THEME="ansi"
+

@@ -21,9 +21,9 @@ function! s:defx_my_settings() abort
     \ defx#do_action('open_tree') :
     \ defx#do_action('open')
   nnoremap <silent><buffer><expr> r<CR> defx#do_action('open_tree_recursive')
-  nnoremap <silent><buffer><expr> p defx#do_action('preview', 'vsplit')
   nnoremap <silent><buffer><expr> cp defx#do_action('copy')
   nnoremap <silent><buffer><expr> mv defx#do_action('move')
+  nnoremap <silent><buffer><expr> pp defx#do_action('paste')
   nnoremap <silent><buffer><expr> nd defx#do_action('new_directory')
   nnoremap <silent><buffer><expr> nf defx#do_action('new_file')
   nnoremap <silent><buffer><expr> rm defx#do_action('remove')

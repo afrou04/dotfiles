@@ -83,15 +83,6 @@ repo = 'plasticboy/vim-markdown'
 on_ft = ['markdown']
 
 [[plugins]]
-repo = 'JamshedVesuna/vim-markdown-preview'
-on_ft = ['markdown']
-hook_source = '''
-  let g:vim_markdown_preview_github = 1
-  let g:vim_markdown_preview_hotkey = '<C-m>'
-  let g:vim_markdown_preview_browser = 'Google Chrome'
-'''
-
-[[plugins]]
 repo = 'spacewander/openresty-vim'
 on_ft = ['nginx']
 
@@ -111,16 +102,5 @@ on_ft = ['graphql']
 repo = 'fatih/vim-go'
 on_ft = ['go']
 hook_source = '''
-  let g:go_highlight_types = 1
-  let g:go_highlight_fields = 1
-  let g:go_highlight_operators = 1
-
-  let g:go_highlight_functions = 1
-  let g:go_highlight_function_parameters = 1
-  let g:go_highlight_function_calls = 1
-  let g:go_highlight_methods = 1
-
-  let g:go_highlight_generate_tags = 1
-  let g:go_highlight_variable_declarations = 1
-  let g:go_highlight_variable_assignments = 1
+  source ~/.config/nvim/plugins/vim-go.vim
 '''

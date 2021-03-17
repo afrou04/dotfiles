@@ -1,8 +1,6 @@
 " base settings
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
-
-command! -bang -nargs=? -complete=dir Files
-      \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview']}, <bang>0)
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 
 command! -bang -nargs=* GGrep
   \ call fzf#vim#grep(

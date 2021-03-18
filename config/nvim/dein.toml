@@ -47,3 +47,10 @@ hook_add = '''
 
 [[plugins]]
 repo = 'pgr0ss/vim-github-url'
+
+[[plugins]]
+repo = 'christoomey/vim-tmux-navigator'
+hook_add = '''
+  source ~/.config/nvim/plugins/vim-tmux-navigator.vim
+'''
+

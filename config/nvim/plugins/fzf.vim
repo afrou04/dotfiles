@@ -19,5 +19,6 @@ endfunction
 
 " keymap settings
 nnoremap <silent><C-p> :call <SID>fzfFiles()<CR>
+nnoremap <silent><S-p> :FzfBuffers<CR>
 nnoremap <S-f> :FzfGGrep<Space>
 

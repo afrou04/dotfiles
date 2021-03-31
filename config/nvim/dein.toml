@@ -54,3 +54,13 @@ hook_add = '''
   source ~/.config/nvim/plugins/vim-tmux-navigator.vim
 '''
 
+[[plugins]]
+repo = 'tpope/vim-dadbod'
+
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-ui'
+depends = ['tpope/vim-dadbod']
+hook_add = '''
+  source ~/.config/nvim/plugins/vim-dadbod-ui.vim
+'''
+

@@ -9,7 +9,8 @@ highlight CocWarningSign guifg=yellow guibg=0
 " keymap settings
 nmap <silent> <C-[> <Plug>(coc-diagnostic-prev)
 nmap <silent> <C-]> <Plug>(coc-diagnostic-next)
-nmap <silent> gd :call CocAction('jumpDefinition', 'split')<CR>
+let mapleader = "\<Space>"
+nmap <silent> <Leader>d :call CocAction('jumpDefinition', 'vsplit')<CR>
 
 nnoremap <silent> ? :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <TAB>

@@ -11,7 +11,7 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-nmap <buffer> <leader>r :w<CR> <Plug>(go-run)
-nmap <buffer> <leader>t :GoTest<CR>
+nmap <buffer> <Leader>r :w<CR> <Plug>(go-run)
+nmap <buffer> <Leader>t :GoTest<CR>
 nmap <Leader>f :GoTestFunc
 

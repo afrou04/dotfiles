@@ -1,8 +1,3 @@
-
-#bashの設定
-alias mkal="vim ~/.bashrc"
-alias ldbash="source ~/.bash_profile"
-
 #gitの設定
 alias gs='git status'
 alias ga="git add"
@@ -29,12 +24,11 @@ alias ll="ls -la"
 alias ..="cd .."
 
 # docker設定
+alias docker-compose="docker docker-compose"
 alias dc="docker-compose"
 
-export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
-
 # gitで補完できるようにする
-source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+# source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
 
 # vimでclipboardにcopyできるようにする
 # https://qiita.com/cawpea/items/3ca4ab80fc465d8eed7e
@@ -107,5 +101,11 @@ function share_history {
 PROMPT_COMMAND='share_history'
 shopt -u histappend
 
-eval "`npm completion`"
-eval "$(hub alias -s)"
+# eval "`npm completion`"
+# eval "$(hub alias -s)"
+
+eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
+
+

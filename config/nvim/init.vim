@@ -1,6 +1,6 @@
 " python setting
 " 2系のpipがinstallできないため3系で代用
-let g:python_host_prog=$PYENV_ROOT.'/versions/neovim3/bin/python'
+let g:python_host_prog=$PYENV_ROOT.'/versions/neovim2/bin/python'
 let g:python3_host_prog=$PYENV_ROOT.'/versions/neovim3/bin/python'
 
 " for dein
@@ -76,3 +76,4 @@ augroup HTMLANDXML
   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
 augroup END
+

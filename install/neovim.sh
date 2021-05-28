@@ -22,15 +22,15 @@ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv init --path)"' >> ~/.bash_profile
-source ~/.bash_profile
-source ~/.bashrc
+source "$HOME/.bash_profile"
+source "$HOME/.bashrc"
 
 pyenv -v
 pyenv global 3.6.3
 
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
-source ~/.bash_profile
+source "$HOME/.bash_profile"
 
 # pyenvに必要なライブラリをinstall
 apt-get install -y \

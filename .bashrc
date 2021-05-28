@@ -20,15 +20,19 @@ alias gst="git stash"
 alias ngrok='~/../../Applications/ngrok'
 
 alias ll="ls -la"
-
 alias ..="cd .."
+alias reload="source ~/.bash_profile"
 
 # docker設定
-alias docker-compose="docker docker-compose"
-alias dc="docker-compose"
+alias dc="docker compose"
+alias dui="lazydocker"
 
 # gitで補完できるようにする
-# source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+if [ "$(uname)" == 'Darwin' ]; then
+  source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+  echo "Linux"
+fi
 
 # vimでclipboardにcopyできるようにする
 # https://qiita.com/cawpea/items/3ca4ab80fc465d8eed7e
@@ -36,35 +40,13 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export MANPATH=/opt/local/man:$MANPATH
 
+source /usr/local/etc/bash_completion.d/git-prompt.sh
+GIT_PS1_SHOWDIRTYSTATE=true
+export PS1='\[\e[94m\u@\h\] \[\e[33m\W\]\[\e[32m\]$(__git_ps1 "(%s)")\[\033[00m\]\n$ '
+
 # fzf setting {{{
-# git checkout
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-fgb() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
-# git log
-fgl() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
-      --bind "ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
-                {}
-FZF-EOF"
-}
-# enterでpreview
-# ctrl-uでgit add
-fgs() {
-  modified_files=$(git status --short | awk '{print $2}') &&
-  selected_files=$(echo "$modified_files" | fzf -m --preview 'git diff --color {}') &&
-  git add $selected_files
-}
-# }
+
 function cd() {
     if [[ "$#" != 0 ]]; then
         builtin cd "$@";
@@ -101,8 +83,8 @@ function share_history {
 PROMPT_COMMAND='share_history'
 shopt -u histappend
 
-# eval "`npm completion`"
-# eval "$(hub alias -s)"
+eval "`npm completion`"
+eval "$(hub alias -s)"
 
 eval "$(pyenv init -)"
 eval "$(pyenv init --path)"

@@ -32,22 +32,19 @@ function parse_git_branch () {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-RED="\[\033[01;31m\]"
-YELLOW="\[\033[01;33m\]"
-GREEN="\[\033[01;32m\]"
-BLUE="\[\033[01;34m\]"
+BRANCH_COLOR="\[\033[01;32m\]"
+USER_COLOR="\[\033[01;94m\]"
+DIR_COLOR="\[\033[01;33m\]"
 NO_COLOR="\[\033[00m\]"
 
 # gitで補完できるようにする
 if [ "$(uname)" == 'Darwin' ]; then
-  echo "Linux"
   source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
   source /usr/local/etc/bash_completion.d/git-prompt.sh
   GIT_PS1_SHOWDIRTYSTATE=true
   export PS1='\[\e[94m\u@\h\] \[\e[33m\W\]\[\e[32m\]$(__git_ps1 "(%s)")\[\033[00m\]\n$ '
 elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-  echo "Linux"
-  PS1="$GREEN\u$NO_COLOR:$BLUE\w$YELLOW\$(parse_git_branch)$NO_COLOR\$ "
+  PS1="$USER_COLOR\u@\h $DIR_COLOR\W$BRANCH_COLOR\$(parse_git_branch)$NO_COLOR\n\$ "
 fi
 
 # vimでclipboardにcopyできるようにする
@@ -98,9 +95,7 @@ shopt -u histappend
 eval "`npm completion`"
 eval "$(hub alias -s)"
 
-eval "$(pyenv init -)"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
-
-uim-fep
-
+# tmux is not running
+if [[ ! -n $TMUX ]]; then
+  uim-fep
+fi

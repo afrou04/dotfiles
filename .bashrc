@@ -32,9 +32,9 @@ function parse_git_branch () {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-BRANCH_COLOR="\[\033[01;32m\]"
-USER_COLOR="\[\033[01;94m\]"
-DIR_COLOR="\[\033[01;33m\]"
+BRANCH_COLOR="\[\033[00;32m\]"
+USER_COLOR="\[\033[00;94m\]"
+DIR_COLOR="\[\033[00;33m\]"
 NO_COLOR="\[\033[00m\]"
 
 # gitで補完できるようにする

@@ -15,6 +15,8 @@ alias gl="git log --graph --oneline --decorate=full --color | emojify | less -r"
 alias ggraph="git log --graph"
 alias gst="git stash"
 
+alias open="nvim"
+
 # ngrok
 # ex) ngrok http 3000
 alias ngrok='~/../../Applications/ngrok'

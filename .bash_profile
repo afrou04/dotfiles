@@ -14,6 +14,9 @@ export BAT_THEME="base16"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
+source "$HOME/google-cloud-sdk/completion.bash.inc"
+source "$HOME/google-cloud-sdk/path.bash.inc"
+
 eval "$(pyenv init --path)"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init - --no-rehash)"

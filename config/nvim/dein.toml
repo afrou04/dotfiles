@@ -65,3 +65,8 @@ hook_add = '''
   source ~/.config/nvim/plugins/vim-dadbod-ui.vim
 '''
 
+[[plugins]]
+repo = 'APZelos/blamer.nvim'
+hook_add = '''
+  source ~/.config/nvim/plugins/blamer.vim
+'''

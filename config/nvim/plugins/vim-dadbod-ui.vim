@@ -8,6 +8,7 @@ endfunction
 
 let g:dbs = {
       \ 'resily': 'postgresql://postgres:password@localhost:5432/resily',
+      \ 'resily-test': 'postgresql://postgres:password@localhost:5433/resily',
       \ }
 
 autocmd FileType dbui nmap <buffer> o <Plug>(DBUI_SelectLine)

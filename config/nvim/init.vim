@@ -70,10 +70,11 @@ tnoremap <Esc> <C-\><C-n>
 let mapleader = "\<Space>"
 nnoremap <Leader>g :te tig<CR>i
 
-
 augroup HTMLANDXML
   autocmd!
   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
 augroup END
 
+" Search for visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N

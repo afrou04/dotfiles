@@ -24,5 +24,5 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 # brew path
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 

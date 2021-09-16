@@ -76,5 +76,6 @@ augroup HTMLANDXML
   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
 augroup END
 
-" Search for visually selected text
+" Search for visually selected text. And you can delete the part by input 'cgn'.
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N
+

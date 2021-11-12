@@ -12,3 +12,10 @@ done
 mkdir -p "$HOME/.config"
 ln -snfv "$(pwd)/config/nvim" "$HOME/.config/nvim"
 
+
+commands="./command/*"
+for commandFilePath in $commands; do
+  filename=$(basename ${commandFilePath})
+  ln -snfv "$(pwd)/command/$filename" "/usr/local/bin"
+done
+

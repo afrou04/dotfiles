@@ -3,6 +3,7 @@ alias gs='git status'
 alias ga="git add"
 alias gc="git commit -m"
 alias gps="git push origin HEAD"
+alias gpsf="git push --force-with-lease origin"
 alias gpl="git pull origin"
 alias gplm="git pull origin master"
 alias gpsm="git push origin master"
@@ -17,17 +18,27 @@ alias gst="git stash"
 
 alias open="nvim"
 
+#  ------------------------------
+# base64
+# ------------------------------
+alias encode='function __encode(){ echo -n "$1" | base64 }; __encode'
+alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
+
 # ngrok
 # ex) ngrok http 3000
 alias ngrok='~/../../Applications/ngrok'
 
-alias ll="ls -la"
+alias ls="exa -lh"
 alias ..="cd .."
 alias reload="source ~/.bash_profile"
+
+alias cat="bat"
 
 # docker設定
 alias dc="docker compose"
 alias dui="lazydocker"
+
+alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
 
 # Add in ~/.bashrc or ~/.bash_profile
 function parse_git_branch () {
@@ -98,6 +109,26 @@ eval "`npm completion`"
 eval "$(hub alias -s)"
 
 # tmux is not running
-if [[ ! -n $TMUX ]]; then
-  uim-fep
-fi
+# if [[ ! -n $TMUX ]]; then
+#   uim-fep
+# fi
+
+function fck() {
+  local branches branch
+  branches=$(git branch -vv) &&
+  branch=$(echo "$branches" | fzf +m) &&
+  echo "$branch"
+  echo "$(echo "$branch" | awk '{print $1}')"
+  echo $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+  # git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+# checkout-fzf-gitbranch() {
+#   local GIT_BRANCH=$(git branch --all | grep -v HEAD | fzf +m)
+#   if [ -n "$GIT_BRANCH" ]; then
+#     git checkout $(echo "$GIT_BRANCH" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+#   fi
+#   zle accept-line
+# }
+# zle -N checkout-fzf-gitbranch
+# bindkey '^O' checkout-fzf-gitbranch

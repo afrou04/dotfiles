@@ -1,0 +1,10 @@
+#!/bin/bash
+
+containers=$(docker ps | sed '1d') 
+container=$(echo "$containers" | fzf +m) 
+
+echo "$(echo "$container" | awk '{print $2 ":" $1 " logs"}')"
+
+id="$(echo "$container" | awk '{print $1}')"
+docker logs -f "$id" | jq -R 'fromjson?'
+

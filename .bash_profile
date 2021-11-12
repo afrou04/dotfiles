@@ -17,6 +17,8 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 source "$HOME/google-cloud-sdk/completion.bash.inc"
 source "$HOME/google-cloud-sdk/path.bash.inc"
 
+export PATH=$PATH:/usr/local/opt.coreutils/libexec/gnubin
+
 eval "$(pyenv init --path)"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init - --no-rehash)"

@@ -117,7 +117,18 @@ function fck() {
   local branches branch
   branches=$(git branch -vv) &&
   branch=$(echo "$branches" | fzf +m) &&
-  # aaa=$(echo $branch)
-  # echo "$branch"
-  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+  echo "$branch"
+  echo "$(echo "$branch" | awk '{print $1}')"
+  echo $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+  # git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
+
+# checkout-fzf-gitbranch() {
+#   local GIT_BRANCH=$(git branch --all | grep -v HEAD | fzf +m)
+#   if [ -n "$GIT_BRANCH" ]; then
+#     git checkout $(echo "$GIT_BRANCH" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+#   fi
+#   zle accept-line
+# }
+# zle -N checkout-fzf-gitbranch
+# bindkey '^O' checkout-fzf-gitbranch

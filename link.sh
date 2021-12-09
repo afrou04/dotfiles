@@ -11,6 +11,7 @@ done
 
 mkdir -p "$HOME/.config"
 ln -snfv "$(pwd)/config/nvim" "$HOME/.config/nvim"
+ln -snfv "$(pwd)/config/goneovim" "$HOME/.config/goneovim"
 
 
 commands="./command/*"

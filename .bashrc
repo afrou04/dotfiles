@@ -29,6 +29,7 @@ alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
 alias ngrok='~/../../Applications/ngrok'
 
 alias ls="ls"
+alias ll="ls -al"
 alias ..="cd .."
 alias reload="source ~/.bash_profile"
 
@@ -45,7 +46,7 @@ function parse_git_branch () {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/@\1/'
 }
 
-BRANCH_COLOR="\[\033[38;05;59m\]"
+BRANCH_COLOR="\[\033[38;05;244mm\]"
 USER_COLOR="\[\033[00;94m\]"
 DIR_COLOR="\[\033[38;05;244m\]"
 NO_COLOR="\[\033[00m\]"

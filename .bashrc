@@ -28,7 +28,7 @@ alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
 # ex) ngrok http 3000
 alias ngrok='~/../../Applications/ngrok'
 
-alias ls="exa -lh"
+alias ls="ls"
 alias ..="cd .."
 alias reload="source ~/.bash_profile"
 
@@ -42,12 +42,12 @@ alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.nam
 
 # Add in ~/.bashrc or ~/.bash_profile
 function parse_git_branch () {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/@\1/'
 }
 
-BRANCH_COLOR="\[\033[00;32m\]"
+BRANCH_COLOR="\[\033[38;05;59m\]"
 USER_COLOR="\[\033[00;94m\]"
-DIR_COLOR="\[\033[00;33m\]"
+DIR_COLOR="\[\033[38;05;244m\]"
 NO_COLOR="\[\033[00m\]"
 
 # gitで補完できるようにする
@@ -55,10 +55,9 @@ if [ "$(uname)" == 'Darwin' ]; then
   source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
   source /usr/local/etc/bash_completion.d/git-prompt.sh
   GIT_PS1_SHOWDIRTYSTATE=true
-  export PS1='\[\e[94m\u@\h\] \[\e[33m\W\]\[\e[32m\]$(__git_ps1 "(%s)")\[\033[00m\]\n$ '
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-  PS1="$USER_COLOR\u@\h $DIR_COLOR\W$BRANCH_COLOR\$(parse_git_branch)$NO_COLOR\n\$ "
+  # export PS1='\[\e[94m\u@\h\] \[\e[37m\W\]\[\e[37m\]$(__git_ps1 "(%s)")\[\033[00m\]\n$ '
 fi
+export PS1="$USER_COLOR\u@\h $DIR_COLOR\W$BRANCH_COLOR\$(parse_git_branch)$NO_COLOR\n\$ "
 
 # vimでclipboardにcopyできるようにする
 # https://qiita.com/cawpea/items/3ca4ab80fc465d8eed7e

@@ -19,6 +19,10 @@ source "$HOME/google-cloud-sdk/path.bash.inc"
 
 export PATH=$PATH:/usr/local/opt.coreutils/libexec/gnubin
 
+export LDFLAGS="-L/usr/local/opt/zlib/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include"
+export LD_LIBRARY_PATH="/usr/local/lib"
+
 eval "$(pyenv init --path)"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init - --no-rehash)"

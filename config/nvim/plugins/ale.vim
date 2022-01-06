@@ -21,7 +21,6 @@ let g:ale_fixers = {
 let g:ale_linters = {
   \ 'c': ['clang'],
   \ 'c++': ['clang'],
-  \ 'go': ['golangci-lint'],
   \ 'php': ['php'],
   \ 'perl': ['perl'],
   \ 'ruby': ['ruby', 'rubocop'],

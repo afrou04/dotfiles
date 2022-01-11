@@ -1,11 +1,14 @@
 " base settings
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
-let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+let $FZF_DEFAULT_OPTS="--preview-window 'right:70%' 
+      \--layout reverse 
+      \--margin=1,4 
+      \--bind ctrl-u:preview-up,ctrl-d:preview-down"
 let g:fzf_command_prefix = 'Fzf'
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   "rg --ignore-file ~/.ignore --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \   "rg --ignore-file ~/.ignore --line-number --no-heading --smart-case ".shellescape(<q-args>), 1,
   \   fzf#vim#with_preview({'options': '--exact --delimiter : --nth 3..'}), <bang>0)
 
 command! -bang -nargs=* FzfGGrep

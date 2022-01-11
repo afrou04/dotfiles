@@ -34,7 +34,9 @@ set number
 set showmatch
 set backspace=indent,eol,start
 set clipboard+=unnamed
-colorscheme elly
+" colorscheme elly
+let g:monochrome_italic_comments = 1
+colorscheme monochrome
 set termguicolors
 set cursorline
 set guifont=Cica:h16

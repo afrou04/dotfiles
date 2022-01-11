@@ -70,3 +70,9 @@ repo = 'APZelos/blamer.nvim'
 hook_add = '''
   source ~/.config/nvim/plugins/blamer.vim
 '''
+
+[[plugins]]
+repo = 'fxn/vim-monochrome'
+hook_add = '''
+  source ~/.config/nvim/plugins/monochrome.vim
+'''

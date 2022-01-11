@@ -33,8 +33,6 @@ alias ll="ls -al"
 alias ..="cd .."
 alias reload="source ~/.bash_profile"
 
-alias cat="bat"
-
 # docker設定
 alias dc="docker compose"
 alias dui="lazydocker"
@@ -46,7 +44,7 @@ function parse_git_branch () {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/@\1/'
 }
 
-BRANCH_COLOR="\[\033[38;05;244mm\]"
+BRANCH_COLOR="\[\033[38;05;244m\]"
 USER_COLOR="\[\033[00;94m\]"
 DIR_COLOR="\[\033[38;05;244m\]"
 NO_COLOR="\[\033[00m\]"
@@ -96,7 +94,6 @@ export NVM_DIR="$HOME/.nvm"
 
 alias pip="python -m pip"
 
-
 function share_history {
     history -a
     history -c
@@ -108,27 +105,3 @@ shopt -u histappend
 eval "`npm completion`"
 eval "$(hub alias -s)"
 
-# tmux is not running
-# if [[ ! -n $TMUX ]]; then
-#   uim-fep
-# fi
-
-function fck() {
-  local branches branch
-  branches=$(git branch -vv) &&
-  branch=$(echo "$branches" | fzf +m) &&
-  echo "$branch"
-  echo "$(echo "$branch" | awk '{print $1}')"
-  echo $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
-  # git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
-}
-
-# checkout-fzf-gitbranch() {
-#   local GIT_BRANCH=$(git branch --all | grep -v HEAD | fzf +m)
-#   if [ -n "$GIT_BRANCH" ]; then
-#     git checkout $(echo "$GIT_BRANCH" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-#   fi
-#   zle accept-line
-# }
-# zle -N checkout-fzf-gitbranch
-# bindkey '^O' checkout-fzf-gitbranch

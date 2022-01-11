@@ -9,8 +9,6 @@ fi
 export GOPATH=${HOME}/go
 export PATH="${GOPATH}/bin:${PATH}"
 
-export BAT_THEME="base16"
-
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 

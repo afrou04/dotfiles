@@ -34,9 +34,6 @@ set number
 set showmatch
 set backspace=indent,eol,start
 set clipboard+=unnamed
-" colorscheme elly
-let g:monochrome_italic_comments = 1
-colorscheme monochrome
 set termguicolors
 set cursorline
 set guifont=Cica:h16
@@ -70,7 +67,6 @@ nnoremap <S-l>   $
 vnoremap <S-l>   $h
 tnoremap <Esc> <C-\><C-n>
 let mapleader = "\<Space>"
-nnoremap <Leader>g :te tig<CR>i
 
 augroup HTMLANDXML
   autocmd!
@@ -81,3 +77,7 @@ augroup END
 " Search for visually selected text. And you can delete the part by input 'cgn'.
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N
 
+" colorscheme elly
+" let g:monochrome_italic_comments = 1
+" colorscheme monochrome
+"

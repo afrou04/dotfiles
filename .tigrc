@@ -1,8 +1,8 @@
 # vimdiffで確認をする
 set main-view = id date author commit-title:graph=yes,refs=yes
-set vertical-split = no
-set split-view-height = 80%
-set diff-context = 6
+# set vertical-split = no
+# set split-view-height = 80%
+# set diff-context = 6
 
 bind generic D      !git difftool --tool=vimdiff --no-prompt --trust-exit-code %(commit)^!
 
@@ -18,3 +18,26 @@ bind main    <Esc>= ?git checkout %(commit)
 bind main    w      @hub browse -- compare/%(branch)?expand=1
 bind diff    w      @hub browse -- compare/%(branch)?expand=1
 bind refs    w      @hub browse -- compare/%(branch)?expand=1
+
+set blame-view = \
+        id:yes \
+        author:abbreviated \
+        date:default \
+        text
+   
+color diff-stat			95	default
+color date			172	default
+color "Merge: "			cyan	default
+color graph-commit		red	default
+color id			167	default
+color "author "			95	default
+color "Commit: "		90	default
+color cursor			white	101	bold
+
+color palette-0			93	default
+color palette-1			95	default
+color palette-2			38	default
+color palette-7			90	default bold
+
+color delimiter			90	default
+color main-tracked		99	default	bold

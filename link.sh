@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-IGNORE_PATTERN="^\.(git)"
+IGNORE_PATTERN="^\.(git)(?!.*h).*$"
 
 for dotfile in .??*; do
     [[ $dotfile =~ $IGNORE_PATTERN ]] && continue

@@ -30,16 +30,16 @@ on_ft = ['javascript', 'javascript.jsx']
 repo = 'styled-components/vim-styled-components'
 on_ft = ['javascript', 'javascript.jsx', 'typescript', 'typescript.tsx']
 
-[[plugins]]
-repo = 'leafgarland/typescript-vim'
-on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
+# [[plugins]]
+# repo = 'leafgarland/typescript-vim'
+# on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
 
-[[plugins]]
-repo = 'peitalin/vim-jsx-typescript'
-on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
-hook_source = '''
-  source ~/.config/nvim/plugins/vim-jsx-typescript.vim
-'''
+# [[plugins]]
+# repo = 'peitalin/vim-jsx-typescript'
+# on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
+# hook_source = '''
+#   source ~/.config/nvim/plugins/vim-jsx-typescript.vim
+# '''
 
 [[plugins]]
 repo = 'vim-ruby/vim-ruby'

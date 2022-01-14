@@ -18,11 +18,11 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 
-[[plugins]]
-repo = 'Shougo/defx.nvim'
-hook_add = '''
-  source ~/.config/nvim/plugins/defx.vim
-'''
+# [[plugins]]
+# repo = 'Shougo/defx.nvim'
+# hook_add = '''
+#   source ~/.config/nvim/plugins/defx.vim
+# '''
 
 [[plugins]]
 repo =  'junegunn/fzf'
@@ -71,8 +71,45 @@ hook_add = '''
   source ~/.config/nvim/plugins/blamer.vim
 '''
 
+# [[plugins]]
+# repo = 'fxn/vim-monochrome'
+# hook_add = '''
+#   source ~/.config/nvim/plugins/monochrome.vim
+# '''
+
 [[plugins]]
-repo = 'fxn/vim-monochrome'
+repo = 'kyazdani42/nvim-web-devicons'
+
+[[plugins]]
+repo = 'kyazdani42/nvim-tree.lua'
 hook_add = '''
-  source ~/.config/nvim/plugins/monochrome.vim
+  nnoremap <C-n> :NvimTreeToggle<CR>
+  source ~/.config/nvim/plugins/nvim-tree.vim
+  lua require('plugins/nvim-tree')
 '''
+
+[[plugins]]
+repo = 'projekt0n/github-nvim-theme'
+hook_add = '''
+  autocmd ColorScheme * hi StatusLine gui=NONE guifg=white guibg=NONE 
+  autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey guibg=NONE 
+  let g:github_dark_sidebar = 0
+  colorscheme github_dark
+'''
+
+[[plugins]]
+repo = 'rbgrouleff/bclose.vim'
+
+[[plugins]]
+repo = 'iberianpig/tig-explorer.vim'
+depends = ['rbgrouleff/bclose.vim']
+hook_add = '''
+  nnoremap <C-g> :TigOpenProjectRootDir<CR>
+'''
+
+[[plugins]]
+repo = 'skanehira/translate.vim'
+hook_add = '''
+  vnoremap <C-t> :Translate<CR>
+'''
+

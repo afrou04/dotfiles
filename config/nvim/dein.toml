@@ -16,16 +16,6 @@ hook_add = '''
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
-repo =  'junegunn/fzf'
-build = './install --all'
-
-[[plugins]]
-repo = 'junegunn/fzf.vim'
-hook_add = '''
-  source ~/.config/nvim/plugins/fzf.vim
-'''
-
-[[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
   source ~/.config/nvim/plugins/winresizer.vim
@@ -126,4 +116,16 @@ repo = 'sindrets/diffview.nvim'
 depends = ['nvim-lua/plenary.nvim']
 hook_add = '''
   lua require('plugins/diffview')
+'''
+
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
+depends = ['nvim-lua/plenary.nvim']
+hook_add = '''
+  nnoremap <silent><C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
+  nnoremap <silent><S-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
+  nnoremap <silent><S-p> <cmd>lua require('telescope.builtin').buffers()<cr>
+  lua require('plugins/telescope')
+
+  nmap <silent><leader>ii  :e ~/.ignore<CR>
 '''

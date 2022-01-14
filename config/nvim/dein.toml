@@ -16,15 +16,6 @@ hook_add = '''
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
-repo = 'airblade/vim-gitgutter'
-
-# [[plugins]]
-# repo = 'Shougo/defx.nvim'
-# hook_add = '''
-#   source ~/.config/nvim/plugins/defx.vim
-# '''
-
-[[plugins]]
 repo =  'junegunn/fzf'
 build = './install --all'
 
@@ -91,8 +82,11 @@ hook_add = '''
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
 hook_add = '''
-  autocmd ColorScheme * hi StatusLine gui=NONE guifg=white guibg=NONE 
-  autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey guibg=NONE 
+  autocmd ColorScheme * hi StatusLine   gui=NONE guifg=white guibg=NONE 
+  autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
+  autocmd ColorScheme * hi DiffAdd      gui=none guifg=NONE  guibg=#12261E
+  autocmd ColorScheme * hi DiffDelete   gui=NONE guifg=NONE  guibg=#301A1F
+  autocmd ColorScheme * hi DiffChange   gui=none guifg=NONE  guibg=#3B4261
   let g:github_dark_sidebar = 0
   colorscheme github_dark
 '''
@@ -104,7 +98,7 @@ repo = 'rbgrouleff/bclose.vim'
 repo = 'iberianpig/tig-explorer.vim'
 depends = ['rbgrouleff/bclose.vim']
 hook_add = '''
-  nnoremap <C-g> :TigOpenProjectRootDir<CR>
+  nmap <leader>gg :TigOpenProjectRootDir<CR>
 '''
 
 [[plugins]]
@@ -113,3 +107,23 @@ hook_add = '''
   vnoremap <C-t> :Translate<CR>
 '''
 
+[[plugins]]
+repo = 'nathom/filetype.nvim'
+
+[[plugins]]
+repo = 'nvim-lua/plenary.nvim'
+
+[[plugins]]
+repo = 'lewis6991/gitsigns.nvim'
+depends = ['nvim-lua/plenary.nvim']
+hook_add = '''
+  lua require('plugins/gitsigns')
+  nmap ! :Gitsigns preview_hunk<CR>
+'''
+
+[[plugins]]
+repo = 'sindrets/diffview.nvim'
+depends = ['nvim-lua/plenary.nvim']
+hook_add = '''
+  lua require('plugins/diffview')
+'''

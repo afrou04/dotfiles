@@ -67,3 +67,6 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 let g:coc_disable_transparent_cursor = 1
 
 autocmd ColorScheme * hi CocFloating guibg=#3D3D3D guifg=white
+
+" cocで開いたfloaing windowを全て閉じる
+command! CloseWindowAll :call coc#float#close_all()

@@ -6,6 +6,7 @@ local mapping_list = {
   { key = "<C-x>",                        cb = tree_cb("split") },
   { key = "<Tab>",                        cb = tree_cb("preview") },
   { key = "nf",                            cb = tree_cb("create") },
+  { key = "nd",                            cb = tree_cb("create") },
   { key = "rm",                            cb = tree_cb("remove") },
   { key = "rn",                            cb = tree_cb("rename") },
   { key = "co",                            cb = tree_cb("copy") },

@@ -1,9 +1,9 @@
-[[plugins]]
-repo = 'ulwlu/elly.vim'
-hook_add = '''
-  hi! Normal ctermbg=NONE guibg=NONE
-  hi! NonText ctermbg=NONE guibg=NONE
-'''
+# [[plugins]]
+# repo = 'ulwlu/elly.vim'
+# hook_add = '''
+#   hi! Normal ctermbg=NONE guibg=NONE
+#   hi! NonText ctermbg=NONE guibg=NONE
+# '''
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
@@ -14,6 +14,9 @@ hook_add = '''
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+hook_add = '''
+  command! Tig :TigOpenProjectRootDir<cr>
+'''
 
 [[plugins]]
 repo = 'simeji/winresizer'
@@ -77,6 +80,7 @@ hook_add = '''
   autocmd ColorScheme * hi DiffAdd      gui=none guifg=NONE  guibg=#12261E
   autocmd ColorScheme * hi DiffDelete   gui=NONE guifg=NONE  guibg=#301A1F
   autocmd ColorScheme * hi DiffChange   gui=none guifg=NONE  guibg=#3B4261
+  autocmd ColorScheme * hi Search ctermfg=0 ctermbg=211 guibg=#6b6b4f
   let g:github_dark_sidebar = 0
   colorscheme github_dark
 '''
@@ -129,3 +133,11 @@ hook_add = '''
 
   nmap <silent><leader>ii  :e ~/.ignore<CR>
 '''
+
+[[plugins]]
+repo = 'pwntester/octo.nvim'
+depends = ['nvim-lua/plenary.nvim']
+hook_add = '''
+  lua require('plugins/octo')
+'''
+

@@ -1,3 +1,5 @@
+local actions = require "telescope.actions"
+
 require('telescope').setup{
   defaults = {
     vimgrep_arguments = {
@@ -19,5 +21,11 @@ require('telescope').setup{
       },
     },
     sorting_strategy = "ascending",
+    mappings = {
+      i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      }
+    }
   }
 }

@@ -14,5 +14,14 @@
         "command": ["golangci-lint", "run", "--out-format", "json"]
       }
     }
-  }
+  },
+  "git.changedSign.text": "│",
+  "git.addedSign.text": "│",
+  "git.removedSign.text": "│",
+  "git.topRemovedSign.text": "│",
+  "git.changeRemovedSign.text": "│",
+  "snippets.loadFromExtensions": false,
+  "snippets.priority": 120,
+  "suggest.languageSourcePriority": 90,
+  "coc.source.db.priority": 90
 }

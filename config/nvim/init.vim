@@ -77,7 +77,6 @@ augroup END
 " Search for visually selected text. And you can delete the part by input 'cgn'.
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N
 
-" colorscheme elly
-" let g:monochrome_italic_comments = 1
-" colorscheme monochrome
-"
+hi! DiffAdd ctermbg=NONE ctermfg=green guibg=#122A20 guifg=#63bf75
+hi! DiffChange ctermbg=NONE ctermfg=yellow guibg=#312851 guifg=#62529e
+hi! DiffDelete ctermbg=NONE ctermfg=red guibg=#301A1F guifg=#c2425f

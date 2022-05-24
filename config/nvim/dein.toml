@@ -55,12 +55,6 @@ hook_add = '''
   source ~/.config/nvim/plugins/blamer.vim
 '''
 
-# [[plugins]]
-# repo = 'fxn/vim-monochrome'
-# hook_add = '''
-#   source ~/.config/nvim/plugins/monochrome.vim
-# '''
-
 [[plugins]]
 repo = 'kyazdani42/nvim-web-devicons'
 
@@ -77,9 +71,7 @@ repo = 'projekt0n/github-nvim-theme'
 hook_add = '''
   autocmd ColorScheme * hi StatusLine   gui=NONE guifg=white guibg=NONE 
   autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
-  autocmd ColorScheme * hi DiffAdd      gui=none guifg=NONE  guibg=#12261E
-  autocmd ColorScheme * hi DiffDelete   gui=NONE guifg=NONE  guibg=#301A1F
-  autocmd ColorScheme * hi DiffChange   gui=none guifg=NONE  guibg=#3B4261
+
   autocmd ColorScheme * hi Search ctermfg=0 ctermbg=211 guibg=#6b6b4f
   let g:github_dark_sidebar = 0
   colorscheme github_dark
@@ -106,14 +98,6 @@ repo = 'nathom/filetype.nvim'
 
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
-
-[[plugins]]
-repo = 'lewis6991/gitsigns.nvim'
-depends = ['nvim-lua/plenary.nvim']
-hook_add = '''
-  lua require('plugins/gitsigns')
-  nmap ! :Gitsigns preview_hunk<CR>
-'''
 
 [[plugins]]
 repo = 'sindrets/diffview.nvim'

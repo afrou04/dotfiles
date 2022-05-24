@@ -70,3 +70,7 @@ autocmd ColorScheme * hi CocFloating guibg=#3D3D3D guifg=white
 
 " cocで開いたfloaing windowを全て閉じる
 command! CloseWindowAll :call coc#float#close_all()
+
+" coc-snippets
+let g:coc_snippet_next = '<c-l>'
+let g:coc_snippet_prev = '<c-h>'

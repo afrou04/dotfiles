@@ -1,3 +1,8 @@
+
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the start of this file.
+[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+#### END FIG ENV VARIABLES ####
 #gitの設定
 alias gs='git status'
 alias ga="git add"
@@ -51,10 +56,9 @@ NO_COLOR="\[\033[00m\]"
 
 # gitで補完できるようにする
 if [ "$(uname)" == 'Darwin' ]; then
-  source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-  source /usr/local/etc/bash_completion.d/git-prompt.sh
+  source ~/.git-completion.bash
+  source ~/.git-prompt.sh
   GIT_PS1_SHOWDIRTYSTATE=true
-  # export PS1='\[\e[94m\u@\h\] \[\e[37m\W\]\[\e[37m\]$(__git_ps1 "(%s)")\[\033[00m\]\n$ '
 fi
 export PS1="$USER_COLOR\u@\h $DIR_COLOR\W$BRANCH_COLOR\$(parse_git_branch)$NO_COLOR\n\$ "
 
@@ -105,3 +109,8 @@ shopt -u histappend
 eval "`npm completion`"
 eval "$(hub alias -s)"
 
+
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the end of this file.
+[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
+#### END FIG ENV VARIABLES ####

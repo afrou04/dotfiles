@@ -125,3 +125,14 @@ hook_add = '''
   lua require('plugins/octo')
 '''
 
+[[plugins]]
+repo = 'vim-denops/denops.vim'
+
+[[plugins]]
+depends = ['vim-denops/denops.vim']
+repo = 'vim-denops/denops-helloworld.vim'
+
+[[plugins]]
+depends = ['vim-denops/denops.vim']
+repo = 'skanehira/denops-graphql.vim'
+

@@ -20,8 +20,8 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 GPG_TTY=$(tty)
 export GPG_TTY
 
-source "$HOME/google-cloud-sdk/completion.bash.inc"
-source "$HOME/google-cloud-sdk/path.bash.inc"
+# source "$HOME/google-cloud-sdk/completion.bash.inc"
+# source "$HOME/google-cloud-sdk/path.bash.inc"
 
 export PATH=$PATH:/usr/local/opt.coreutils/libexec/gnubin
 
@@ -43,3 +43,4 @@ fi
 # Please make sure this block is at the end of this file.
 [ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
 #### END FIG ENV VARIABLES ####
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

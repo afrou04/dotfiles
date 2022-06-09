@@ -80,3 +80,12 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N
 hi! DiffAdd ctermbg=NONE ctermfg=green guibg=#122A20 guifg=#63bf75
 hi! DiffChange ctermbg=NONE ctermfg=yellow guibg=#312851 guifg=#62529e
 hi! DiffDelete ctermbg=NONE ctermfg=red guibg=#301A1F guifg=#c2425f
+
+" WSL yank support
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+    augroup END
+endif

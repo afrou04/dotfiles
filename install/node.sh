@@ -1,3 +1,5 @@
+#!/bin/bash
+set -ex
 
 sudo apt install -y nodejs npm && \
   npm install n -g && \

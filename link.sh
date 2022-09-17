@@ -17,6 +17,6 @@ ln -snfv "$(pwd)/config/goneovim" "$HOME/.config/goneovim"
 commands="./command/*"
 for commandFilePath in $commands; do
   filename=$(basename ${commandFilePath})
-  ln -snfv "$(pwd)/command/$filename" "/usr/local/bin"
+  sudo ln -snfv "$(pwd)/command/$filename" "/usr/local/bin"
 done
 

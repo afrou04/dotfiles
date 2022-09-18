@@ -2,7 +2,7 @@
 set -ex
 
 sudo apt install -y nodejs npm && \
-  npm install n -g && \
-  n stable && \
-  apt purge -y nodejs npm && \
-  apt purge -y nodejs npm 
+  sudo npm install n -g && \
+  sudo n stable && \
+  sudo apt purge -y nodejs npm && \
+  sudo apt purge -y nodejs npm 

@@ -1,28 +1,19 @@
 #!/bin/sh
 
-apt update
-apt -y upgrade
-apt -y install sudo
-
-sudo apt-get -y update && \
-  apt-get -y install git
-
-cd `dirname $0`
-
-# install neovim
-bash ./neovim.sh
-bash ./node.sh
-npm install -g neovim
-bash ./dein.sh ~/.cache/dein
+set -e
 
 # install tmux
-bash ./tmux.sh
+tmux -V &> /dev/null
+if [ $? -ne 0 ]; then
+  echo "tmuxをインストールします"
+else 
+  echo "tmuxはインストール済みです"
+fi
 
-source "$HOME/.bash_profile"
-
-# symbolic link
-bash ../link.sh
-
-# load tmux setting
-tmux source "$HOME/.tmux.conf"
-
+# install git
+git --version &> /dev/null
+if [ $? -ne 0 ]; then
+  echo "gitをインストールします"
+else 
+  echo "gitはインストール済みです"
+fi

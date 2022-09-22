@@ -38,6 +38,15 @@ else
   echo "fzfはインストール済みです"
 fi
 
+# install tig
+tig -v > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "tigをインストールします"
+  sudo apt install tig
+else 
+  echo "tigはインストール済みです"
+fi
+
 # install brew
 brew -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
@@ -47,12 +56,24 @@ else
   echo "brewはインストール済みです"
 fi
 
+node -v > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "nodeをインストールします"
+  sudo apt install -y nodejs npm && \
+    sudo npm install n -g && \
+    sudo n stable && \
+    sudo apt purge -y nodejs npm && \
+    sudo apt purge -y nodejs npm 
+else 
+  echo "nodeはインストール済みです"
+fi
+
 # install dein
 DEIN_DIR="$HOME/.cache/dein"
 if [ -d $DEIN_DIR ]; then
   echo "deinはインストール済みです"
 else 
   echo "deinをインストールします"
-  sh ./dein.sh $HOME/.cache/dein
+  sh ./.dein.sh $HOME/.cache/dein
 fi
 

@@ -1,24 +1,33 @@
 #!/bin/bash
 set -ex
 
-apt-get update -y && \
-  apt-get install -y software-properties-common && \
-  apt-add-repository -y ppa:neovim-ppa/stable && \
-  apt-get update -y && \
-  apt-get install -y \
+HOME="/home/$USER"
+echo "$HOME: $USER"
+
+sudo apt-get update -y && \
+  sudo apt-get install -y software-properties-common && \
+  sudo apt-add-repository -y ppa:neovim-ppa/stable && \
+  sudo apt-get update -y && \
+  sudo apt-get install -y \
   curl \
   git \
   language-pack-ja-base \
   language-pack-ja \
   neovim \
-  python-dev \
   python3-dev \
   python3-pip
+
+# python-dev \
 
 pip3 install --upgrade neovim && \
   pip install pynvim
 
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+PYENVDIR="$HOME/.pyenv"
+if [ ! -d $DSTDIR ]; then 
+  git clone https://github.com/pyenv/pyenv.git "$PYENVDIR"
+else 
+  echo "すでに.pyenvは作成されています"
+fi
 # echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
 # echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
 # echo 'eval "$(pyenv init -)"' >> ~/.bashrc
@@ -29,7 +38,12 @@ source "$HOME/.bashrc"
 pyenv -v
 pyenv global 3.6.3
 
-git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
+PYENVVIRTUALDIR=$(pyenv root)/plugins/pyenv-virtualenv
+if [ ! -d $PYENVVIRTUALDIR ]; then 
+  git clone https://github.com/pyenv/pyenv-virtualenv.git $PYENVVIRTUALDIR
+else 
+  echo "すでに.pyenv-virtualenvは作成されています"
+fi
 # echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bash_profile
 source "$HOME/.bash_profile"
 

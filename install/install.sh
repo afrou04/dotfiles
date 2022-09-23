@@ -77,3 +77,12 @@ else
   sh ./.dein.sh $HOME/.cache/dein
 fi
 
+# install docker
+docker -v > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "dockerをインストールします"
+  sudo apt install docker.io
+  sudo apt install podman-docker
+else 
+  echo "dockerはインストール済みです"
+fi

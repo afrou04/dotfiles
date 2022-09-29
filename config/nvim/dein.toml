@@ -125,3 +125,5 @@ hook_add = '''
   lua require('plugins/octo')
 '''
 
+[[plugins]]
+repo = 'rust-lang/rust.vim'

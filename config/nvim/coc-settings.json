@@ -2,7 +2,8 @@
   "eslint.autoFixOnSave": true,
   "coc.preferences.formatOnType": true,
   "coc.preferences.formatOnSaveFiletypes": [
-    "cpp"
+    "cpp",
+    "rust"
   ],
   "clangd.path": "/Users/bunta/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd",
   "coc.preferences.jumpCommand": "vsplit",

@@ -86,3 +86,12 @@ if [ $? -ne 0 ]; then
 else 
   echo "dockerはインストール済みです"
 fi
+
+# install mosh
+mosh -v > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "moshをインストールします"
+  sudo apt-get install mosh
+else 
+  echo "moshはインストール済みです"
+fi

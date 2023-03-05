@@ -6,7 +6,7 @@
 tmux -V > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "tmuxをインストールします"
-  sudo apt install tmux
+  sudo brew install tmux
 else 
   echo "tmuxはインストール済みです"
 fi
@@ -15,7 +15,7 @@ fi
 git --version > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "gitをインストールします"
-  sudo apt install git
+  sudo brew install git
 else 
   echo "gitはインストール済みです"
 fi
@@ -24,7 +24,7 @@ fi
 hub --version > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "hubをインストールします"
-  sudo apt install hub
+  sudo brew install hub
 else 
   echo "hubはインストール済みです"
 fi
@@ -33,7 +33,7 @@ fi
 fzf --version > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "fzfをインストールします"
-  sudo apt install fzf
+  sudo brew install fzf
 else 
   echo "fzfはインストール済みです"
 fi
@@ -42,28 +42,19 @@ fi
 tig -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "tigをインストールします"
-  sudo apt install tig
+  sudo brew install tig
 else 
   echo "tigはインストール済みです"
-fi
-
-# install brew
-brew -v > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  echo "brewをインストールします"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else 
-  echo "brewはインストール済みです"
 fi
 
 node -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "nodeをインストールします"
-  sudo apt install -y nodejs npm && \
+  sudo brew install -y nodejs npm && \
     sudo npm install n -g && \
     sudo n stable && \
-    sudo apt purge -y nodejs npm && \
-    sudo apt purge -y nodejs npm 
+    sudo brew purge -y nodejs npm && \
+    sudo brew purge -y nodejs npm 
 else 
   echo "nodeはインストール済みです"
 fi
@@ -81,8 +72,8 @@ fi
 docker -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "dockerをインストールします"
-  sudo apt install docker.io
-  sudo apt install podman-docker
+  sudo brew install docker.io
+  sudo brew install podman-docker
 else 
   echo "dockerはインストール済みです"
 fi
@@ -91,7 +82,7 @@ fi
 mosh -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "moshをインストールします"
-  sudo apt-get install mosh
+  sudo brew install mosh
 else 
   echo "moshはインストール済みです"
 fi

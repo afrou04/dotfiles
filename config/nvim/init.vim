@@ -33,7 +33,6 @@ let g:coc_global_extensions = [
   \'coc-eslint',
   \'coc-git',
   \'coc-go',
-  \'coc-graphql',
   \'coc-html',
   \'coc-import-cost',
   \'coc-json',

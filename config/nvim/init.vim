@@ -3,13 +3,19 @@
 let g:python_host_prog=$PYENV_ROOT.'/versions/neovim2/bin/python'
 let g:python3_host_prog=$PYENV_ROOT.'/versions/neovim3/bin/python'
 
+let s:dein_base = '/Users/afro/.cache/dein'
+let s:dein_src = '/Users/afro/.cache/dein/repos/github.com/Shougo/dein.vim'
+
+" Set Dein source path (required)
+let s:dein_src = '/Users/afro/.cache/dein/repos/github.com/Shougo/dein.vim'
+
 " for dein
 if &compatible
   set nocompatible
 endif
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+execute 'set runtimepath+=' . s:dein_src
 if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+  call dein#begin(s:dein_base)
   call dein#load_toml('~/.config/nvim/dein.toml', {'lazy': 0})
   call dein#load_toml('~/.config/nvim/dein_lazy.toml', {'lazy': 1})
   call dein#end()

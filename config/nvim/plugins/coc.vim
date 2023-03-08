@@ -25,14 +25,17 @@ nmap <leader>?  <Plug>(coc-codeaction)
 nmap <leader>af  <Plug>(coc-fix-current)
 
 nnoremap <silent> ? :call <SID>show_documentation()<CR>
+
+" 補完候補のハンドリング
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-h>"
-inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+  \ coc#pum#visible() ? coc#pum#next(1):
+  \ <SID>check_back_space() ? "\<Tab>" :
+  \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<S-TAB>" " "\<C-h>"
+inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
+inoremap <silent><expr> <Enter> coc#pum#visible() ? coc#pum#confirm() : "\<Enter>"
+inoremap <silent><expr> <Esc> coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"
 
 " windowのkey-bindと競合しないように一緒に管理する
 nmap <silent><C-k> :TComment<CR>

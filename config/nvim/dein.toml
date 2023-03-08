@@ -1,10 +1,3 @@
-# [[plugins]]
-# repo = 'ulwlu/elly.vim'
-# hook_add = '''
-#   hi! Normal ctermbg=NONE guibg=NONE
-#   hi! NonText ctermbg=NONE guibg=NONE
-# '''
-
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = "release"
@@ -50,12 +43,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'APZelos/blamer.nvim'
-hook_add = '''
-  source ~/.config/nvim/plugins/blamer.vim
-'''
-
-[[plugins]]
 repo = 'kyazdani42/nvim-web-devicons'
 
 [[plugins]]
@@ -85,12 +72,6 @@ repo = 'iberianpig/tig-explorer.vim'
 depends = ['rbgrouleff/bclose.vim']
 hook_add = '''
   nmap <leader>gg :TigOpenProjectRootDir<CR>
-'''
-
-[[plugins]]
-repo = 'skanehira/translate.vim'
-hook_add = '''
-  vnoremap <C-t> :Translate<CR>
 '''
 
 [[plugins]]
@@ -127,3 +108,7 @@ hook_add = '''
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
+
+[[plugins]]
+repo = '~/work/hello-beautiful-world-vim'
+

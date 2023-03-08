@@ -25,6 +25,29 @@ if dein#check_install()
  call dein#install()
 endif
 
+let g:coc_global_extensions = [
+  \'coc-clangd',
+  \'coc-css',
+  \'coc-db',
+  \'coc-diagnostic',
+  \'coc-eslint',
+  \'coc-git',
+  \'coc-go',
+  \'coc-graphql',
+  \'coc-html',
+  \'coc-import-cost',
+  \'coc-json',
+  \'coc-lua',
+  \'coc-prettier',
+  \'coc-rls',
+  \'coc-rust-analyzer',
+  \'coc-snippets',
+  \'coc-spell-checker',
+  \'coc-pairs',
+  \'coc-tsserver'
+\]
+
+
 " base setting
 filetype on
 set encoding=utf-8

@@ -44,8 +44,6 @@ vmap <silent><C-k> :TComment<CR>
 " floating window表示しているときのスクロール処理
 nnoremap <nowait><expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 nnoremap <nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-" inoremap <nowait><expr> <C-l> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-" inoremap <nowait><expr> <C-h> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -69,7 +67,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 let g:coc_disable_transparent_cursor = 1
 
-autocmd ColorScheme * hi CocFloating guibg=#3D3D3D guifg=white
+autocmd ColorScheme * hi CocFloating guibg=#404048 guifg=white
 
 " cocで開いたfloaing windowを全て閉じる
 command! CloseWindowAll :call coc#float#close_all()

@@ -2,6 +2,7 @@
   "eslint.autoFixOnSave": true,
   "coc.preferences.formatOnType": true,
   "coc.preferences.formatOnSaveFiletypes": [
+    "go",
     "cpp",
     "rust"
   ],
@@ -24,5 +25,6 @@
   "snippets.loadFromExtensions": false,
   "snippets.priority": 120,
   "suggest.languageSourcePriority": 90,
-  "coc.source.db.priority": 90
+  "coc.source.db.priority": 90,
+  "snippets.ultisnips.pythonPrompt": false
 }

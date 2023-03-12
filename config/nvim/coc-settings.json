@@ -22,7 +22,16 @@
       "command": "golangci-lint-langserver",
       "filetypes": ["go"],
       "initializationOptions": {
-        "command": ["golangci-lint", "run", "--out-format", "json"]
+        "command": [
+          "golangci-lint",
+          "run",
+          "--enable-all",
+          "--disable",
+          "lll",
+          "--out-format",
+          "json",
+          "--issues-exit-code=1"
+        ]
       }
     }
   },
@@ -34,6 +43,8 @@
   "snippets.loadFromExtensions": false,
   "snippets.priority": 120,
   "suggest.languageSourcePriority": 90,
+  "sumneko-lua.enableNvimLuaDev": true,
   "coc.source.db.priority": 90,
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "cSpell.userWords": ["tensakun"]
 }

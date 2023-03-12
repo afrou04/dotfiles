@@ -43,7 +43,8 @@ let g:coc_global_extensions = [
   \'coc-snippets',
   \'coc-spell-checker',
   \'coc-pairs',
-  \'coc-tsserver'
+  \'coc-tsserver',
+  \'coc-sumneko-lua'
 \]
 
 

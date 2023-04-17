@@ -61,17 +61,17 @@ zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 # setopt PROMPT_SUBST ; PS1='%n@$(__git_ps1 "%s")\$ '
 # export PS1="$USER_COLOR\u@\h $DIR_COLOR\W$BRANCH_COLOR\$(parse_git_branch)$NO_COLOR\n\$ "
 
+# prompt style
 autoload -Uz vcs_info
 setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr "%F{magenta}"
-zstyle ':vcs_info:git:*' unstagedstr "%F{color}"
-zstyle ':vcs_info:*' formats "%F{cyan}%c%u%b%f"
+zstyle ':vcs_info:git:*' unstagedstr "%F{green}"
+zstyle ':vcs_info:*' formats "%F{color}%c%u%b%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 precmd () { vcs_info }
-# プロンプトカスタマイズ
 PROMPT='
-%F{color}%n@$vcs_info_msg_0_%f
+%F{cyan} %F{clor}%n %1d $vcs_info_msg_0_%f
 %F{color}$%f '
 
 # vimでclipboardにcopyできるようにする
@@ -104,12 +104,12 @@ function cd() {
 }
 
 
-function share_history {
-    history -a
-    history -c
-    history -r
+function search_history() {
+  BUFFER=$(history -n -r 1 | awk '!a[$0]++' | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
 }
-PROMPT_COMMAND='share_history'
+zle -N search_history
+bindkey '^r' search_history
 
 eval "`npm completion`"
 eval "$(hub alias -s)"

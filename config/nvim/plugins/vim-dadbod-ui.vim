@@ -7,8 +7,7 @@ function! PackagerInit() abort
 endfunction
 
 let g:dbs = {
-      \ 'resily': 'postgresql://postgres:password@localhost:5432/resily',
-      \ 'resily-one-on-one': 'postgresql://postgres:password@localhost:5432/one-on-one',
+      \ 'hoge': 'postgresql://postgres:password@localhost:5432/hoge',
       \ }
 
 autocmd FileType dbui nmap <buffer> o <Plug>(DBUI_SelectLine)

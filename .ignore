@@ -1,4 +1,5 @@
 package-lock.json
+yarn.lock
 *graphql.ts
 *.png
 *.sum

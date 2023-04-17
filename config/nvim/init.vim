@@ -3,11 +3,8 @@
 let g:python_host_prog=$PYENV_ROOT.'/versions/neovim2/bin/python'
 let g:python3_host_prog=$PYENV_ROOT.'/versions/neovim3/bin/python'
 
-let s:dein_base = '/Users/afro/.cache/dein'
-let s:dein_src = '/Users/afro/.cache/dein/repos/github.com/Shougo/dein.vim'
-
-" Set Dein source path (required)
-let s:dein_src = '/Users/afro/.cache/dein/repos/github.com/Shougo/dein.vim'
+let s:dein_base = '~/.cache/dein'
+let s:dein_src = '~/.cache/dein/repos/github.com/Shougo/dein.vim'
 
 " for dein
 if &compatible
@@ -44,7 +41,10 @@ let g:coc_global_extensions = [
   \'coc-spell-checker',
   \'coc-pairs',
   \'coc-tsserver',
-  \'coc-sumneko-lua'
+  \'coc-sumneko-lua',
+  \'coc-prisma',
+  \'coc-restclient',
+  \'coc-vimlsp'
 \]
 
 
@@ -59,6 +59,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set smartindent
+set foldmethod=manual
 set number
 set showmatch
 set backspace=indent,eol,start

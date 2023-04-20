@@ -1,17 +1,22 @@
-function! PackagerInit() abort
-  packadd vim-packager
-  call packager#init()
-  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  call packager#add('tpope/vim-dadbod')
-  call packager#add('kristijanhusak/vim-dadbod-ui')
-endfunction
-
 let g:dbs = {
       \ 'hoge': 'postgresql://postgres:password@localhost:5432/hoge',
       \ }
 
-autocmd FileType dbui nmap <buffer> o <Plug>(DBUI_SelectLine)
-autocmd FileType dbui nmap <buffer> <Enter> <Plug>(DBUI_SelectLine)
+augroup DBUI_MAP
+  autocmd!
+  autocmd FileType dbui nmap <buffer> o <Plug>(DBUI_SelectLine)
+  autocmd FileType dbui nmap <buffer> <Enter> <Plug>(DBUI_SelectLine)
+  autocmd FileType dbui nnoremap <buffer> <C-n> :DBUIToggle<CR>
+  autocmd FileType sql nnoremap <C-n> :DBUIToggle<CR>
+augroup END
 
 let g:db_ui_default_query = 'SELECT * FROM "{table}"'
+
+let g:db_ui_table_helpers = {
+	\ 	'postgresql': {
+	\ 		'List': 'select * from {table}',
+	\ 		'Count': 'select count(*) from {optional_schema}{table}',
+	\ 		'Explain': 'explain analyze {last_query}'
+	\ 	}
+ 	\ }
 

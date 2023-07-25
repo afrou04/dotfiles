@@ -114,3 +114,4 @@ bindkey '^r' search_history
 eval "`npm completion`"
 eval "$(hub alias -s)"
 
+alias nyarn='echo "😺「にゃーん」" && yarn'

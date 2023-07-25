@@ -13,6 +13,7 @@
     "graphql",
     "handlebars",
     "graphql",
+    "prisma",
     "rust"
   ],
   "clangd.path": "/Users/bunta/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd",
@@ -46,5 +47,5 @@
   "sumneko-lua.enableNvimLuaDev": true,
   "coc.source.db.priority": 90,
   "snippets.ultisnips.pythonPrompt": false,
-  "cSpell.userWords": ["tensakun"]
+  "cSpell.userWords": []
 }

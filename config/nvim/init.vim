@@ -42,6 +42,7 @@ let g:coc_global_extensions = [
   \'coc-pairs',
   \'coc-tsserver',
   \'coc-sumneko-lua',
+  \'coc-phpls',
   \'coc-prisma',
   \'coc-restclient',
   \'coc-vimlsp'
@@ -106,6 +107,9 @@ augroup END
 
 " Search for visually selected text. And you can delete the part by input 'cgn'.
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N
+
+" Close buffer list but except editing buffer
+command! BufCloseList silent! execute "%bd|e#|bd#"
 
 hi! DiffAdd ctermbg=NONE ctermfg=green guibg=#122A20 guifg=#63bf75
 hi! DiffChange ctermbg=NONE ctermfg=yellow guibg=#312851 guifg=#62529e

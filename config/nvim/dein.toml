@@ -110,5 +110,40 @@ repo = 'rust-lang/rust.vim'
 repo = 'rmagatti/auto-session'
 
 [[plugins]]
-repo = '~/work/hello-beautiful-world-vim'
+repo = 'prisma/vim-prisma'
+
+[[plugins]]
+repo = 'LeafCage/vimhelpgenerator'
+
+# [[plugins]]
+# repo = 'TakuroSugahara/graphql-client-vim'
+# hook_add = '''
+#   let g:graphql_client_headers = {
+#   \ 'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+#   \ }
+#   let g:graphql_client_endpoint = 'http://localhost:8080/api/graphql'
+# '''
+
+[[plugins]]
+repo = '~/work/graphql-client-vim'
+hook_add = '''
+let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
+      \ 'student': {
+      \   'endpoint': 'http://localhost:8080/api/student/graphql',
+      \   'headers': 
+      \     {
+      \       'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c.student',
+      \     }
+      \   ,
+      \ },
+      \ 'admin': {
+      \   'endpoint': 'http://localhost:8080/api/admin/graphql',
+      \   'headers': 
+      \     {
+      \       'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+      \     }
+      \   ,
+      \ },
+      \})
+'''
 

@@ -86,3 +86,12 @@ if [ $? -ne 0 ]; then
 else 
   echo "moshはインストール済みです"
 fi
+
+# install emojify
+emojify -v > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "emojifyをインストールします"
+  sudo brew install emojify
+else 
+  echo "emojifyはインストール済みです"
+fi

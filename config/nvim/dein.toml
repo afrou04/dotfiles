@@ -104,27 +104,10 @@ hook_add = '''
 '''
 
 [[plugins]]
-repo = 'rust-lang/rust.vim'
-
-[[plugins]]
 repo = 'rmagatti/auto-session'
 
 [[plugins]]
-repo = 'prisma/vim-prisma'
-
-[[plugins]]
-repo = 'LeafCage/vimhelpgenerator'
-
-# [[plugins]]
 # repo = 'TakuroSugahara/graphql-client-vim'
-# hook_add = '''
-#   let g:graphql_client_headers = {
-#   \ 'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-#   \ }
-#   let g:graphql_client_endpoint = 'http://localhost:8080/api/graphql'
-# '''
-
-[[plugins]]
 repo = '~/work/graphql-client-vim'
 hook_add = '''
 let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {

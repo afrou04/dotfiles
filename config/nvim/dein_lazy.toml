@@ -104,3 +104,14 @@ on_ft = ['go']
 hook_source = '''
   source ~/.config/nvim/plugins/vim-go.vim
 '''
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'
+on_ft = ['rust']
+hook_source = '''
+    let g:rustfmt_autosave = 1
+'''
+
+[[plugins]]
+repo = 'prisma/vim-prisma'
+

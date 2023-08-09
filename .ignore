@@ -2,7 +2,20 @@ package-lock.json
 yarn.lock
 *graphql.ts
 *.png
+*.jpg
+*.jpeg
 *.sum
 *.svg
-*.stories.tsx
+*.js.map
+*.bcmap
+*.ttf
+*.woff
+*.woff2
+*.cur
+*.min.js
+*.eot
+*.gif
+
+
+*resources*
 

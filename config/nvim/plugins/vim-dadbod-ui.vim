@@ -20,3 +20,23 @@ let g:db_ui_table_helpers = {
 	\ 	}
  	\ }
 
+
+function! s:populate_query() abort
+  let rows = db_ui#query(printf(
+        \ "select column_name, data_type from information_schema.columns where table_name='%s' and table_schema='%s'",
+        \ b:dbui_table_name,
+        \ b:dbui_schema_name
+        \ ))
+  let lines = ['INSERT INTO '.b:dbui_table_name.' (']
+  for [column, datatype] in rows
+    call add(lines, column)
+  endfor
+  call add(lines, ') VALUES (')
+  for [column, datatype] in rows
+    call add(lines, printf('%s <%s>', column, datatype))
+  endfor
+  call add(lines, ')')
+  call setline(1, lines)
+endfunction
+
+autocmd FileType sql nnoremap <buffer><leader>i :call <sid>populate_query()

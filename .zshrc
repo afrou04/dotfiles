@@ -18,6 +18,9 @@ alias gst="git stash"
 
 alias open="nvim"
 
+# ex) cat README.md | pbcopy
+alias pbcopy='xsel --clipboard --input'
+
 #  ------------------------------
 # base64
 # ------------------------------
@@ -35,15 +38,14 @@ alias dui="lazydocker"
 
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
 
+# share history like tmux pane
+setopt inc_append_history
+setopt share_history
+
 # Add in ~/.zshrc or ~/.zsh_profile
 function parse_git_branch () {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/@\1/'
 }
-
-BRANCH_COLOR="\[\033[38;05;244m\]"
-USER_COLOR="\[\033[00;94m\]"
-DIR_COLOR="\[\033[38;05;244m\]"
-NO_COLOR="\[\033[00m\]"
 
 # git-promptの読み込み
 source ~/.zsh/git-prompt.sh
@@ -51,15 +53,6 @@ source ~/.zsh/git-prompt.sh
 # git-completionの読み込み
 fpath=(~/.zsh $fpath)
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
-# autoload -Uz compinit && compinit
-#
-# GIT_PS1_SHOWDIRTYSTATE=true
-# GIT_PS1_SHOWUNTRACKEDFILES=true
-# GIT_PS1_SHOWSTASHSTATE=true
-# GIT_PS1_SHOWUPSTREAM=auto
-#
-# setopt PROMPT_SUBST ; PS1='%n@$(__git_ps1 "%s")\$ '
-# export PS1="$USER_COLOR\u@\h $DIR_COLOR\W$BRANCH_COLOR\$(parse_git_branch)$NO_COLOR\n\$ "
 
 # prompt style
 autoload -Uz vcs_info
@@ -70,8 +63,13 @@ zstyle ':vcs_info:git:*' unstagedstr "%F{green}"
 zstyle ':vcs_info:*' formats "%F{color}%c%u%b%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 precmd () { vcs_info }
+function precmd() {
+  if [ ! -z $TMUX ]; then
+    tmux refresh-client -S
+  fi
+}
 PROMPT='
-%F{cyan} %F{clor}%n %1d $vcs_info_msg_0_%f
+%F{cyan} %F{color}%n %F{cyan} %F{clor}%~ %F{cyan} $vcs_info_msg_0_%f
 %F{color}$%f '
 
 # vimでclipboardにcopyできるようにする
@@ -119,3 +117,11 @@ alias nyarn='echo "😺「にゃーん」" && yarn'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/afrou/google/path.zsh.inc' ]; then . '/home/afrou/google/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/afrou/google/completion.zsh.inc' ]; then . '/home/afrou/google/completion.zsh.inc'; fi
+
+

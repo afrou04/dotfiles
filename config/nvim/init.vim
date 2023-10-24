@@ -13,8 +13,17 @@ endif
 execute 'set runtimepath+=' . s:dein_src
 if dein#load_state('~/.cache/dein')
   call dein#begin(s:dein_base)
+
+  " すべての環境で使うplugin
   call dein#load_toml('~/.config/nvim/dein.toml', {'lazy': 0})
   call dein#load_toml('~/.config/nvim/dein_lazy.toml', {'lazy': 1})
+
+  if exists('g:vscode')
+    " vscode neovim でのplugin
+  else
+    call dein#load_toml('~/.config/nvim/nvim-only.toml', {'lazy': 0})
+  endif
+
   call dein#end()
   call dein#save_state()
 endif
@@ -22,6 +31,8 @@ if dein#check_install()
  call dein#install()
 endif
 
+" coc-import-costでtsconfigのimportエラーなどが出る場合があるので注意
+" @see: https://github.com/wix/import-cost/issues/281#issuecomment-1629997498
 let g:coc_global_extensions = [
   \'coc-clangd',
   \'coc-css',
@@ -67,8 +78,9 @@ set backspace=indent,eol,start
 set clipboard+=unnamed
 set termguicolors
 set cursorline
-set guifont=Cica:h16
-set printfont=Cica:h12
+set nofoldenable
+" set guifont=Cica:h16
+" set printfont=Cica:h12
 set hidden
 set splitbelow
 set splitright
@@ -91,6 +103,7 @@ nmap <down> gj
 nmap <up> gk
 nmap ; :
 nmap f *
+noremap <S-s>   :%s/
 noremap <S-h>   ^
 noremap <S-j>   L
 noremap <S-k>   H
@@ -98,6 +111,27 @@ nnoremap <S-l>   $
 vnoremap <S-l>   $h
 tnoremap <Esc> <C-\><C-n>
 let mapleader = "\<Space>"
+
+function! s:manageEditorWidth(...)
+  let count = a:1
+  let to = a:2
+
+  if exists('g:vscode')
+    for i in range(1, count ? count : 1)
+      call VSCodeNotify(to ==# 'increase' ? 'workbench.action.increaseViewWidth' : 'workbench.action.decreaseViewWidth')
+    endfor
+  endif
+
+  if to == 'increase'
+    wincmd >
+  else
+    wincmd <
+  endif
+endfunction
+
+" window commands
+nnoremap > <Cmd>call <SID>manageEditorWidth(v:count,  'increase')<CR>
+nnoremap < <Cmd>call <SID>manageEditorWidth(v:count,  'decrease')<CR>
 
 augroup HTMLANDXML
   autocmd!

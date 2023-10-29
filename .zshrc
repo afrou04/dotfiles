@@ -30,7 +30,8 @@ alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
 alias ls="ls"
 alias ll="ls -al"
 alias ..="cd .."
-alias reload="source ~/.zshrc"
+
+alias reload="source ~/.zshrc && tmux source ~/.tmux.conf"
 
 # docker設定
 alias dc="docker compose"

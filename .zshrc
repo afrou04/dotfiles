@@ -70,7 +70,11 @@ function cd() {
 
 # history, aliasからコマンドを検索する
 function search_history() {
-  BUFFER=$({ history -n -r 1 | awk '!a[$0]++'; alias | grep -oP "(?<=')[^']*(?=')" } | fzf +s +m -q "$LBUFFER" --prompt="Search Command... ")
+  BUFFER=$({ cat "$HOME/.cheetsheet.sh" | grep -v '^#' 2>/dev/null;\
+    cat "$HOME/.cheetsheet.prj.sh" | grep -v '^#' 2>/dev/null;\
+    history -n -r 1 | awk '!a[$0]++'; \
+    alias | grep -oP "(?<=')[^']*(?=')" } \
+    | fzf +s +m -q "$LBUFFER" --prompt="Search Command... ")
   CURSOR=$#BUFFER
 }
 zle -N search_history

@@ -25,6 +25,7 @@ alias dc="docker compose"
 alias dui="lazydocker"
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
 alias nyarn='echo "😺「にゃーん」" && yarn'
+alias cheatlist='$HOME/dotfiles/command/cheatsheet/script.sh $HOME/dotfiles/command/cheatsheet/.commands.yml'
 
 # prompt style
 autoload -Uz vcs_info
@@ -70,13 +71,19 @@ function cd() {
 
 # history, aliasからコマンドを検索する
 function search_history() {
-  BUFFER=$({ cat "$HOME/.cheetsheet.sh" | grep -v '^#' 2>/dev/null;\
-    cat "$HOME/.cheetsheet.prj.sh" | grep -v '^#' 2>/dev/null;\
-    history -n -r 1 | awk '!a[$0]++'; \
-    alias | grep -oP "(?<=')[^']*(?=')" } \
-    | fzf +s +m -q "$LBUFFER" --prompt="Search Command... ")
+  BUFFER=$({ \
+    # cheatlist 2>/dev/null; \
+    # alias | grep -oP "(?<=')[^']*(?=')"; \
+    history -n -r 1 | awk '!a[$0]++'} \
+    | fzf +s +m -q "$LBUFFER" --prompt="Search History... ")
   CURSOR=$#BUFFER
 }
 zle -N search_history
 bindkey '^r' search_history
 
+function search_cheatsheet() {
+  BUFFER=$(cheatlist | fzf +s +m -q "$LBUFFER" --prompt="Search CheatSheet... ")
+  CURSOR=$#BUFFER
+}
+zle -N search_cheatsheet
+alias cheat="search_cheatsheet"

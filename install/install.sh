@@ -95,3 +95,14 @@ if [ $? -ne 0 ]; then
 else 
   echo "moshはインストール済みです"
 fi
+
+# install yq
+yq -V > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "yqをインストールします"
+  curl -LJO https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+  sudo mv yq_linux_amd64 /usr/local/bin/yq
+  sudo chmod a+x /usr/local/bin/yq
+else 
+  echo "yqはインストール済みです"
+fi

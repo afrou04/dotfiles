@@ -1,7 +1,5 @@
 #git config
 alias gs='git status'
-alias ga="git add"
-alias gc="git commit -m"
 alias gps="git push origin HEAD"
 alias gpsf="git push --force-with-lease origin"
 alias gpl="git pull origin"
@@ -15,33 +13,17 @@ alias gdd="git difftool"
 alias gl="git log --graph --oneline --decorate=full --color | emojify | less -r"
 alias ggraph="git log --graph"
 alias gst="git stash"
-
 alias open="nvim"
-
-# ex) cat README.md | pbcopy
 alias pbcopy='xsel --clipboard --input'
-
-#  ------------------------------
-# base64
-# ------------------------------
 alias encode='function __encode(){ echo -n "$1" | base64 }; __encode'
 alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
-
 alias ls="ls"
 alias ll="ls -al"
 alias ..="cd .."
-
 alias reload="source ~/.zshrc && tmux source ~/.tmux.conf"
-
-# docker設定
 alias dc="docker compose"
 alias dui="lazydocker"
-
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
-
-# share history like tmux pane
-setopt inc_append_history
-setopt share_history
 
 # Add in ~/.zshrc or ~/.zsh_profile
 function parse_git_branch () {
@@ -103,8 +85,9 @@ function cd() {
 }
 
 
+# history, aliasからコマンドを検索する
 function search_history() {
-  BUFFER=$(history -n -r 1 | awk '!a[$0]++' | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  BUFFER=$({ history -n -r 1 | awk '!a[$0]++'; alias | grep -oP "(?<=')[^']*(?=')" } | fzf +s +m -q "$LBUFFER" --prompt="Search Command... ")
   CURSOR=$#BUFFER
 }
 zle -N search_history

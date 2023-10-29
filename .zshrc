@@ -24,18 +24,7 @@ alias reload="source ~/.zshrc && tmux source ~/.tmux.conf"
 alias dc="docker compose"
 alias dui="lazydocker"
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
-
-# Add in ~/.zshrc or ~/.zsh_profile
-function parse_git_branch () {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/@\1/'
-}
-
-# git-promptの読み込み
-source ~/.zsh/git-prompt.sh
-
-# git-completionの読み込み
-fpath=(~/.zsh $fpath)
-zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+alias nyarn='echo "😺「にゃーん」" && yarn'
 
 # prompt style
 autoload -Uz vcs_info
@@ -54,12 +43,6 @@ function precmd() {
 PROMPT='
 %F{cyan} %F{color}%n %F{cyan} %F{clor}%~ %F{cyan} $vcs_info_msg_0_%f
 %F{color}$%f '
-
-# vimでclipboardにcopyできるようにする
-# https://qiita.com/cawpea/items/3ca4ab80fc465d8eed7e
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export MANPATH=/opt/local/man:$MANPATH
 
 # fzf setting {{{
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -92,20 +75,4 @@ function search_history() {
 }
 zle -N search_history
 bindkey '^r' search_history
-
-eval "`npm completion`"
-eval "$(hub alias -s)"
-
-alias nyarn='echo "😺「にゃーん」" && yarn'
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/afrou/google/path.zsh.inc' ]; then . '/home/afrou/google/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/afrou/google/completion.zsh.inc' ]; then . '/home/afrou/google/completion.zsh.inc'; fi
-
 

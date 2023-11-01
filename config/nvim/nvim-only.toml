@@ -114,7 +114,10 @@ hook_add = '''
 repo = 'preservim/vim-indent-guides'
 
 [[plugins]]
-repo = 'xiyaowong/transparent.nvim '
+repo = 'xiyaowong/transparent.nvim'
+
+[[plugins]]
+repo = 'github/copilot.vim'
 
 [[plugins]]
 # repo = 'TakuroSugahara/graphql-client-vim'

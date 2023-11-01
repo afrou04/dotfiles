@@ -56,6 +56,7 @@ let g:coc_global_extensions = [
   \'coc-phpls',
   \'coc-prisma',
   \'coc-restclient',
+  \'coc-copilot',
   \'coc-vimlsp'
 \]
 

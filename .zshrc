@@ -7,9 +7,12 @@ alias gplm="git pull origin master"
 alias gpsm="git push origin master"
 alias gck="git checkout"
 alias gb="git branch"
+alias gsc="git switch -c"
 alias gdl="git push --delete"
 alias gd="git diff"
 alias gdd="git difftool"
+alias gca="git commit --amend"
+alias gfp="git fetch --prune"
 alias gl="git log --graph --oneline --decorate=full --color | emojify | less -r"
 alias ggraph="git log --graph"
 alias gst="git stash"
@@ -20,7 +23,7 @@ alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
 alias ls="ls"
 alias ll="ls -al"
 alias ..="cd .."
-alias reload="source ~/.zshrc && tmux source ~/.tmux.conf"
+alias reload="source ~/.zshrc && tmux source ~/.tmux.conf & sudo hwclock -s"
 alias dc="docker compose"
 alias dui="lazydocker"
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
@@ -73,7 +76,7 @@ function cd() {
 function search_history() {
   BUFFER=$({ \
     # cheatlist 2>/dev/null; \
-    # alias | grep -oP "(?<=')[^']*(?=')"; \
+    alias | grep -oP "(?<=')[^']*(?=')"; \
     history -n -r 1 | awk '!a[$0]++'} \
     | fzf +s +m -q "$LBUFFER" --prompt="Search History... ")
   CURSOR=$#BUFFER
@@ -82,8 +85,8 @@ zle -N search_history
 bindkey '^r' search_history
 
 function search_cheatsheet() {
-  BUFFER=$(cheatlist | fzf +s +m -q "$LBUFFER" --prompt="Search CheatSheet... ")
+  BUFFER=$(cheatlist 2>/dev/null| fzf +s +m -q "$LBUFFER" --prompt="Search CheatSheet... ")
   CURSOR=$#BUFFER
 }
 zle -N search_cheatsheet
-alias cheat="search_cheatsheet"
+bindkey '^;' search_cheatsheet

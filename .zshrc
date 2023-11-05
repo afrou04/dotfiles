@@ -18,17 +18,21 @@ alias ggraph="git log --graph"
 alias gst="git stash"
 alias open="nvim"
 alias pbcopy='xsel --clipboard --input'
-alias encode='function __encode(){ echo -n "$1" | base64 }; __encode'
-alias decode='function __decode(){ echo -n "$1" | base64 -d }; __decode'
 alias ls="ls"
 alias ll="ls -al"
-alias ..="cd .."
 alias reload="source ~/.zshrc && tmux source ~/.tmux.conf & sudo hwclock -s"
 alias dc="docker compose"
 alias dui="lazydocker"
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
 alias nyarn='echo "😺「にゃーん」" && yarn'
 alias cheatlist='$HOME/dotfiles/command/cheatsheet/script.sh $HOME/dotfiles/command/cheatsheet/.commands.yml'
+alias ide="$HOME/dotfiles/command/ide.sh"
+
+# change directory
+alias ..="cd .."
+alias work="cd $HOME/work"
+alias dotfiles="cd $HOME/dotfiles"
+alias dotconfig="dotfiles && nvim"
 
 # prompt style
 autoload -Uz vcs_info

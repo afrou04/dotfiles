@@ -106,3 +106,12 @@ if [ $? -ne 0 ]; then
 else 
   echo "yqはインストール済みです"
 fi
+
+# install gh cli
+gh version > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "ghをインストールします"
+  brew install gh
+else 
+  echo "ghはインストール済みです"
+fi

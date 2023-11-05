@@ -73,6 +73,7 @@ repo = 'kyazdani42/nvim-tree.lua'
 hook_add = '''
   nnoremap <C-n> :NvimTreeFindFile<CR>
   lua require('plugins/nvim-tree')
+  autocmd ColorScheme * highlight link NvimTreeNormal Normal
 '''
 
 [[plugins]]
@@ -82,7 +83,6 @@ hook_add = '''
   autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
 
   autocmd ColorScheme * hi SeNVIDIA GeForce RTXNVIDIA GeForce RTXarch ctermfg=0 ctermbg=211 guibg=#6b6b4f
-  let g:github_dark_sidebar = 0
   colorscheme github_dark
 '''
 

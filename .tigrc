@@ -1,15 +1,15 @@
 # vimdiffで確認をする
-set main-view = id date author commit-title:graph=yes,refs=yes
-# set vertical-split = no
-# set split-view-height = 80%
+# set main-view = id date author commit-title:graph=yes,refs=yes
+set vertical-split = no
+set split-view-height = 80%
 # set diff-context = 6
 
-bind generic D      !git difftool --tool=vimdiff --no-prompt --trust-exit-code %(commit)^!
-
-bind generic F      ?git fetch %(remote)
-bind generic U      ?git pull %(remote)
+bind generic F      ?git fetch --prune %(remote)
+bind generic U      ?git pull --rebase %(remote)
 bind generic P      ?git push -u %(remote) %(repo:head)
 bind generic +      !git commit --amend
+
+bind status R ?gh pr create --fill --web --assignee "@me"
 
 bind main    =      ?git checkout %(branch)
 bind refs    =      ?git checkout %(branch)

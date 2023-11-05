@@ -64,7 +64,11 @@
   "coc.source.db.priority": 90,
   "snippets.ultisnips.pythonPrompt": false,
   "cSpell.userWords": [
+    "backnumber",
     "cheatsheet",
-    "cmds"
+    "cmds",
+    "firestore",
+    "ulid",
+    "varchar"
   ]
 }

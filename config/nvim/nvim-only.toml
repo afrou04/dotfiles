@@ -71,8 +71,7 @@ hook_add = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 hook_add = '''
-  nnoremap <C-n> :NvimTreeToggle<CR>
-  source ~/.config/nvim/plugins/nvim-tree.vim
+  nnoremap <C-n> :NvimTreeFindFile<CR>
   lua require('plugins/nvim-tree')
 '''
 

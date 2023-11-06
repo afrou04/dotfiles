@@ -17,7 +17,6 @@ hook_add = '''
   source ~/.config/nvim/plugins/coc.vim
 '''
 
-
 [[plugins]]
 repo = 'christoomey/vim-tmux-navigator'
 hook_add = '''
@@ -83,18 +82,11 @@ hook_add = '''
   autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
 
   autocmd ColorScheme * hi SeNVIDIA GeForce RTXNVIDIA GeForce RTXarch ctermfg=0 ctermbg=211 guibg=#6b6b4f
-  colorscheme github_dark
+  colorscheme github_dark_colorblind
 '''
 
 [[plugins]]
 repo = 'rbgrouleff/bclose.vim'
-
-[[plugins]]
-repo = 'iberianpig/tig-explorer.vim'
-depends = ['rbgrouleff/bclose.vim']
-hook_add = '''
-  nmap <leader>gg :TigOpenProjectRootDir<CR>
-'''
 
 [[plugins]]
 repo = 'nathom/filetype.nvim'
@@ -107,6 +99,12 @@ repo = 'sindrets/diffview.nvim'
 depends = ['nvim-lua/plenary.nvim']
 hook_add = '''
   lua require('plugins/diffview')
+'''
+
+[[plugins]]
+repo = 'rhysd/git-messenger.vim'
+hook_add = '''
+  nnoremap g? :GitMessenger<CR>
 '''
 
 [[plugins]]

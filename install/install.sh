@@ -68,6 +68,22 @@ else
   echo "nodeはインストール済みです"
 fi
 
+delta -V > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "git-deltaをインストールします"
+  brew install git-delta
+else 
+  echo "git-deltaはインストール済みです"
+fi
+
+lazygit -v > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "lazygitをインストールします"
+  brew install lazygit
+else 
+  echo "lazygitはインストール済みです"
+fi
+
 # install dein
 DEIN_DIR="$HOME/.cache/dein"
 if [ -d $DEIN_DIR ]; then

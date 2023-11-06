@@ -1,0 +1,14 @@
+gui:
+  windowSize: 'normal'
+  showIcons: true
+  sidePanelWidth: 0.22
+  commandLogSize: 3
+os:
+  editPreset: 'nvim'
+git:
+  paging:
+    colorArg: always
+    pager: delta --paging=always -n
+keybinding:
+  universal:
+    quit: '<c-c>'

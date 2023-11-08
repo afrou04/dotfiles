@@ -88,6 +88,14 @@ let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
 
 [[plugins]]
 repo = 'github/copilot.vim'
+hook_add = '''
+let g:copilot_filetypes = #{
+  \   gitcommit: v:true,
+  \   markdown: v:true,
+  \   text: v:true,
+  \   ddu-ff-filter: v:false,
+  \ }
+'''
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
@@ -101,9 +109,6 @@ repo = 'simeji/winresizer'
 hook_add = '''
   source ~/.config/nvim/plugins/winresizer.vim
 '''
-
-[[plugins]]
-repo = 'pgr0ss/vim-github-url'
 
 [[plugins]]
 repo = 'tpope/vim-dadbod'
@@ -120,4 +125,7 @@ repo = 'rbgrouleff/bclose.vim'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+hook_add = '''
+  command! GC :Git commit
+'''
 

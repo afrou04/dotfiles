@@ -160,10 +160,22 @@ repo = 'tpope/vim-rhubarb'
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 hook_add = '''
-  command! GC :Git commit
+  " :Git commit実行時に最下層にcommit windowを表示する
+  function! CloseSecondLastWindow()
+    let total_windows = winnr('$')
+    let second_last_window = total_windows - 1
+    if second_last_window >= 1
+      exe second_last_window . 'wincmd w'
+      close
+    else
+      echo "no second last window"
+    endif
+  endfunction
+
+  command! GC botright split | :Git commit | :call CloseSecondLastWindow()
   command! GP :Git push
   command! GPF :Git push -f
-  command! GF :Git fetch --prune
+  command! GD :Gdiffsplit
   command! GitHubURL :.GBrowse!
   command! GBlame :Git blame
 '''

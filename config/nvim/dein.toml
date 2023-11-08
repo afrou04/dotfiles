@@ -1,6 +1,8 @@
+# lua util系
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
+# gitのdiffを表示
 [[plugins]]
 repo = 'sindrets/diffview.nvim'
 depends = ['nvim-lua/plenary.nvim']
@@ -8,6 +10,7 @@ hook_add = '''
   lua require('plugins/diffview')
 '''
 
+# ファイルツリー
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 hook_add = '''
@@ -16,6 +19,7 @@ hook_add = '''
   autocmd ColorScheme * highlight link NvimTreeNormal Normal
 '''
 
+# ファイル検索
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim']
@@ -28,6 +32,7 @@ hook_add = '''
   nmap <silent><leader>ii  :e ~/.ignore<CR>
 '''
 
+# github theme
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
 hook_add = '''
@@ -38,30 +43,28 @@ hook_add = '''
   colorscheme github_dark_colorblind
 '''
 
+# tmux←→nvimの移動
 [[plugins]]
 repo = 'christoomey/vim-tmux-navigator'
 hook_add = '''
   source ~/.config/nvim/plugins/vim-tmux-navigator.vim
 '''
 
+# nvim上にterminalを表示
 [[plugins]]
 repo = 'akinsho/toggleterm.nvim'
 hook_add = '''
   lua require('plugins/toggleterm')
 '''
 
+# 背景透過
 [[plugins]]
 repo = 'xiyaowong/transparent.nvim'
 hook_add = '''
   lua require('plugins/transparent')
 '''
 
-[[plugins]]
-repo = 'rhysd/git-messenger.vim'
-hook_add = '''
-  nnoremap g? :GitMessenger<CR>
-'''
-
+# GraphQL client
 [[plugins]]
 # repo = 'TakuroSugahara/graphql-client-vim'
 repo = '~/work/graphql-client-vim'
@@ -86,6 +89,7 @@ let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
       \})
 '''
 
+# copilot
 [[plugins]]
 repo = 'github/copilot.vim'
 hook_add = '''
@@ -97,6 +101,7 @@ let g:copilot_filetypes = #{
   \ }
 '''
 
+# LSP manager
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = "release"
@@ -104,15 +109,18 @@ hook_add = '''
   source ~/.config/nvim/plugins/coc.vim
 '''
 
+# editorのエリアを簡単にリサイズする
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
   source ~/.config/nvim/plugins/winresizer.vim
 '''
 
+# sql client
 [[plugins]]
 repo = 'tpope/vim-dadbod'
 
+# sql client ui
 [[plugins]]
 repo = 'kristijanhusak/vim-dadbod-ui'
 depends = ['tpope/vim-dadbod']
@@ -120,12 +128,23 @@ hook_add = '''
   source ~/.config/nvim/plugins/vim-dadbod-ui.vim
 '''
 
+# 閉じかっこ
 [[plugins]]
 repo = 'rbgrouleff/bclose.vim'
 
+# tpope/vim-fugitiveと連携してgithub urlを開けるようにする
+[[plugins]]
+repo = 'tpope/vim-rhubarb'
+
+# Git ~でgit commandを提供する
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 hook_add = '''
   command! GC :Git commit
+  command! GP :Git push
+  command! GPF :Git push -f
+  command! GF :Git fetch --prune
+  command! GitHubURL :.GBrowse!
+  command! GBlame :Git blame
 '''
 

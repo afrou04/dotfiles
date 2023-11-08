@@ -18,14 +18,14 @@
 [core]
 	ignorecase = false
 	editor = nvim
-  pager = delta
+  # pager = delta
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[interactive]
-    diffFilter = delta 
+# [interactive]
+#     diffFilter = delta 
 [delta]
     navigate = true 
     light = false      

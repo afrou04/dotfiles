@@ -1,6 +1,8 @@
+# lua util系
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
+# gitのdiffを表示
 [[plugins]]
 repo = 'sindrets/diffview.nvim'
 depends = ['nvim-lua/plenary.nvim']
@@ -8,6 +10,7 @@ hook_add = '''
   lua require('plugins/diffview')
 '''
 
+# ファイルツリー
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 hook_add = '''
@@ -16,6 +19,7 @@ hook_add = '''
   autocmd ColorScheme * highlight link NvimTreeNormal Normal
 '''
 
+# ファイル検索
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim']
@@ -28,6 +32,7 @@ hook_add = '''
   nmap <silent><leader>ii  :e ~/.ignore<CR>
 '''
 
+# github theme
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
 hook_add = '''
@@ -38,30 +43,28 @@ hook_add = '''
   colorscheme github_dark_colorblind
 '''
 
+# tmux←→nvimの移動
 [[plugins]]
 repo = 'christoomey/vim-tmux-navigator'
 hook_add = '''
   source ~/.config/nvim/plugins/vim-tmux-navigator.vim
 '''
 
+# nvim上にterminalを表示
 [[plugins]]
 repo = 'akinsho/toggleterm.nvim'
 hook_add = '''
   lua require('plugins/toggleterm')
 '''
 
+# 背景透過
 [[plugins]]
 repo = 'xiyaowong/transparent.nvim'
 hook_add = '''
   lua require('plugins/transparent')
 '''
 
-[[plugins]]
-repo = 'rhysd/git-messenger.vim'
-hook_add = '''
-  nnoremap g? :GitMessenger<CR>
-'''
-
+# GraphQL client
 [[plugins]]
 # repo = 'TakuroSugahara/graphql-client-vim'
 repo = '~/work/graphql-client-vim'
@@ -86,6 +89,7 @@ let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
       \})
 '''
 
+# copilot
 [[plugins]]
 repo = 'github/copilot.vim'
 hook_add = '''
@@ -95,8 +99,29 @@ let g:copilot_filetypes = #{
   \   text: v:true,
   \   ddu-ff-filter: v:false,
   \ }
+
+" コミットメッセージにdiffを追加しcopilotに食べさせる
+function! s:append_diff() abort
+  " Get the Git repository root directory
+  let git_dir = getcwd()
+
+  " Get the diff of the staged changes relative to the Git repository root
+  let diff = system('git -C ' . git_dir . ' diff --cached')
+
+  " Add a comment character to each line of the diff
+  let comment_diff = join(map(split(diff, '\n'), {idx, line -> '# ' . line}), "\n")
+
+  " Append the diff to the commit message
+  call append(line('$'), split(comment_diff, '\n'))
+endfunction
+
+augroup EditCommitMessageCmd
+  autocmd!
+  autocmd BufNewFile,BufReadPost COMMIT_EDITMSG call s:append_diff()
+augroup END
 '''
 
+# LSP manager
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = "release"
@@ -104,15 +129,18 @@ hook_add = '''
   source ~/.config/nvim/plugins/coc.vim
 '''
 
+# editorのエリアを簡単にリサイズする
 [[plugins]]
 repo = 'simeji/winresizer'
 hook_add = '''
   source ~/.config/nvim/plugins/winresizer.vim
 '''
 
+# sql client
 [[plugins]]
 repo = 'tpope/vim-dadbod'
 
+# sql client ui
 [[plugins]]
 repo = 'kristijanhusak/vim-dadbod-ui'
 depends = ['tpope/vim-dadbod']
@@ -120,12 +148,35 @@ hook_add = '''
   source ~/.config/nvim/plugins/vim-dadbod-ui.vim
 '''
 
+# 閉じかっこ
 [[plugins]]
 repo = 'rbgrouleff/bclose.vim'
 
+# tpope/vim-fugitiveと連携してgithub urlを開けるようにする
+[[plugins]]
+repo = 'tpope/vim-rhubarb'
+
+# Git ~でgit commandを提供する
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 hook_add = '''
-  command! GC :Git commit
+  " :Git commit実行時に最下層にcommit windowを表示する
+  function! CloseSecondLastWindow()
+    let total_windows = winnr('$')
+    let second_last_window = total_windows - 1
+    if second_last_window >= 1
+      exe second_last_window . 'wincmd w'
+      close
+    else
+      echo "no second last window"
+    endif
+  endfunction
+
+  command! GC botright split | :Git commit | :call CloseSecondLastWindow()
+  command! GP :Git push
+  command! GPF :Git push -f
+  command! GD :Gdiffsplit
+  command! GitHubURL :.GBrowse!
+  command! GBlame :Git blame
 '''
 

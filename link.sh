@@ -12,6 +12,7 @@ done
 mkdir -p "$HOME/.config"
 ln -snfv "$(pwd)/config/nvim" "$HOME/.config/nvim"
 ln -snfv "$(pwd)/config/lazygit/config.yml" "$HOME/.config/lazygit/config.yml"
+ln -snfv "$(pwd)/config/git/.gitconfig" "$HOME/.gitconfig"
 
 
 commands="./command/*"

@@ -7,7 +7,7 @@ tmux -V > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "tmuxをインストールします"
   sudo apt install tmux
-else 
+else
   echo "tmuxはインストール済みです"
 fi
 
@@ -16,7 +16,7 @@ git --version > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "gitをインストールします"
   sudo apt install git
-else 
+else
   echo "gitはインストール済みです"
 fi
 
@@ -99,7 +99,7 @@ if [ $? -ne 0 ]; then
   echo "dockerをインストールします"
   sudo apt install docker.io
   sudo apt install podman-docker
-else 
+else
   echo "dockerはインストール済みです"
 fi
 
@@ -108,7 +108,7 @@ mosh -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "moshをインストールします"
   sudo apt-get install mosh
-else 
+else
   echo "moshはインストール済みです"
 fi
 
@@ -119,7 +119,7 @@ if [ $? -ne 0 ]; then
   curl -LJO https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
   sudo mv yq_linux_amd64 /usr/local/bin/yq
   sudo chmod a+x /usr/local/bin/yq
-else 
+else
   echo "yqはインストール済みです"
 fi
 
@@ -128,6 +128,6 @@ gh version > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "ghをインストールします"
   brew install gh
-else 
+else
   echo "ghはインストール済みです"
 fi

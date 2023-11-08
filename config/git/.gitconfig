@@ -1,0 +1,36 @@
+[user]
+	name = TakuroSugahara
+	email = k5690033@gmail.com
+[color]
+	ui = true
+	branch = true
+	diff = true
+	interactive = true
+	status = true
+[alias]
+	push-f = push --force-with-lease
+[push]
+	default = current
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[core]
+	ignorecase = false
+	editor = nvim
+  pager = delta
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[interactive]
+    diffFilter = delta 
+[delta]
+    navigate = true 
+    light = false      
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default

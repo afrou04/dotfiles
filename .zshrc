@@ -1,3 +1,6 @@
+# dir
+DOTFIELS_DIR="$HOME/dotfiles"
+
 #git config
 alias gs='git status'
 alias gps="git push origin HEAD"
@@ -25,13 +28,13 @@ alias dc="docker compose"
 alias dui="lazydocker"
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
 alias nyarn='echo "😺「にゃーん」" && yarn'
-alias cheatlist='$HOME/dotfiles/command/cheatsheet/script.sh $HOME/dotfiles/command/cheatsheet/.commands.yml'
-alias ide="$HOME/dotfiles/command/ide.sh"
+alias cheatlist="$DOTFIELS_DIR/command/cheatsheet/script.sh $DOTFIELS_DIR/command/cheatsheet/.commands.yml"
+alias ide="$DOTFIELS_DIR/command/ide.sh"
 
 # change directory
 alias ..="cd .."
 alias work="cd $HOME/work"
-alias dotfiles="cd $HOME/dotfiles"
+alias dotfiles="cd $DOTFIELS_DIR"
 alias dotconfig="dotfiles && nvim"
 
 # prompt style

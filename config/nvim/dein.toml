@@ -100,8 +100,8 @@ let g:copilot_filetypes = #{
   \   ddu-ff-filter: v:false,
   \ }
 
-# コミットメッセージにdiffを追加しcopilotに食べさせる
-function s:append_diff() abort
+" コミットメッセージにdiffを追加しcopilotに食べさせる
+function! s:append_diff() abort
   " Get the Git repository root directory
   let git_dir = getcwd()
 
@@ -115,7 +115,10 @@ function s:append_diff() abort
   call append(line('$'), split(comment_diff, '\n'))
 endfunction
 
-autocmd BufReadPost COMMIT_EDITMSG call s:append_diff()
+augroup EditCommitMessageCmd
+  autocmd!
+  autocmd BufNewFile,BufReadPost COMMIT_EDITMSG call s:append_diff()
+augroup END
 '''
 
 # LSP manager

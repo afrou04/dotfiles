@@ -49,7 +49,6 @@ let g:coc_global_extensions = [
   \'coc-prettier',
   \'coc-rls',
   \'coc-rust-analyzer',
-  \'coc-snippets',
   \'coc-spell-checker',
   \'coc-pairs',
   \'coc-tsserver',
@@ -57,7 +56,6 @@ let g:coc_global_extensions = [
   \'coc-phpls',
   \'coc-prisma',
   \'coc-restclient',
-  \'coc-copilot',
   \'coc-sql',
   \'coc-vimlsp'
 \]
@@ -113,6 +111,7 @@ noremap <S-k>   H
 nnoremap <S-l>   $
 vnoremap <S-l>   $h
 tnoremap <Esc> <C-\><C-n>
+inoremap <C-c> <Esc>
 let mapleader = "\<Space>"
 
 function! s:manageEditorWidth(...)
@@ -161,4 +160,5 @@ if executable(s:clip)
     augroup END
 endif
 
-command! ReloadConfig call system('reload')
+command! RemoveCachePlugin :call dein#recache_runtimepath() 
+

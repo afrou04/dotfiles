@@ -14,9 +14,8 @@ hook_add = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 hook_add = '''
-  nnoremap <C-n> :NvimTreeFindFile<CR>
   lua require('plugins/nvim-tree')
-  autocmd ColorScheme * highlight link NvimTreeNormal Normal
+  nnoremap <C-n> :NvimTreeFindFile<CR>
 '''
 
 # ファイル検索
@@ -36,12 +35,26 @@ hook_add = '''
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
 hook_add = '''
+  autocmd ColorScheme * hi diffRemoved    guifg=#c2425f guibg=NONE 
+  autocmd ColorScheme * hi diffAdded      guifg=#58a6ff guibg=NONE 
+  autocmd ColorScheme * hi diffChanged    guifg=#d29922 guibg=NONE 
+
+  autocmd ColorScheme * hi DiffviewDiffAdd       guibg=#20303b 
+  autocmd ColorScheme * hi DiffviewDiffChange    guibg=#1f2231 
+  autocmd ColorScheme * hi DiffviewDiffDelete    guibg=#37222c 
+
+  " hi! DiffAdd ctermbg=NONE ctermfg=green guibg=#122A20 guifg=#63bf75
+  " hi! DiffChange ctermbg=NONE ctermfg=yellow guibg=#312851 guifg=#62529e
+  " hi! DiffDelete ctermbg=NONE ctermfg=red guibg=#301A1F guifg=#c2425f
+
   autocmd ColorScheme * hi StatusLine   gui=NONE guifg=white guibg=NONE 
   autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
+  " nvim-treeに依存しているので注意
+  autocmd ColorScheme * highlight link NvimTreeNormal Normal
 
-  autocmd ColorScheme * hi SeNVIDIA GeForce RTXNVIDIA GeForce RTXarch ctermfg=0 ctermbg=211 guibg=#6b6b4f
   colorscheme github_dark_colorblind
 '''
+
 
 # tmux←→nvimの移動
 [[plugins]]
@@ -66,8 +79,7 @@ hook_add = '''
 
 # GraphQL client
 [[plugins]]
-# repo = 'TakuroSugahara/graphql-client-vim'
-repo = '~/work/graphql-client-vim'
+repo = 'TakuroSugahara/graphql-client-vim'
 hook_add = '''
 let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
       \ 'student': {
@@ -179,4 +191,8 @@ hook_add = '''
   command! GitHubURL :.GBrowse!
   command! GBlame :Git blame
 '''
+
+# icon
+[[plugins]]
+repo = 'kyazdani42/nvim-web-devicons'
 

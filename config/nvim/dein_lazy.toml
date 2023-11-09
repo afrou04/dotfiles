@@ -116,8 +116,5 @@ repo = 'prisma/vim-prisma'
 repo = 'tomtom/tcomment_vim'
 
 [[plugins]]
-repo = 'kyazdani42/nvim-web-devicons'
-
-[[plugins]]
 repo = 'nathom/filetype.nvim'
 

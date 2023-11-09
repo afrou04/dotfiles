@@ -1,7 +1,7 @@
 # dir
 DOTFIELS_DIR="$HOME/dotfiles"
 
-# source "$HOME/.zplug/init.zsh"
+source "$HOME/.zplug/init.zsh"
 source "$DOTFIELS_DIR/config/zplugs.zsh"
 
 # コマンドの履歴機能
@@ -42,23 +42,9 @@ alias ide="$DOTFIELS_DIR/command/ide.sh"
 alias ..="cd .."
 alias dc="dotfiles && nvim"
 
-# prompt style
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{magenta}"
-zstyle ':vcs_info:git:*' unstagedstr "%F{green}"
-zstyle ':vcs_info:*' formats "%F{color}%c%u%b%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info }
-function precmd() {
-  if [ ! -z $TMUX ]; then
-    tmux refresh-client -S
-  fi
-}
-PROMPT='
-%F{cyan} %F{color}%n %F{cyan} %F{clor}%~ %F{cyan} $vcs_info_msg_0_%f
-%F{color}$%f '
+PURE_PROMPT_SYMBOL='%F{cyan}'
+# PROMPT='%F{cyan} %F{color}%n %F{cyan} %F{clor}%~ %F{cyan}
+# %F{color}$%f '
 
 # fzf setting {{{
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

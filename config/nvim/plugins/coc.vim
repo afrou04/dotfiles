@@ -15,7 +15,7 @@ nmap <silent> <Leader>d :call CocAction('jumpDefinition', 'vsplit')<CR>
 
 " GoTo code navigatiton
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
@@ -27,12 +27,6 @@ nmap <leader>af  <Plug>(coc-fix-current)
 nnoremap <silent> ? :call <SID>show_documentation()<CR>
 
 " 補完候補のハンドリング
-" MEMO: copilotのTABと被るためにignore
-" inoremap <silent><expr> <TAB>
-"   \ coc#pum#visible() ? coc#pum#next(1):
-"   \ <SID>check_back_space() ? "\<Tab>" :
-"   \ coc#refresh()
-" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<S-TAB>" " "\<C-h>"
 inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
 inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
 inoremap <silent><expr> <Enter> coc#pum#visible() ? coc#pum#confirm() : "\<Enter>"

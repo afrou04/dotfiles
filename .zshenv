@@ -15,6 +15,8 @@ export EDITOR="vim"
 # git-promptの読み込み
 source ~/.zsh/git-prompt.sh
 
+export ZPLUG_HOME="$HOME/.zplug"
+
 # git-completionの読み込み
 fpath=(~/.zsh $fpath)
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash

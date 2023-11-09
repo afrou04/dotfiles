@@ -1,30 +1,37 @@
 # dir
 DOTFIELS_DIR="$HOME/dotfiles"
 
-#git config
+# source "$HOME/.zplug/init.zsh"
+source "$DOTFIELS_DIR/config/zplugs.zsh"
+
+# コマンドの履歴機能
+# 履歴ファイルの保存先
+HISTFILE=$HOME/.zsh_history
+# メモリに保存される履歴の件数
+HISTSIZE=10000
+# HISTFILE で指定したファイルに保存される履歴の件数
+SAVEHIST=10000
+# Then, source plugins and add commands to $PATH
+
+# abbrevにしたい
+alias g='git'
+alias ga='git add'
+alias gd='git diff'
 alias gs='git status'
-alias gps="git push origin HEAD"
-alias gpsf="git push --force-with-lease origin"
-alias gpl="git pull origin"
-alias gplm="git pull origin master"
-alias gpsm="git push origin master"
-alias gck="git checkout"
-alias gb="git branch"
-alias gsc="git switch -c"
-alias gdl="git push --delete"
-alias gd="git diff"
-alias gdd="git difftool"
-alias gca="git commit --amend"
-alias gfp="git fetch --prune"
-alias gl="git log --graph --oneline --decorate=full --color | emojify | less -r"
-alias ggraph="git log --graph"
-alias gst="git stash"
-alias open="nvim"
-alias pbcopy='xsel --clipboard --input'
+alias gsw='git switch'
+alias gp='git push'
+alias gpf='git push --force-with-lease origin'
+alias gb='git branch'
+alias gl='git log'
+alias dc="docker compose"
 alias ls="ls"
 alias ll="ls -al"
-alias reload="source ~/.zshrc && tmux source ~/.tmux.conf & sudo hwclock -s"
-alias dc="docker compose"
+
+#git config
+alias open="nvim"
+alias pbcopy='xsel --clipboard --input'
+alias reload="source ~/.zshrc && tmux source ~/.tmux.conf"
+alias reset="sudo hwclock -s"
 alias dui="lazydocker"
 alias kusa='curl https://github-contributions-api.deno.dev/$(git config user.name).term'
 alias nyarn='echo "😺「にゃーん」" && yarn'
@@ -33,9 +40,7 @@ alias ide="$DOTFIELS_DIR/command/ide.sh"
 
 # change directory
 alias ..="cd .."
-alias work="cd $HOME/work"
-alias dotfiles="cd $DOTFIELS_DIR"
-alias dotconfig="dotfiles && nvim"
+alias dc="dotfiles && nvim"
 
 # prompt style
 autoload -Uz vcs_info
@@ -97,3 +102,8 @@ function search_cheatsheet() {
 }
 zle -N search_cheatsheet
 bindkey '^;' search_cheatsheet
+
+# ctrl-a, ctrl-eがtmux上で使えない問題の対応
+bindkey -e
+
+fpath=(path/to/zsh-completions/src $fpath)

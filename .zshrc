@@ -4,14 +4,15 @@ DOTFIELS_DIR="$HOME/dotfiles"
 source "$HOME/.zplug/init.zsh"
 source "$DOTFIELS_DIR/config/zplugs.zsh"
 
-# コマンドの履歴機能
-# 履歴ファイルの保存先
-HISTFILE=$HOME/.zsh_history
-# メモリに保存される履歴の件数
-HISTSIZE=10000
-# HISTFILE で指定したファイルに保存される履歴の件数
-SAVEHIST=10000
-# Then, source plugins and add commands to $PATH
+export HISTFILE=$HOME/.zsh_history # 履歴ファイルの保存先
+export HISTSIZE=10000              # メモリに保存される履歴の件数
+export SAVEHIST=10000              # HISTFILE で指定したファイルに保存される履歴の件数
+
+setopt hist_expire_dups_first # 履歴を切り詰める際に、重複する最も古いイベントから消す
+setopt hist_ignore_all_dups   # 履歴が重複した場合に古い履歴を削除する
+setopt hist_ignore_dups       # 前回のイベントと重複する場合、履歴に保存しない
+setopt hist_save_no_dups      # 履歴ファイルに書き出す際、新しいコマンドと重複する古いコマンドは切り捨てる
+setopt share_history          # 全てのセッションで履歴を共有する
 
 # abbrevにしたい
 alias g='git'
@@ -46,7 +47,6 @@ PURE_PROMPT_SYMBOL='%F{cyan}'
 # PROMPT='%F{cyan} %F{color}%n %F{cyan} %F{clor}%~ %F{cyan}
 # %F{color}$%f '
 
-# fzf setting {{{
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 function cd() {
@@ -69,11 +69,10 @@ function cd() {
     done
 }
 
-
 # history, aliasからコマンドを検索する
 function search_history() {
   BUFFER=$({ \
-    # cheatlist 2>/dev/null; \
+    cheatlist 2>/dev/null; \
     alias | grep -oP "(?<=')[^']*(?=')"; \
     history -n -r 1 | awk '!a[$0]++'} \
     | fzf +s +m -q "$LBUFFER" --prompt="Search History... ")
@@ -82,14 +81,6 @@ function search_history() {
 zle -N search_history
 bindkey '^r' search_history
 
-function search_cheatsheet() {
-  BUFFER=$(cheatlist 2>/dev/null| fzf +s +m -q "$LBUFFER" --prompt="Search CheatSheet... ")
-  CURSOR=$#BUFFER
-}
-zle -N search_cheatsheet
-bindkey '^;' search_cheatsheet
-
-# ctrl-a, ctrl-eがtmux上で使えない問題の対応
-bindkey -e
+bindkey -e # ctrl-a, ctrl-eがtmux上で使えない問題の対応
 
 fpath=(path/to/zsh-completions/src $fpath)

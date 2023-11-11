@@ -8,7 +8,7 @@ zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh
+# source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -18,4 +18,16 @@ if ! zplug check --verbose; then
 fi
 
 zplug load 
+
+zstyle ':autocomplete:*' insert-unambiguous yes
+zstyle '：autocomplete：* ' fzf-completion yes
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+
+bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
+bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+bindkey -M menuselect '^h' vi-backward-char
+bindkey -M menuselect '^k' vi-up-line-or-history
+bindkey -M menuselect '^l' vi-forward-char
+bindkey -M menuselect '^j' vi-down-line-or-history
 

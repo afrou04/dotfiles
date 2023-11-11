@@ -9,6 +9,7 @@ vim.api.nvim_create_user_command("Diff", function(e)
     -- cocのserverがエラーになるので再起動
     vim.cmd("CocRestart")
   else
+    vim.cmd("CocDisable")
     vim.cmd("DiffviewOpen " .. e.args)
   end
 end, { nargs = "*" })

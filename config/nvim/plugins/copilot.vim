@@ -20,6 +20,7 @@ function! s:append_diff() abort
   let split_log_messages = join(map(split(recent_log_messages, '\n'), {idx, line -> '# ' . line}), "\n")
 
   " Append the diff to the commit message
+  call append(line('$'), split(split_diff, '\n'))
   call append(line('$'), split(split_log_messages, '\n'))
 endfunction
 

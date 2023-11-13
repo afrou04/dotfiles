@@ -131,3 +131,12 @@ if [ $? -ne 0 ]; then
 else
   echo "ghはインストール済みです"
 fi
+
+# install xsel
+xsel --version > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "xselをインストールします"
+  sudo apt-get install xsel
+else
+  echo "xselはインストール済みです"
+fi

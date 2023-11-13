@@ -60,7 +60,6 @@ let g:coc_global_extensions = [
   \'coc-vimlsp'
 \]
 
-
 " base setting
 filetype on
 set encoding=utf-8
@@ -80,6 +79,7 @@ set clipboard+=unnamed
 set termguicolors
 set cursorline
 set nofoldenable
+set belloff=all
 " set guifont=Cica:h16
 " set printfont=Cica:h12
 set hidden
@@ -147,13 +147,14 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>N
 " Close buffer list but except editing buffer
 command! BufCloseList silent! execute "%bd|e#|bd#"
 
-" WSL yank support
-let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
-if executable(s:clip)
-    augroup WSLYank
-        autocmd!
-        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
-    augroup END
+" vim ms間でclipboardを共有する.
+" FIXME: 文字化けの対応もしているがやや遅いのでチューニングしたい
+" @see: https://zenn.dev/kumavale/scraps/2271c61cbd19ef
+if system('uname -a | grep microsoft') != ''
+  augroup myYank
+    au!
+    autocmd TextYankPost * silent! if v:event.operator == 'y' | call system('xsel -bi', @") | endif
+  augroup END
 endif
 
 command! RemoveCachePlugin :call dein#recache_runtimepath() 

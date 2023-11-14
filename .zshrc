@@ -30,7 +30,7 @@ alias ll="ls -al"
 #git config
 alias open="nvim"
 alias pbcopy='xsel --clipboard --input'
-alias reload="source ~/.zshrc && tmux source ~/.tmux.conf"
+alias reload="~/.zshenv && source ~/.zshrc && tmux source ~/.tmux.conf"
 alias reset="sudo hwclock -s"
 alias dui="lazydocker"
 alias nyarn='echo "😺「にゃーん」" && yarn'

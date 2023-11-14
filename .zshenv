@@ -8,9 +8,9 @@ export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# FXIME: 読み込みで落ちる
+# if [ -f "$HOME/fnm/completion.zsh" ]; then . "$HOME/fnm/completion.zsh"; fi
+eval "$(fnm env --use-on-cd)"
 
 export EDITOR="nvim"
 
@@ -28,8 +28,8 @@ eval "$(hub alias -s)"
 eval "$(zoxide init zsh)"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/afrou/google/path.zsh.inc' ]; then . '/home/afrou/google/path.zsh.inc'; fi
+if [ -f "$HOME/google/path.zsh.inc" ]; then . "$HOME/google/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/afrou/google/completion.zsh.inc' ]; then . '/home/afrou/google/completion.zsh.inc'; fi
+if [ -f "$HOME/google/completion.zsh.inc" ]; then . "$HOME/google/completion.zsh.inc"; fi
 

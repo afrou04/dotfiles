@@ -140,3 +140,15 @@ if [ $? -ne 0 ]; then
 else
   echo "xselはインストール済みです"
 fi
+
+# install brew
+brew --version > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "brewをインストールします"
+  brew install fnm
+  fnm install v18.17.0
+  fnm use v18.17.0
+  fnm install v14.15.4
+else
+  echo "brewはインストール済みです"
+fi

@@ -1,20 +1,4 @@
-[[plugins]]
-repo = 'Shougo/neco-vim'
-on_ft = ['vim']
-on_i = 1
-
-[[plugins]]
-repo = 'Shougo/neco-syntax'
-on_i = 1
-
-[[plugins]]
-repo = 'othree/html5.vim'
-on_ft = ['html']
-
-[[plugins]]
-repo = 'hail2u/vim-css3-syntax'
-on_ft = ['css']
-
+# Syntax
 [[plugins]]
 repo = 'pangloss/vim-javascript'
 on_ft = ['javascript', 'javascript.jsx']
@@ -34,29 +18,8 @@ on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
 [[plugins]]
 repo = 'peitalin/vim-jsx-typescript'
 on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
-# hook_source = '''
-#   source ~/.config/nvim/plugins/vim-jsx-typescript.vim
-# '''
-
-[[plugins]]
-repo = 'vim-ruby/vim-ruby'
-on_map = '<Plug>'
-on_ft = ['ruby']
-
-[[plugins]]
-repo = 'tpope/vim-rails'
-on_map = '<Plug>'
-on_ft = ['ruby']
-
-[[plugins]]
-repo = 'tpope/vim-endwise'
-on_ft = ['ruby']
-
-[[plugins]]
-repo = 'hashivim/vim-terraform'
-on_ft = ['terraform']
 hook_source = '''
-  let g:terraform_fmt_on_save = 1
+  source ~/.config/nvim/plugins/vim-jsx-typescript.vim
 '''
 
 [[plugins]]
@@ -64,28 +27,12 @@ repo = 'cespare/vim-toml'
 on_ft = ['toml']
 
 [[plugins]]
-repo = 'elzr/vim-json'
-on_ft = ['json']
-
-[[plugins]]
 repo = 'stephpy/vim-yaml'
 on_ft = ['yaml']
 
 [[plugins]]
-repo = 'uarun/vim-protobuf'
-on_ft = ['proto']
-
-[[plugins]]
 repo = 'plasticboy/vim-markdown'
 on_ft = ['markdown']
-
-[[plugins]]
-repo = 'spacewander/openresty-vim'
-on_ft = ['nginx']
-
-[[plugins]]
-repo = 'tpope/vim-git'
-on_ft = ['git', 'gitconfig', 'gitrebase', 'gitsendemail']
 
 [[plugins]]
 repo = 'ekalinin/Dockerfile.vim'
@@ -111,10 +58,165 @@ hook_source = '''
 
 [[plugins]]
 repo = 'prisma/vim-prisma'
+on_ft = ['prisma']
+
+# sql client
+[[plugins]]
+repo = 'tpope/vim-dadbod'
+on_ft = ['sql', 'dbui']
+
+# sql client ui
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-ui'
+depends = ['tpope/vim-dadbod']
+on_ft = ['sql', 'dbui']
+hook_post_source = '''
+  source ~/.config/nvim/plugins/vim-dadbod-ui.vim
+'''
+
+[[plugins]]
+repo = 'nathom/filetype.nvim'
+on_event = ['BufReadPost','BufNewFile']
+
+# LSP manager
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+rev = "release"
+on_event = ['BufReadPost','BufNewFile']
+hook_post_source = '''
+  source ~/.config/nvim/plugins/coc.vim
+'''
+
+########### Git
+
+# gitのdiffを表示
+[[plugins]]
+repo = 'sindrets/diffview.nvim'
+on_cmd = 'Diff'
+depends = ['nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons']
+hook_post_source = '''
+  lua require('plugins/diffview')
+'''
+
+# Git ~でgit commandを提供する
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+on_cmd = ['Git blame', 'GC', 'GP', 'GPF', 'GD', 'GitHubURL', 'GBlame']
+hook_post_source = '''
+  " :Git commit実行時に最下層にcommit windowを表示する
+  function! CloseSecondLastWindow()
+    let total_windows = winnr('$')
+    let second_last_window = total_windows - 1
+    if second_last_window >= 1
+      exe second_last_window . 'wincmd w'
+      close
+    else
+      echo "no second last window"
+    endif
+  endfunction
+
+  command! GC botright split | :Git commit | :call CloseSecondLastWindow()
+  command! GP :Git push
+  command! GPF :Git push -f
+  command! GD :Gdiffsplit
+  command! GitHubURL :.GBrowse!
+  command! GBlame :Git blame
+'''
+
+# tpope/vim-fugitiveと連携してgithub urlを開けるようにする
+[[plugins]]
+repo = 'tpope/vim-rhubarb'
+on_ft = ['GitHubURL']
+
+# GraphQL client
+[[plugins]]
+repo = 'TakuroSugahara/graphql-client-vim'
+hook_post_source = '''
+on_cmd = ['GraphQLClientExecute']
+let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
+      \ 'student': {
+      \   'endpoint': 'http://localhost:8080/api/student/graphql',
+      \   'headers': 
+      \     {
+      \       'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c.student',
+      \     }
+      \   ,
+      \ },
+      \ 'admin': {
+      \   'endpoint': 'http://localhost:8080/api/admin/graphql',
+      \   'headers': 
+      \     {
+      \       'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+      \     }
+      \   ,
+      \ },
+      \})
+'''
+
+################## Util
+
+# nvim上にterminalを表示
+[[plugins]]
+repo = 'akinsho/toggleterm.nvim'
+on_cmd = 'ToggleTerm'
+hook_post_source = '''
+  lua require('plugins/toggleterm')
+'''
+
+# tmux←→nvimの移動
+[[plugins]]
+repo = 'christoomey/vim-tmux-navigator'
+on_cmd = ['TmuxNavigateDown', 'TmuxNavigateUp', 'TmuxNavigateLeft', 'TmuxNavigateRight']
+hook_add = '''
+  source ~/.config/nvim/plugins/vim-tmux-navigator.vim
+'''
 
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 
+# copilot
 [[plugins]]
-repo = 'nathom/filetype.nvim'
+repo = 'github/copilot.vim'
+on_event = ['BufReadPost','BufNewFile']
+hook_add = '''
+  source ~/.config/nvim/plugins/copilot.vim
+'''
+
+# 閉じかっこ
+[[plugins]]
+repo = 'rbgrouleff/bclose.vim'
+on_event = ['BufReadPost','BufNewFile']
+
+# editorのエリアを簡単にリサイズする
+[[plugins]]
+repo = 'simeji/winresizer'
+on_map = '<C-e>'
+hook_post_source = '''
+  source ~/.config/nvim/plugins/winresizer.vim
+'''
+
+################## Find Files
+
+# ファイル検索
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
+depends = ['nvim-lua/plenary.nvim']
+on_map = ['<C-p>', '<S-f>', '<S-p>']
+hook_post_source = '''
+  nnoremap <silent><C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
+  nnoremap <silent><S-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
+  nnoremap <silent><S-p> <cmd>lua require('telescope.builtin').buffers()<cr>
+  lua require('plugins/telescope')
+
+  nmap <silent><leader>ii  :e ~/.ignore<CR>
+'''
+
+# ファイルツリー
+[[plugins]]
+repo = 'kyazdani42/nvim-tree.lua'
+on_map = '<C-n>'
+hook_post_source = '''
+  lua require('plugins/nvim-tree')
+  nnoremap <C-n> :NvimTreeFindFile<CR>
+'''
 

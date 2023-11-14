@@ -2,38 +2,24 @@
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
-# gitのdiffを表示
+# 背景透過
+# FIXME: 最初に実行したいもので置いているが, 背景透過が起動が遅いので、colorschemeとして設定したい
 [[plugins]]
-repo = 'sindrets/diffview.nvim'
-depends = ['nvim-lua/plenary.nvim']
+repo = 'xiyaowong/transparent.nvim'
 hook_add = '''
-  lua require('plugins/diffview')
+  lua require('plugins/transparent')
 '''
 
-# ファイルツリー
-[[plugins]]
-repo = 'kyazdani42/nvim-tree.lua'
-hook_add = '''
-  lua require('plugins/nvim-tree')
-  nnoremap <C-n> :NvimTreeFindFile<CR>
-'''
+################## UI
 
-# ファイル検索
+# icon
 [[plugins]]
-repo = 'nvim-telescope/telescope.nvim'
-depends = ['nvim-lua/plenary.nvim']
-hook_add = '''
-  nnoremap <silent><C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
-  nnoremap <silent><S-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
-  nnoremap <silent><S-p> <cmd>lua require('telescope.builtin').buffers()<cr>
-  lua require('plugins/telescope')
-
-  nmap <silent><leader>ii  :e ~/.ignore<CR>
-'''
+repo = 'kyazdani42/nvim-web-devicons'
 
 # github theme
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
+on_event = ['BufReadPost','BufNewFile']
 hook_add = '''
   autocmd ColorScheme * hi diffRemoved    guifg=#c2425f guibg=NONE 
   autocmd ColorScheme * hi diffAdded      guifg=#58a6ff guibg=NONE 
@@ -43,10 +29,6 @@ hook_add = '''
   autocmd ColorScheme * hi DiffviewDiffChange    guibg=#1f2231 
   autocmd ColorScheme * hi DiffviewDiffDelete    guibg=#37222c 
 
-  " hi! DiffAdd ctermbg=NONE ctermfg=green guibg=#122A20 guifg=#63bf75
-  " hi! DiffChange ctermbg=NONE ctermfg=yellow guibg=#312851 guifg=#62529e
-  " hi! DiffDelete ctermbg=NONE ctermfg=red guibg=#301A1F guifg=#c2425f
-
   autocmd ColorScheme * hi StatusLine   gui=NONE guifg=white guibg=NONE 
   autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
   " nvim-treeに依存しているので注意
@@ -54,120 +36,4 @@ hook_add = '''
 
   colorscheme github_dark_colorblind
 '''
-
-
-# tmux←→nvimの移動
-[[plugins]]
-repo = 'christoomey/vim-tmux-navigator'
-hook_add = '''
-  source ~/.config/nvim/plugins/vim-tmux-navigator.vim
-'''
-
-# nvim上にterminalを表示
-[[plugins]]
-repo = 'akinsho/toggleterm.nvim'
-hook_add = '''
-  lua require('plugins/toggleterm')
-'''
-
-# 背景透過
-[[plugins]]
-repo = 'xiyaowong/transparent.nvim'
-hook_add = '''
-  lua require('plugins/transparent')
-'''
-
-# GraphQL client
-[[plugins]]
-repo = 'TakuroSugahara/graphql-client-vim'
-hook_add = '''
-let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
-      \ 'student': {
-      \   'endpoint': 'http://localhost:8080/api/student/graphql',
-      \   'headers': 
-      \     {
-      \       'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c.student',
-      \     }
-      \   ,
-      \ },
-      \ 'admin': {
-      \   'endpoint': 'http://localhost:8080/api/admin/graphql',
-      \   'headers': 
-      \     {
-      \       'authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-      \     }
-      \   ,
-      \ },
-      \})
-'''
-
-# copilot
-[[plugins]]
-repo = 'github/copilot.vim'
-hook_add = '''
-  source ~/.config/nvim/plugins/copilot.vim
-'''
-
-# LSP manager
-[[plugins]]
-repo = 'neoclide/coc.nvim'
-rev = "release"
-hook_add = '''
-  source ~/.config/nvim/plugins/coc.vim
-'''
-
-# editorのエリアを簡単にリサイズする
-[[plugins]]
-repo = 'simeji/winresizer'
-hook_add = '''
-  source ~/.config/nvim/plugins/winresizer.vim
-'''
-
-# sql client
-[[plugins]]
-repo = 'tpope/vim-dadbod'
-
-# sql client ui
-[[plugins]]
-repo = 'kristijanhusak/vim-dadbod-ui'
-depends = ['tpope/vim-dadbod']
-hook_add = '''
-  source ~/.config/nvim/plugins/vim-dadbod-ui.vim
-'''
-
-# 閉じかっこ
-[[plugins]]
-repo = 'rbgrouleff/bclose.vim'
-
-# tpope/vim-fugitiveと連携してgithub urlを開けるようにする
-[[plugins]]
-repo = 'tpope/vim-rhubarb'
-
-# Git ~でgit commandを提供する
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-hook_add = '''
-  " :Git commit実行時に最下層にcommit windowを表示する
-  function! CloseSecondLastWindow()
-    let total_windows = winnr('$')
-    let second_last_window = total_windows - 1
-    if second_last_window >= 1
-      exe second_last_window . 'wincmd w'
-      close
-    else
-      echo "no second last window"
-    endif
-  endfunction
-
-  command! GC botright split | :Git commit | :call CloseSecondLastWindow()
-  command! GP :Git push
-  command! GPF :Git push -f
-  command! GD :Gdiffsplit
-  command! GitHubURL :.GBrowse!
-  command! GBlame :Git blame
-'''
-
-# icon
-[[plugins]]
-repo = 'kyazdani42/nvim-web-devicons'
 

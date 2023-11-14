@@ -79,13 +79,14 @@ repo = 'nathom/filetype.nvim'
 on_event = ['BufReadPost','BufNewFile']
 
 # LSP manager
-[[plugins]]
-repo = 'neoclide/coc.nvim'
-rev = "release"
-on_event = ['BufReadPost','BufNewFile']
-hook_post_source = '''
-  source ~/.config/nvim/plugins/coc.vim
-'''
+# [[plugins]]
+# repo = 'neoclide/coc.nvim'
+# rev = "release"
+# depends = 'nvim-lua/plenary.nvim'
+# on_event = ['BufReadPost','BufNewFile']
+# hook_post_source = '''
+#   source ~/.config/nvim/plugins/coc.vim
+# '''
 
 ########### Git
 

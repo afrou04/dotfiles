@@ -37,3 +37,14 @@ hook_add = '''
   colorscheme github_dark_colorblind
 '''
 
+################ LSP manager
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+rev = "release"
+on_idel = 1
+depends = ['nvim-lua/plenary.nvim']
+hook_add = '''
+  source ~/.config/nvim/plugins/coc.vim
+'''
+

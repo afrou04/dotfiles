@@ -1,7 +1,23 @@
 # dir
 DOTFIELS_DIR="$HOME/dotfiles"
 
+fpath=(~/.zsh $fpath)
+zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+PURE_PROMPT_SYMBOL='%F{cyan}'
+
+# FXIME: 読み込みで落ちる
+# if [ -f "$HOME/fnm/completion.zsh" ]; then . "$HOME/fnm/completion.zsh"; fi
+eval "$(fnm env --use-on-cd)"
+
 source "$DOTFIELS_DIR/config/zplugs.zsh"
+source ~/.zsh/git-prompt.sh
+
+# eval "`npm completion`"
+eval "$(hub alias -s)"
+eval "$(zoxide init zsh)"
+
+if [ -f "$HOME/google/path.zsh.inc" ]; then . "$HOME/google/path.zsh.inc"; fi
+if [ -f "$HOME/google/completion.zsh.inc" ]; then . "$HOME/google/completion.zsh.inc"; fi
 
 export HISTFILE=$HOME/.zsh_history # 履歴ファイルの保存先
 export HISTSIZE=10000              # メモリに保存される履歴の件数
@@ -19,8 +35,8 @@ alias ga='git add'
 alias gd='git diff'
 alias gs='git status'
 alias gsw='git switch'
-alias gp='git push'
-alias gpf='git push --force-with-lease origin'
+alias gps='git push'
+alias gpsf='git push --force-with-lease origin'
 alias gb='git branch'
 alias gl='git log'
 alias dc="docker compose"
@@ -37,6 +53,4 @@ alias nyarn='echo "😺「にゃーん」" && yarn'
 alias cheatlist="$DOTFIELS_DIR/command/cheatsheet/script.sh $DOTFIELS_DIR/command/cheatsheet/.commands.yml"
 alias ide="$DOTFIELS_DIR/command/ide.sh"
 alias ..="cd .."
-
-PURE_PROMPT_SYMBOL='%F{cyan}'
 

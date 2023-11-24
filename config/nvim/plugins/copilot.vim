@@ -15,13 +15,14 @@ function! s:append_diff() abort
   let diff = system('git -C ' . git_dir . ' diff --cached')
   let split_diff = join(map(split(diff, '\n'), {idx, line -> '# ' . line}), "\n")
 
+  " コミットメッセージに引っ張られる過ぎるのでコメントアウト
   " Get a git log message
-  let recent_log_messages = system('git -C ' . git_dir . ' log --oneline -n 20')
-  let split_log_messages = join(map(split(recent_log_messages, '\n'), {idx, line -> '# ' . line}), "\n")
+  " let recent_log_messages = system('git -C ' . git_dir . ' log --oneline -n 20')
+  " let split_log_messages = join(map(split(recent_log_messages, '\n'), {idx, line -> '# ' . line}), "\n")
 
   " Append the diff to the commit message
   call append(line('$'), split(split_diff, '\n'))
-  call append(line('$'), split(split_log_messages, '\n'))
+  " call append(line('$'), split(split_log_messages, '\n'))
 endfunction
 
 augroup EditCommitMessageCmd

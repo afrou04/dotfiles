@@ -60,20 +60,6 @@ hook_source = '''
 repo = 'prisma/vim-prisma'
 on_ft = ['prisma']
 
-# sql client
-[[plugins]]
-repo = 'tpope/vim-dadbod'
-on_ft = ['sql', 'dbui']
-
-# sql client ui
-[[plugins]]
-repo = 'kristijanhusak/vim-dadbod-ui'
-depends = ['tpope/vim-dadbod']
-on_ft = ['sql', 'dbui']
-hook_post_source = '''
-  source ~/.config/nvim/plugins/vim-dadbod-ui.vim
-'''
-
 [[plugins]]
 repo = 'nathom/filetype.nvim'
 on_event = ['BufReadPost','BufNewFile']

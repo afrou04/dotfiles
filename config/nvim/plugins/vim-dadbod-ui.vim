@@ -40,3 +40,6 @@ function! s:populate_query() abort
 endfunction
 
 autocmd FileType sql nnoremap <buffer><leader>i :call <sid>populate_query()
+
+command! DBUI :DBUIToggle<CR>
+

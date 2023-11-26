@@ -48,3 +48,16 @@ hook_add = '''
   source ~/.config/nvim/plugins/coc.vim
 '''
 
+# FIXME: dein_lazyに書きたい
+# sql client
+[[plugins]]
+repo = 'tpope/vim-dadbod'
+
+# sql client ui
+[[plugins]]
+repo = 'kristijanhusak/vim-dadbod-ui'
+depends = ['tpope/vim-dadbod']
+hook_add = '''
+  source ~/.config/nvim/plugins/vim-dadbod-ui.vim
+'''
+

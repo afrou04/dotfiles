@@ -60,6 +60,8 @@ let g:coc_global_extensions = [
   \'coc-vimlsp'
 \]
 
+" TODO: diff viewのときにts serverをdisableにする
+
 " base setting
 filetype on
 set encoding=utf-8
@@ -153,6 +155,7 @@ command! BufCloseList silent! execute "%bd|e#|bd#"
 if system('uname -a | grep microsoft') != ''
   augroup myYank
     au!
+    " y cmdだけに限定することで他のそうさの時に遅くなるのを防ぐ
     autocmd TextYankPost * silent! if v:event.operator == 'y' | call system('xsel -bi', @") | endif
   augroup END
 endif

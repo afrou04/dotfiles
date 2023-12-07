@@ -4,7 +4,7 @@ set -eu
 # set tmux panes for ide
 
 tmux split-window -v
-tmux resize-pane -D 15
+tmux resize-pane -D 18
 tmux split-window -h
 
 # open dotifiles

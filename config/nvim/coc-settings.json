@@ -64,6 +64,7 @@
   "coc.source.db.priority": 90,
   "snippets.ultisnips.pythonPrompt": false,
   "cSpell.userWords": [
+    "Usecase",
     "backnumber",
     "cheatsheet",
     "cmds",

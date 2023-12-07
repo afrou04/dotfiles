@@ -100,7 +100,7 @@ set ignorecase
 set smartcase
 
 " keymap settings
-imap <Esc><BS> <C-\><C-o>:call <SID>deletePreviousWordOrSpace()<CR>
+imap <silent> <Esc><BS> <C-\><C-o>:call <SID>deletePreviousWordOrSpace()<CR>
 nmap j gj
 nmap k gk
 nmap <down> gj

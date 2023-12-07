@@ -100,6 +100,7 @@ set ignorecase
 set smartcase
 
 " keymap settings
+imap <Esc><BS> <C-\><C-o>:call <SID>deletePreviousWordOrSpace()<CR>
 nmap j gj
 nmap k gk
 nmap <down> gj
@@ -115,6 +116,16 @@ vnoremap <S-l>   $h
 tnoremap <Esc> <C-\><C-n>
 inoremap <C-c> <Esc>
 let mapleader = "\<Space>"
+
+function! s:deletePreviousWordOrSpace()
+    if getline('.')[col('.') - 2] =~ '\s'
+        normal! vb"_de
+    else
+        normal! caW
+    endif
+    " 末尾に強制的に移動
+    normal! $
+endfunction
 
 function! s:manageEditorWidth(...)
   let count = a:1

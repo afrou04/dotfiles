@@ -18,7 +18,7 @@ on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
 [[plugins]]
 repo = 'peitalin/vim-jsx-typescript'
 on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
-hook_source = '''
+hook_post_source = '''
   source ~/.config/nvim/plugins/vim-jsx-typescript.vim
 '''
 
@@ -45,7 +45,7 @@ on_ft = ['graphql']
 [[plugins]]
 repo = 'fatih/vim-go'
 on_ft = ['go']
-hook_source = '''
+hook_post_source = '''
   source ~/.config/nvim/plugins/vim-go.vim
 '''
 
@@ -118,8 +118,8 @@ on_event = ['BufReadPost','BufNewFile']
 # GraphQL client
 [[plugins]]
 repo = 'TakuroSugahara/graphql-client-vim'
-hook_post_source = '''
 on_cmd = ['GraphQLClientExecute']
+hook_post_source = '''
 let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
       \ 'student': {
       \   'endpoint': 'http://localhost:8080/api/student/graphql',
@@ -165,7 +165,7 @@ repo = 'tomtom/tcomment_vim'
 [[plugins]]
 repo = 'github/copilot.vim'
 on_event = ['BufReadPost','BufNewFile']
-hook_add = '''
+hook_source = '''
   source ~/.config/nvim/plugins/copilot.vim
 '''
 
@@ -184,20 +184,6 @@ hook_post_source = '''
 
 ################## Find Files
 
-# ファイル検索
-[[plugins]]
-repo = 'nvim-telescope/telescope.nvim'
-depends = ['nvim-lua/plenary.nvim']
-on_map = ['<C-p>', '<S-f>', '<S-p>']
-hook_post_source = '''
-  nnoremap <silent><C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
-  nnoremap <silent><S-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
-  nnoremap <silent><S-p> <cmd>lua require('telescope.builtin').buffers()<cr>
-  lua require('plugins/telescope')
-
-  nmap <silent><leader>ii  :e ~/.ignore<CR>
-'''
-
 # ファイルツリー
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
@@ -205,5 +191,14 @@ on_map = '<C-n>'
 hook_post_source = '''
   lua require('plugins/nvim-tree')
   nnoremap <C-n> :NvimTreeFindFile<CR>
+'''
+
+# experimanetal
+[[plugins]]
+repo = 'pwntester/octo.nvim'
+on_cmd = 'Octo'
+depends = ['nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'nvim-telescope/telescope.nvim']
+hook_post_source = '''
+  lua require('plugins/octo')
 '''
 

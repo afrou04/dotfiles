@@ -2,6 +2,20 @@
 [[plugins]]
 repo = 'nvim-lua/plenary.nvim'
 
+# ファイル検索
+[[plugins]]
+repo = 'nvim-telescope/telescope.nvim'
+depends = ['nvim-lua/plenary.nvim']
+hook_add = '''
+  lua require('plugins/telescope')
+
+  nnoremap <silent><C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
+  nnoremap <silent><S-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
+  nnoremap <silent><S-p> <cmd>lua require('telescope.builtin').buffers()<cr>
+
+  nmap <silent><leader>ii  :e ~/.ignore<CR>
+'''
+
 # 背景透過
 # FIXME: 最初に実行したいもので置いているが, 背景透過が起動が遅いので、colorschemeとして設定したい
 [[plugins]]
@@ -21,9 +35,9 @@ repo = 'kyazdani42/nvim-web-devicons'
 repo = 'projekt0n/github-nvim-theme'
 on_event = ['BufReadPost','BufNewFile']
 hook_add = '''
-  autocmd ColorScheme * hi diffRemoved    guifg=#c2425f guibg=NONE 
-  autocmd ColorScheme * hi diffAdded      guifg=#58a6ff guibg=NONE 
-  autocmd ColorScheme * hi diffChanged    guifg=#d29922 guibg=NONE 
+  autocmd ColorScheme * hi diffAdded      guifg=NONE guibg=#20303b 
+  autocmd ColorScheme * hi diffChanged    guifg=NONE guibg=#1f2231 
+  autocmd ColorScheme * hi diffRemoved    guifg=NONE guibg=#37222c 
 
   autocmd ColorScheme * hi DiffviewDiffAdd       guibg=#20303b 
   autocmd ColorScheme * hi DiffviewDiffChange    guibg=#1f2231 
@@ -42,7 +56,6 @@ hook_add = '''
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = "release"
-on_idel = 1
 depends = ['nvim-lua/plenary.nvim']
 hook_add = '''
   source ~/.config/nvim/plugins/coc.vim

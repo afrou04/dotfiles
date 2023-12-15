@@ -34,3 +34,5 @@
     conflictstyle = diff3
 [diff]
     colorMoved = default
+[core]
+    hooksPath = ~/.config/git/hooks

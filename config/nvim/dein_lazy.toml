@@ -196,9 +196,14 @@ hook_post_source = '''
 # experimanetal
 [[plugins]]
 repo = 'pwntester/octo.nvim'
-on_cmd = 'Octo'
+on_cmd = ['Octo', 'PRList', 'PRReview', 'PRResume', 'PRSubmit']
 depends = ['nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'nvim-telescope/telescope.nvim']
 hook_post_source = '''
   lua require('plugins/octo')
+
+  command! PRList :Octo pr list
+  command! PRReview :Octo review start
+  command! PRResume :Octo review resume
+  command! PRSubmit :Octo review submit
 '''
 

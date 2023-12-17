@@ -63,4 +63,6 @@ function search_history() {
 bindkey -e # ctrl-a, ctrl-eがtmux上で使えない問題の対応
 zle -N search_history
 bindkey '^r' search_history
+bindkey '^H' backward-kill-word
+bindkey '5~' kill-word
 

@@ -19,6 +19,8 @@ eval "$(zoxide init zsh)"
 if [ -f "$HOME/google/path.zsh.inc" ]; then . "$HOME/google/path.zsh.inc"; fi
 if [ -f "$HOME/google/completion.zsh.inc" ]; then . "$HOME/google/completion.zsh.inc"; fi
 
+export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
 export HISTFILE=$HOME/.zsh_history # 履歴ファイルの保存先
 export HISTSIZE=10000              # メモリに保存される履歴の件数
 export SAVEHIST=10000              # HISTFILE で指定したファイルに保存される履歴の件数
@@ -53,4 +55,3 @@ alias nyarn='echo "😺「にゃーん」" && yarn'
 alias cheatlist="$DOTFIELS_DIR/command/cheatsheet/script.sh $DOTFIELS_DIR/command/cheatsheet/.commands.yml"
 alias ide="$DOTFIELS_DIR/command/ide.sh"
 alias ..="cd .."
-

@@ -1,18 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
 cd `dirname $0`
 
 IGNORE_PATTERN="^\.(git)(?!.*h).*$"
 
 for dotfile in .??*; do
-    [[ $dotfile =~ $IGNORE_PATTERN ]] && continue
+    if [[ $dotfile =~ $IGNORE_PATTERN ]]; then
+        continue
+    fi
     ln -snfv "$(pwd)/$dotfile" "$HOME/$dotfile"
 done
 
 mkdir -p "$HOME/.config"
 ln -snfv "$(pwd)/config/nvim" "$HOME/.config/nvim"
-ln -snfv "$(pwd)/config/lazygit/config.yml" "$HOME/.config/lazygit/config.yml"
 ln -snfv "$(pwd)/config/git/.gitconfig" "$HOME/.gitconfig"
+ln -snfv "$(pwd)/config/zplugs" "$HOME/.zsh"
 
 
 commands="./command/*"

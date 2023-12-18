@@ -1,6 +1,6 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/afro/go/bin"
 

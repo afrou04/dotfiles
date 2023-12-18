@@ -38,15 +38,6 @@ else
   echo "fzfはインストール済みです"
 fi
 
-# install tig
-tig -v > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  echo "tigをインストールします"
-  sudo apt install tig
-else 
-  echo "tigはインストール済みです"
-fi
-
 # install brew
 brew -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
@@ -56,16 +47,25 @@ else
   echo "brewはインストール済みです"
 fi
 
-node -v > /dev/null 2>&1
+# install golang
+go version -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-  echo "nodeをインストールします"
-  sudo apt install -y nodejs npm && \
-    sudo npm install n -g && \
-    sudo n stable && \
-    sudo apt purge -y nodejs npm && \
-    sudo apt purge -y nodejs npm 
+  echo "golangをインストールします"
+  brew install go
 else 
-  echo "nodeはインストール済みです"
+  echo "golangはインストール済みです"
+fi
+
+# install fnm
+fnm --version > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "fnmをインストールします"
+  brew install fnm
+  fnm install v18.17.0
+  fnm use v18.17.0
+  fnm install v14.15.4
+else
+  echo "fnmはインストール済みです"
 fi
 
 delta -V > /dev/null 2>&1
@@ -76,14 +76,6 @@ else
   echo "git-deltaはインストール済みです"
 fi
 
-lazygit -v > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  echo "lazygitをインストールします"
-  brew install lazygit
-else 
-  echo "lazygitはインストール済みです"
-fi
-
 # install dein
 DEIN_DIR="$HOME/.cache/dein"
 if [ -d $DEIN_DIR ]; then
@@ -91,25 +83,6 @@ if [ -d $DEIN_DIR ]; then
 else 
   echo "deinをインストールします"
   sh ./.dein.sh $HOME/.cache/dein
-fi
-
-# install docker
-docker -v > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  echo "dockerをインストールします"
-  sudo apt install docker.io
-  sudo apt install podman-docker
-else
-  echo "dockerはインストール済みです"
-fi
-
-# install mosh
-mosh -v > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  echo "moshをインストールします"
-  sudo apt-get install mosh
-else
-  echo "moshはインストール済みです"
 fi
 
 # install yq
@@ -141,14 +114,3 @@ else
   echo "xselはインストール済みです"
 fi
 
-# install brew
-brew --version > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  echo "brewをインストールします"
-  brew install fnm
-  fnm install v18.17.0
-  fnm use v18.17.0
-  fnm install v14.15.4
-else
-  echo "brewはインストール済みです"
-fi

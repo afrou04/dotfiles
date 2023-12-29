@@ -4,8 +4,9 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/Users/afro/go/bin"
 
+export GOPATH="$HOME/go"
 export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
 eval "$(goenv init -)"
 
 export EDITOR="nvim"

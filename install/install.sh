@@ -34,6 +34,7 @@ fzf --version > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "fzfをインストールします"
   sudo apt install fzf
+  brew install ripgrep
 else 
   echo "fzfはインストール済みです"
 fi
@@ -52,6 +53,7 @@ go version -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "golangをインストールします"
   brew install go
+  brew install goenv
 else 
   echo "golangはインストール済みです"
 fi

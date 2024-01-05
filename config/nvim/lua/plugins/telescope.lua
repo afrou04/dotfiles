@@ -10,8 +10,9 @@ require('telescope').setup{
       '--line-number',
       '--column',
       '--smart-case',
+      '--hidden',
       '--ignore-file',
-      '~/.ignore' -- .ignore に含まれいるものを検索対象隊から除外できる
+      '~/.ignore', -- .ignore に含まれいるものを検索対象隊から除外できる
     },
     dynamic_preview_title = true,
     layout_strategy = "vertical",
@@ -30,6 +31,9 @@ require('telescope').setup{
     }
   },
   pickers = {
+    find_files = {
+      hidden = true,
+    },
     buffers = {
       sort_lastused = true,
       ignore_current_buffer = true,

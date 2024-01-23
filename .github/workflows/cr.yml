@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.sender.type != 'Bot' }}
     steps:
-        uses: Codium-ai/pr-agent@main
+      - uses: Codium-ai/pr-agent@main
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -24,4 +24,3 @@ jobs:
           #   As an experienced software engineer, conduct a concise code review for the following code patch, highlighting specific areas for improvement or potential bugs. 
           #   There's no need for explanations of the functionality, or introductory and concluding remarks. 
           #   If there are differences between the code before and after the changes, review the code after the changes
-

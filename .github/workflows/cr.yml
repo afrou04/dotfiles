@@ -3,7 +3,8 @@ name: Code Review
 on:
   pull_request:
     # PRの作成時とDraftからreview可能になったとき
-    types: [opened, reopened, ready_for_review]
+    # types: [opened, reopened, ready_for_review]
+    types: [opened, reopened, synchronize]
   issue_comment:
     types: [created, edited]
 jobs:
@@ -14,7 +15,7 @@ jobs:
     steps:
         uses: Codium-ai/pr-agent@main
         env:
-          OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_REVIEWER.EXTRA_INSTRUCTIONS: 'Please use Japanese in descriptions.'
           PR_DESCRIPTION.EXTRA_INSTRUCTIONS: 'Please use Japanese in descriptions. Titles should have prefix of commitlint pattern such as `feat:`, `chore:`, `test:`, `fix:`, `ci:`, `docs:` etc'

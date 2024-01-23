@@ -6,7 +6,6 @@ zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 PURE_PROMPT_SYMBOL='%F{cyan}'
 
 # FXIME: 読み込みで落ちる
-# if [ -f "$HOME/fnm/completion.zsh" ]; then . "$HOME/fnm/completion.zsh"; fi
 eval "$(fnm env --use-on-cd)"
 
 source "$DOTFIELS_DIR/config/zplugs.zsh"

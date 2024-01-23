@@ -1,24 +1,25 @@
 name: Code Review
 
-permissions:
-  contents: read
-  pull-requests: write
-
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
-
+    # PRの作成時とDraftからreview可能になったとき
+    types: [opened, reopened, ready_for_review]
+  issue_comment:
+    types: [created, edited]
 jobs:
-  test:
+  review-bot:
+    name: Review PR by GPT
     runs-on: ubuntu-latest
+    if: ${{ github.event.sender.type != 'Bot' }}
     steps:
       - uses: anc95/ChatGPT-CodeReview@main
         env:
+          OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          # Optional
-          LANGUAGE: Japanese
-          # MODEL:
-          # PROMPT:
-          # top_p: 1
-          # temperature: 1
+          PR_REVIEWER.EXTRA_INSTRUCTIONS: 'Please use Japanese in descriptions.'
+          PR_DESCRIPTION.EXTRA_INSTRUCTIONS: 'Please use Japanese in descriptions. Titles should have prefix of commitlint pattern such as `feat:`, `chore:`, `test:`, `fix:`, `ci:`, `docs:` etc'
+          # PROMPT: >
+          #   As an experienced software engineer, conduct a concise code review for the following code patch, highlighting specific areas for improvement or potential bugs. 
+          #   There's no need for explanations of the functionality, or introductory and concluding remarks. 
+          #   If there are differences between the code before and after the changes, review the code after the changes
+

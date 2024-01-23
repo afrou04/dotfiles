@@ -69,6 +69,7 @@
     "cheatsheet",
     "cmds",
     "firestore",
+    "queryservice",
     "ulid",
     "varchar"
   ]

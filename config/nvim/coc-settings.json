@@ -64,12 +64,17 @@
   "coc.source.db.priority": 90,
   "snippets.ultisnips.pythonPrompt": false,
   "cSpell.userWords": [
+    "Grpc",
     "Usecase",
+    "Youtube",
     "backnumber",
     "cheatsheet",
     "cmds",
+    "connectrpc",
     "firestore",
+    "intereceptor",
     "queryservice",
+    "spwn",
     "ulid",
     "varchar"
   ]

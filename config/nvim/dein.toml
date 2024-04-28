@@ -51,6 +51,21 @@ hook_add = '''
   colorscheme github_dark_colorblind
 '''
 
+# UI Component
+[[plugins]]
+repo = 'MunifTanjim/nui.nvim'
+hook_add = '''
+  lua require('plugins/nui')
+'''
+
+# show trouble code
+[[plugins]]
+repo = 'folke/trouble.nvim'
+depends = ['nvim-tree/nvim-web-devicons']
+hook_add = '''
+  lua require('plugins/trouble')
+'''
+
 ################ LSP manager
 
 [[plugins]]
@@ -74,3 +89,18 @@ hook_add = '''
   source ~/.config/nvim/plugins/vim-dadbod-ui.vim
 '''
 
+################## AI
+
+# Git ~でgit commandを提供する
+[[plugins]]
+repo = 'jackmort/chatgpt.nvim'
+depends = [
+  "MunifTanjim/nui.nvim",
+  "nvim-lua/plenary.nvim",
+  "folke/trouble.nvim",
+  "nvim-telescope/telescope.nvim"
+]
+hook_add = '''
+  echo "chatgpt.nvim is installed"
+  lua require('plugins/chatgpt')
+'''

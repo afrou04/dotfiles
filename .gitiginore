@@ -1,2 +1,4 @@
 *.netrwhist
 .ignore
+
+config/nvim/lua/plugins/chatgpt.lua

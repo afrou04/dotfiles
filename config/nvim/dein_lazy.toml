@@ -16,6 +16,10 @@ repo = 'leafgarland/typescript-vim'
 on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
 
 [[plugins]]
+repo = 'OlegGulevskyy/better-ts-errors.nvim'
+on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
+
+[[plugins]]
 repo = 'peitalin/vim-jsx-typescript'
 on_ft = ['typescript', 'typescript.tsx', 'typescriptreact']
 hook_post_source = '''
@@ -63,6 +67,13 @@ on_ft = ['prisma']
 [[plugins]]
 repo = 'nathom/filetype.nvim'
 on_event = ['BufReadPost','BufNewFile']
+
+[[plugins]]
+repo = 'mattn/vim-sqlfmt'
+on_ft = ['sql']
+hook_post_source = '''
+  source ~/.config/nvim/plugins/vim-sqlfmt.vim
+'''
 
 # LSP manager
 # [[plugins]]

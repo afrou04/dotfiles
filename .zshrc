@@ -9,7 +9,6 @@ PURE_PROMPT_SYMBOL='%F{cyan}'
 eval "$(fnm env --use-on-cd)"
 
 source "$DOTFIELS_DIR/config/zplugs.zsh"
-source ~/.zsh/git-prompt.sh
 
 # eval "`npm completion`"
 eval "$(hub alias -s)"

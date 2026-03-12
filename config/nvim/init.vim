@@ -113,20 +113,18 @@ noremap <S-s>   :%s/
 noremap <S-h>   ^
 noremap <S-j>   L
 noremap <S-k>   H
-nnoremap <S-l>   $
-vnoremap <S-l>   $h
+noremap S   :%s/
+noremap H   ^
+noremap J   L
+noremap K   H
+nnoremap L   $
+vnoremap L   $h
 tnoremap <Esc> <C-\><C-n>
 inoremap <C-c> <Esc>
 let mapleader = "\<Space>"
 
 " Cursor/VSCode (VSCode Neovim) 用: LSP/補完/診断はVSCode側へ寄せる
 if exists('g:vscode')
-  " File/search UI
-  nnoremap <silent><C-p> <Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>
-  nnoremap <silent><S-f> <Cmd>call VSCodeNotify('workbench.action.findInFiles')<CR>
-  nnoremap <silent><S-p> <Cmd>call VSCodeNotify('workbench.action.showAllEditors')<CR>
-  nnoremap <silent><C-n> <Cmd>call VSCodeNotify('workbench.view.explorer')<CR>
-
   " LSP navigation
   nnoremap <silent> gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
   nnoremap <silent> gt <Cmd>call VSCodeNotify('editor.action.goToTypeDefinition')<CR>

@@ -17,7 +17,18 @@ eval "$(zoxide init zsh)"
 if [ -f "$HOME/google/path.zsh.inc" ]; then . "$HOME/google/path.zsh.inc"; fi
 if [ -f "$HOME/google/completion.zsh.inc" ]; then . "$HOME/google/completion.zsh.inc"; fi
 
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
+
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/afrou/work/balus/google-cloud-sdk/path.zsh.inc' ]; then . '/home/afrou/work/balus/google-cloud-sdk/path.zsh.inc'; fi
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/afrou/work/balus/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/afrou/work/balus/google-cloud-sdk/completion.zsh.inc'; fi
 
 export HISTFILE=$HOME/.zsh_history # 履歴ファイルの保存先
 export HISTSIZE=10000              # メモリに保存される履歴の件数
@@ -53,3 +64,4 @@ alias nyarn='echo "😺「にゃーん」" && yarn'
 alias cheatlist="$DOTFIELS_DIR/command/cheatsheet/script.sh $DOTFIELS_DIR/command/cheatsheet/.commands.yml"
 alias ide="$DOTFIELS_DIR/command/ide.sh"
 alias ..="cd .."
+export PATH="$HOME/.local/bin:$PATH"

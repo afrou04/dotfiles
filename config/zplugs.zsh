@@ -6,7 +6,10 @@ zplug zsh-users/zsh-history-substring-search, as: plugin
 zplug mafredri/zsh-async, from:github
 zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
 
+# If install, git clone https://github.com/zsh-users/zsh-autosuggestions /home/afrou/.zsh/zsh-autosuggestionssource ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# If install, git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/afrou/.zsh/zsh-syntax-highlighting
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 if ! zplug check --verbose; then

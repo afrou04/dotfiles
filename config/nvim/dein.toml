@@ -6,6 +6,7 @@ repo = 'nvim-lua/plenary.nvim'
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim']
+if = "!exists('g:vscode')"
 hook_add = '''
   lua require('plugins/telescope')
 
@@ -22,6 +23,7 @@ hook_add = '''
 # @see: https://github.com/xiyaowong/transparent.nvim#commands
 [[plugins]]
 repo = 'xiyaowong/transparent.nvim'
+if = "!exists('g:vscode')"
 hook_add = '''
   lua require('plugins/transparent')
 '''
@@ -36,6 +38,7 @@ repo = 'kyazdani42/nvim-web-devicons'
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
 on_event = ['BufReadPost','BufNewFile']
+if = "!exists('g:vscode')"
 hook_add = '''
   autocmd ColorScheme * hi diffAdded      guifg=NONE guibg=#20303b 
   autocmd ColorScheme * hi diffChanged    guifg=NONE guibg=#1f2231 
@@ -64,6 +67,7 @@ hook_add = '''
 [[plugins]]
 repo = 'folke/trouble.nvim'
 depends = ['nvim-tree/nvim-web-devicons']
+if = "!exists('g:vscode')"
 hook_add = '''
   lua require('plugins/trouble')
 '''

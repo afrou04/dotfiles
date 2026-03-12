@@ -92,6 +92,7 @@ hook_post_source = '''
 repo = 'sindrets/diffview.nvim'
 on_cmd = 'Diff'
 depends = ['nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons']
+if = "!exists('g:vscode')"
 hook_post_source = '''
   lua require('plugins/diffview')
 '''
@@ -157,6 +158,7 @@ let g:graphql_client_workspaces = get(g:, 'graphql_client_workspaces', {
 [[plugins]]
 repo = 'akinsho/toggleterm.nvim'
 on_cmd = 'ToggleTerm'
+if = "!exists('g:vscode')"
 hook_post_source = '''
   lua require('plugins/toggleterm')
 '''
@@ -199,6 +201,7 @@ hook_post_source = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-tree.lua'
 on_map = '<C-n>'
+if = "!exists('g:vscode')"
 hook_post_source = '''
   lua require('plugins/nvim-tree')
   nnoremap <C-n> :NvimTreeFindFile<CR>
@@ -209,6 +212,7 @@ hook_post_source = '''
 repo = 'pwntester/octo.nvim'
 on_cmd = ['Octo', 'PRList', 'PRReview', 'PRResume', 'PRSubmit']
 depends = ['nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'nvim-telescope/telescope.nvim']
+if = "!exists('g:vscode')"
 hook_post_source = '''
   lua require('plugins/octo')
 

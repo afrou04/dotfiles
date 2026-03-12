@@ -34,31 +34,33 @@ endif
 
 " coc-import-costでtsconfigのimportエラーなどが出る場合があるので注意
 " @see: https://github.com/wix/import-cost/issues/281#issuecomment-1629997498
-let g:coc_global_extensions = [
-  \'coc-clangd',
-  \'coc-css',
-  \'coc-db',
-  \'coc-diagnostic',
-  \'coc-eslint',
-  \'coc-git',
-  \'coc-go',
-  \'coc-html',
-  \'coc-import-cost',
-  \'coc-json',
-  \'coc-lua',
-  \'coc-prettier',
-  \'coc-rls',
-  \'coc-rust-analyzer',
-  \'coc-spell-checker',
-  \'coc-pairs',
-  \'coc-tsserver',
-  \'coc-sumneko-lua',
-  \'coc-phpls',
-  \'coc-prisma',
-  \'coc-restclient',
-  \'coc-sql',
-  \'coc-vimlsp'
-\]
+if !exists('g:vscode')
+  let g:coc_global_extensions = [
+    \'coc-clangd',
+    \'coc-css',
+    \'coc-db',
+    \'coc-diagnostic',
+    \'coc-eslint',
+    \'coc-git',
+    \'coc-go',
+    \'coc-html',
+    \'coc-import-cost',
+    \'coc-json',
+    \'coc-lua',
+    \'coc-prettier',
+    \'coc-rls',
+    \'coc-rust-analyzer',
+    \'coc-spell-checker',
+    \'coc-pairs',
+    \'coc-tsserver',
+    \'coc-sumneko-lua',
+    \'coc-phpls',
+    \'coc-prisma',
+    \'coc-restclient',
+    \'coc-sql',
+    \'coc-vimlsp'
+  \]
+endif
 
 " TODO: diff viewのときにts serverをdisableにする
 
@@ -116,6 +118,27 @@ vnoremap <S-l>   $h
 tnoremap <Esc> <C-\><C-n>
 inoremap <C-c> <Esc>
 let mapleader = "\<Space>"
+
+" Cursor/VSCode (VSCode Neovim) 用: LSP/補完/診断はVSCode側へ寄せる
+if exists('g:vscode')
+  " LSP navigation
+  nnoremap <silent> gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
+  nnoremap <silent> gt <Cmd>call VSCodeNotify('editor.action.goToTypeDefinition')<CR>
+  nnoremap <silent> gi <Cmd>call VSCodeNotify('editor.action.goToImplementation')<CR>
+  nnoremap <silent> gr <Cmd>call VSCodeNotify('editor.action.referenceSearch.trigger')<CR>
+
+  " Hover / docs (Cocの ? 代替)
+  nnoremap <silent> ? <Cmd>call VSCodeNotify('editor.action.showHover')<CR>
+
+  " Code actions / rename / format
+  nnoremap <silent> <leader>? <Cmd>call VSCodeNotify('editor.action.quickFix')<CR>
+  nnoremap <silent> <S-r> <Cmd>call VSCodeNotify('editor.action.rename')<CR>
+  nnoremap <silent> <leader>af <Cmd>call VSCodeNotify('editor.action.quickFix')<CR>
+
+  " Diagnostics
+  nnoremap <silent> <C-[> <Cmd>call VSCodeNotify('editor.action.marker.prev')<CR>
+  nnoremap <silent> <C-]> <Cmd>call VSCodeNotify('editor.action.marker.next')<CR>
+endif
 
 function! s:deletePreviousWordOrSpace()
     if getline('.')[col('.') - 2] =~ '\s'

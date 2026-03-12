@@ -1,3 +1,7 @@
+if exists('g:vscode')
+  finish
+endif
+
 " base setting
 set updatetime=300
 set cmdheight=2

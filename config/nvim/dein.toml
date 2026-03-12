@@ -18,6 +18,8 @@ hook_add = '''
 
 # 背景透過
 # FIXME: 最初に実行したいもので置いているが, 背景透過が起動が遅いので、colorschemeとして設定したい
+# TODO: 設定し始めは透過が実行されないので、:TransparentEnable を実行する。内部にグローバルの設定値を持っていて設定が維持される
+# @see: https://github.com/xiyaowong/transparent.nvim#commands
 [[plugins]]
 repo = 'xiyaowong/transparent.nvim'
 hook_add = '''
@@ -72,6 +74,7 @@ hook_add = '''
 repo = 'neoclide/coc.nvim'
 rev = "release"
 depends = ['nvim-lua/plenary.nvim']
+if = "!exists('g:vscode')"
 hook_add = '''
   source ~/.config/nvim/plugins/coc.vim
 '''

@@ -43,6 +43,13 @@ brew -v > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "brewをインストールします"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # インストール後のバージョン確認
+  brew -v > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "brewのインストールに失敗しました"
+    exit 1
+  fi
 else 
   echo "brewはインストール済みです"
 fi

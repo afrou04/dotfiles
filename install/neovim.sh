@@ -32,8 +32,8 @@ fi
 # echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
 # echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 # echo 'eval "$(pyenv init --path)"' >> ~/.bash_profile
-source "$HOME/.bash_profile"
-source "$HOME/.bashrc"
+# source "$HOME/.bash_profile"
+# source "$HOME/.zshrc"
 
 pyenv -v
 pyenv global 3.6.3
@@ -65,8 +65,8 @@ pyenv virtualenv 2.7.15 neovim2
 pyenv local neovim2
 pip2 install neovim
 # neovim用にpython3系をinstall
-pyenv install 3.6.3
-pyenv virtualenv 3.6.3 neovim3
+pyenv install 3.11.5
+pyenv virtualenv 3.11.5 neovim3
 pyenv local neovim3
 pip install pynvim
 

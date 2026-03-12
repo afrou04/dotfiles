@@ -1,5 +1,6 @@
 let g:dbs = {
       \ 'test-db': 'postgresql://postgres:password@localhost:5432/hoge',
+      \ 'spwn-db': 'postgresql://postgres:postgres@localhost:5432/spwn',
       \ }
 
 augroup DBUI_MAP

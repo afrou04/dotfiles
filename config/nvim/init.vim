@@ -190,13 +190,21 @@ command! BufCloseList silent! execute "%bd|e#|bd#"
 " vim ms間でclipboardを共有する.
 " FIXME: 文字化けの対応もしているがやや遅いのでチューニングしたい
 " @see: https://zenn.dev/kumavale/scraps/2271c61cbd19ef
-if system('uname -a | grep microsoft') != ''
-  augroup myYank
-    au!
-    " y cmdだけに限定することで他のそうさの時に遅くなるのを防ぐ
-    autocmd TextYankPost * silent! if v:event.operator == 'y' | call system('xsel -bi', @") | endif
+" if system('uname -a | grep microsoft') != ''
+"   augroup myYank
+"     au!
+"     " y cmdだけに限定することで他のそうさの時に遅くなるのを防ぐ
+"     autocmd TextYankPost * silent! if v:event.operator == 'y' | call system('xsel -bi', @") | endif
+"   augroup END
+" endif
+"
+" command! RemoveCachePlugin :call dein#recache_runtimepath() 
+"
+
+" WSL上のVimでヤンクした内容をWindowsのクリップボードへ送る
+if has('wsl')
+  augroup WslClipboard
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | silent! call system('clip.exe', @") | endif
   augroup END
 endif
-
-command! RemoveCachePlugin :call dein#recache_runtimepath() 
-

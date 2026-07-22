@@ -7,7 +7,7 @@ export PATH="$PATH:/Users/afro/go/bin"
 export GOPATH="$HOME/go"
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$PATH:$GOPATH/bin"
-eval "$(goenv init -)"
+eval "$(goenv init - --no-rehash)"
 
 export EDITOR="nvim"
 export ZPLUG_HOME="$HOME/.zplug"

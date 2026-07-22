@@ -2,7 +2,7 @@ source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-zplug zsh-users/zsh-history-substring-search, as: plugin
+zplug zsh-users/zsh-history-substring-search, as:plugin
 zplug mafredri/zsh-async, from:github
 zplug sindresorhus/pure, use:pure.zsh, from:github, as:theme
 
@@ -12,7 +12,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # If install, git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/afrou/.zsh/zsh-syntax-highlighting
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-if ! zplug check --verbose; then
+if ! zplug check; then
     printf "Install? [y/N]: "
     if read -q; then
         echo; zplug install

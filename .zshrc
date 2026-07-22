@@ -19,8 +19,7 @@ if [ -f "$HOME/google/completion.zsh.inc" ]; then . "$HOME/google/completion.zsh
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv init --path)"
+eval "$(pyenv init - --no-rehash)"
 eval "$(pyenv virtualenv-init -)"
 
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"

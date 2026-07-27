@@ -5,8 +5,11 @@ fpath=(~/.zsh $fpath)
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 PURE_PROMPT_SYMBOL='%F{cyan}'
 
-# FXIME: 読み込みで落ちる
+# fnm env は呼ぶたびに新しい multishells ディレクトリを PATH へ追加するため、
+# reload で積み上がらないよう古いものを先に除去する
+path=(${path:#*/fnm_multishells/*})
 eval "$(fnm env --use-on-cd)"
+fnm use --silent-if-file-missing 2>/dev/null || true
 
 source "$DOTFIELS_DIR/config/zplugs.zsh"
 
@@ -22,7 +25,7 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - --no-rehash)"
 eval "$(pyenv virtualenv-init -)"
 
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+# linuxbrew の PATH 追加は .zshenv へ移動（goenv/fnm/zoxide より前に必要なため）
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/afrou/work/balus/google-cloud-sdk/path.zsh.inc' ]; then . '/home/afrou/work/balus/google-cloud-sdk/path.zsh.inc'; fi
@@ -64,3 +67,6 @@ alias cheatlist="$DOTFIELS_DIR/command/cheatsheet/script.sh $DOTFIELS_DIR/comman
 alias ide="$DOTFIELS_DIR/command/ide.sh"
 alias ..="cd .."
 export PATH="$HOME/.local/bin:$PATH"
+
+# talent_profile_tasks <-> Drive 双方向同期（過去プロダクト除外・Zoneゴミ掃除）
+alias tpsync='find ~/work/talent_profile_tasks -name "*Zone.Identifier" -delete 2>/dev/null; rclone bisync tpdrive: ~/work/talent_profile_tasks --filter-from ~/.config/rclone/tp-tasks.filter --conflict-resolve newer --resilient -P'

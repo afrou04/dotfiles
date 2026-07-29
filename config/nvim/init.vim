@@ -201,10 +201,71 @@ command! BufCloseList silent! execute "%bd|e#|bd#"
 " command! RemoveCachePlugin :call dein#recache_runtimepath() 
 "
 
-" WSL上のVimでヤンクした内容をWindowsのクリップボードへ送る
-if has('wsl')
-  augroup WslClipboard
-    autocmd!
-    autocmd TextYankPost * if v:event.operator ==# 'y' | silent! call system('clip.exe', @") | endif
-  augroup END
+" クリップボードの共有先を接続形態で切り替える
+"
+" nvim を動かしているマシンと、Ctrl+V を押すマシンが一致するとは限らない。
+" SSH 経由の場合 clip.exe や win32yank が書くのは「接続先」の Windows の
+" クリップボードなので、手元のマシンには届かない。端末のエスケープシーケンス
+" (OSC 52) なら SSH の接続を通って手元まで転送される。
+"
+" nvim は $SSH_TTY を見て OSC 52 に切り替えてはくれず、明示的な指定が必要
+" (runtime/autoload/provider/clipboard.vim の "User opted-in to OSC 52" 分岐)。
+" また provider の自動検出は WSL では当てにならない。xsel は $DISPLAY が必要で
+" X サーバの無い環境では候補から外れ、clip.exe/powershell を拾う分岐も
+" executable('clip') を見るため .exe 付きの WSL では一致しない。結果として
+" provider が空になり、clipboard=unnamed の * レジスタごと機能しなくなる。
+if !empty($SSH_TTY)
+  " OSC 52 の貼り付けは端末へ問い合わせて応答を待つ実装で、応答しない端末では
+  " 1 回あたり最大 10 秒フリーズする (runtime/lua/vim/ui/clipboard/osc52.lua の
+  " vim.wait(1000) + vim.wait(9000))。clipboard=unnamed のままだと p や dd の
+  " たびにこれを踏むため、レジスタ共有を切って p を provider から切り離す。
+  " ヤンクした内容は TextYankPost で OSC 52 へ送るので手元のマシンには届く。
+  " 逆方向 (手元でコピーしたものを貼る) は端末の貼り付け Ctrl+Shift+V を使う。
+  set clipboard-=unnamed
+  set clipboard-=unnamedplus
+  lua << EOF
+    local osc52 = require('vim.ui.clipboard.osc52')
+    -- "+y を使ったとき用に provider も定義するが、貼り付けは上記の理由で無効化する
+    vim.g.clipboard = {
+      name = 'osc52-copy-only',
+      copy = { ['+'] = osc52.copy('+'), ['*'] = osc52.copy('*') },
+      paste = { ['+'] = function() return {} end, ['*'] = function() return {} end },
+    }
+    vim.api.nvim_create_autocmd('TextYankPost', {
+      group = vim.api.nvim_create_augroup('Osc52Yank', { clear = true }),
+      desc = 'ヤンクした内容を OSC 52 で手元のマシンのクリップボードへ送る',
+      callback = function()
+        -- 削除(d/x)まで送ると意図しない上書きが起きるのでヤンクだけに限定する
+        if vim.v.event.operator == 'y' then
+          osc52.copy('+')(vim.v.event.regcontents)
+        end
+      end,
+    })
+EOF
+elseif has('wsl')
+  " 接続先のコンソールで直接使う場合は Windows のクリップボードへ書く
+  if executable('win32yank.exe')
+    let s:wsl_copy  = ['win32yank.exe', '-i', '--crlf']
+    let s:wsl_paste = ['win32yank.exe', '-o', '--lf']
+  else
+    " clip.exe は標準入力のエンコーディングを推測するため、UTF-8 をそのまま渡すと
+    " CP932 と誤解釈されて日本語が化ける (「日本語」-> 「譌･譛ｬ隱・)。iconv で
+    " UTF-16LE にすると解釈されるが、プロセスやコンソールの状態に左右され確実ではない
+    let s:wsl_copy = executable('iconv')
+          \ ? ['sh', '-c', 'iconv -f UTF-8 -t UTF-16LE | /mnt/c/Windows/System32/clip.exe']
+          \ : ['/mnt/c/Windows/System32/clip.exe']
+    " Get-Clipboard は行末に CR を残すため除去する。しないと貼り付けた全行に ^M が付く
+    let s:wsl_paste = ['/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe',
+          \ '-NoProfile', '-NoLogo', '-Command',
+          \ '[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+          \ . ' [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))']
+  endif
+  " cache_enabled=0: 貼り付けのたびに Windows 側を読み直す。1 にすると nvim が最後に
+  " コピーした内容を返すため、Windows でコピーした内容が反映されず元の不具合に戻る
+  let g:clipboard = {
+        \ 'name': 'WslClipboard',
+        \ 'copy':  {'+': s:wsl_copy,  '*': s:wsl_copy},
+        \ 'paste': {'+': s:wsl_paste, '*': s:wsl_paste},
+        \ 'cache_enabled': 0,
+        \ }
 endif

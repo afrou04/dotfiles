@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# moshi (https://getmoshi.app) へプッシュ通知を送る。
+# moshi-hook が面倒を見ないジョブ（長いビルド、デプロイ、cron など）から叩く用途。
+#
+#   moshi-notify "ビルド完了"
+#   moshi-notify "デプロイ完了" "本番へ反映しました"
+#   moshi-notify -u "全端末へ通知" "同一ライセンスの全デバイスに送る"
+#   make build && moshi-notify "build ok" || moshi-notify "build failed"
+#
+# トークンは install/moshi.sh と同じ場所から読む（リポジトリには置かない）:
+#   1. 環境変数 MOSHI_PAIRING_TOKEN
+#   2. $HOME/.config/moshi/token
+
+set -eu
+
+TOKEN_FILE="${MOSHI_TOKEN_FILE:-$HOME/.config/moshi/token}"
+ENDPOINT="${MOSHI_WEBHOOK_URL:-https://api.getmoshi.app/api/webhook}"
+
+usage() {
+  echo "usage: moshi-notify [-u] <title> [message]" >&2
+  echo "  -u  同一ライセンスの全デバイスへ通知する" >&2
+  exit 2
+}
+
+unified=false
+while getopts ':uh' opt; do
+  case "$opt" in
+    u) unified=true ;;
+    h) usage ;;
+    *) usage ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+title="${1:-}"
+message="${2:-}"
+[ -n "$title" ] || usage
+
+command -v jq > /dev/null 2>&1 || { echo "moshi-notify: jqが必要です" >&2; exit 1; }
+
+token="${MOSHI_PAIRING_TOKEN:-}"
+if [ -z "$token" ] && [ -r "$TOKEN_FILE" ]; then
+  token=$(tr -d '[:space:]' < "$TOKEN_FILE")
+fi
+if [ -z "$token" ]; then
+  echo "moshi-notify: トークンがありません（MOSHI_PAIRING_TOKEN または $TOKEN_FILE）" >&2
+  exit 1
+fi
+
+# タイトル・本文に引用符や改行が含まれても壊れないよう jq で組み立てる。
+# unified は指定時のみ送る（既定のペイロードを公式ドキュメントの形と同一に保つため）
+if [ "$unified" = true ]; then
+  payload=$(jq -nc \
+    --arg token "$token" \
+    --arg title "$title" \
+    --arg message "$message" \
+    '{token: $token, title: $title, message: $message, unified: true}')
+else
+  payload=$(jq -nc \
+    --arg token "$token" \
+    --arg title "$title" \
+    --arg message "$message" \
+    '{token: $token, title: $title, message: $message}')
+fi
+
+response=$(printf '%s' "$payload" | curl -fsS -w '\n%{http_code}' \
+  -X POST "$ENDPOINT" \
+  -H 'Content-Type: application/json' \
+  --data-binary @- 2>&1) || {
+  echo "moshi-notify: 送信に失敗しました: $response" >&2
+  exit 1
+}
+
+status="${response##*$'\n'}"
+if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+  echo "moshi-notify: 送信に失敗しました (HTTP $status): ${response%$'\n'*}" >&2
+  exit 1
+fi

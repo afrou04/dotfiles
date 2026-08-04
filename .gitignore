@@ -1,0 +1,3 @@
+# Claude Code が生成するローカル作業用ファイル
+.claude/worktrees/
+.claude/settings.local.json

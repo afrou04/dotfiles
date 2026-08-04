@@ -48,13 +48,21 @@ if [ -z "$token" ]; then
   exit 1
 fi
 
-# タイトル・本文に引用符や改行が含まれても壊れないよう jq で組み立てる
-payload=$(jq -nc \
-  --arg token "$token" \
-  --arg title "$title" \
-  --arg message "$message" \
-  --argjson unified "$unified" \
-  '{token: $token, title: $title, message: $message, unified: $unified}')
+# タイトル・本文に引用符や改行が含まれても壊れないよう jq で組み立てる。
+# unified は指定時のみ送る（既定のペイロードを公式ドキュメントの形と同一に保つため）
+if [ "$unified" = true ]; then
+  payload=$(jq -nc \
+    --arg token "$token" \
+    --arg title "$title" \
+    --arg message "$message" \
+    '{token: $token, title: $title, message: $message, unified: true}')
+else
+  payload=$(jq -nc \
+    --arg token "$token" \
+    --arg title "$title" \
+    --arg message "$message" \
+    '{token: $token, title: $title, message: $message}')
+fi
 
 response=$(printf '%s' "$payload" | curl -fsS -w '\n%{http_code}' \
   -X POST "$ENDPOINT" \

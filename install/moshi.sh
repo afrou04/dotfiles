@@ -28,6 +28,13 @@ case "$(uname -s)" in
     ;;
 esac
 
+# settings.json の hook を間引くのに使う
+command -v jq > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "moshi.shにはjqが必要です"
+  exit 1
+fi
+
 # ペアリングトークンを解決して標準出力へ返す
 resolve_token() {
   if [ -n "${MOSHI_PAIRING_TOKEN:-}" ]; then
@@ -110,25 +117,80 @@ else
 fi
 
 # install claude code hooks
-moshi-hook status 2>/dev/null | grep -qE '^ +claude +current'
-if [ $? -ne 0 ]; then
-  echo "Claude Codeのhookを設定します"
+#
+# moshi-hook install は毎回実行する。実行条件に `moshi-hook status` の current/stale を
+# 使わないのは、下で通知イベントを間引くと status が必ず stale を報告するようになるため
+# （間引いた状態こそが狙いなので stale は異常ではない）。install はべき等で moshi 以外の
+# hook も保持するので、毎回 install -> 間引き の順に流して最終形を固定する。
+#
+# 間引く対象は「こちらが操作したタイミングで飛んでくる通知」:
+#   UserPromptSubmit               セッション最初のプロンプト送信時に「Session started」を通知する
+#   PostToolUse (AskUserQuestion)  こちらが質問へ回答した直後に発火する
+#   PostToolUse (ExitPlanMode)     こちらがプランを承認した直後に発火する
+# 残すのは PermissionRequest（承認待ち・同期実行）、PreToolUse（質問・プラン提示の瞬間）、
+# Stop（作業完了）、SessionStart / SessionEnd（通知は出さず状態を記録するだけ）。
+prune_claude_hooks() {
+  jq '
+    def is_moshi: (.command // "") | test("moshi-hook") and test("claude-hook");
+    def drop_moshi: .hooks |= map(select(is_moshi | not));
+    def drop_empty: map(select((.hooks | length) > 0));
 
-  # install は ~/.claude/settings.json を書き換えるので事前に控えを取る
-  CLAUDE_SETTINGS="$HOME/.claude/settings.json"
-  if [ -f "$CLAUDE_SETTINGS" ]; then
-    backup="$CLAUDE_SETTINGS.bak.$(date +%Y%m%d%H%M%S)"
-    cp "$CLAUDE_SETTINGS" "$backup"
+    .hooks = ((.hooks // {})
+      | .UserPromptSubmit = ((.UserPromptSubmit // []) | map(drop_moshi) | drop_empty)
+      | .PostToolUse = ((.PostToolUse // [])
+          | map(if (.matcher // "") == "AskUserQuestion" or (.matcher // "") == "ExitPlanMode"
+                then drop_moshi
+                else .
+                end)
+          | drop_empty)
+      | with_entries(select((.value | length) > 0)))
+  ' "$1"
+}
+
+CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+
+# install も間引きも ~/.claude/settings.json を書き換えるので事前に控えを取る
+backup=""
+if [ -f "$CLAUDE_SETTINGS" ]; then
+  backup="$CLAUDE_SETTINGS.bak.$(date +%Y%m%d%H%M%S)"
+  cp "$CLAUDE_SETTINGS" "$backup"
+fi
+
+moshi-hook install --target claude
+if [ $? -ne 0 ]; then
+  echo "Claude Codeのhook設定に失敗しました"
+  exit 1
+fi
+
+if [ ! -f "$CLAUDE_SETTINGS" ]; then
+  echo "$CLAUDE_SETTINGS が見つかりません"
+  exit 1
+fi
+
+# jq の出力は一度一時ファイルへ落とす（途中で失敗しても settings.json を壊さないため）。
+# 書き戻しは cat のリダイレクトで行い、元のパーミッションを保つ
+tmp="$CLAUDE_SETTINGS.tmp.$$"
+prune_claude_hooks "$CLAUDE_SETTINGS" > "$tmp"
+if [ $? -ne 0 ] || [ ! -s "$tmp" ]; then
+  rm -f "$tmp"
+  echo "hookの間引きに失敗しました"
+  if [ -n "$backup" ]; then
+    echo "  $backup から復元してください"
+  fi
+  exit 1
+fi
+cat "$tmp" > "$CLAUDE_SETTINGS"
+rm -f "$tmp"
+
+if [ -n "$backup" ] && cmp -s "$backup" "$CLAUDE_SETTINGS"; then
+  # 差分が無ければ控えは不要
+  rm -f "$backup"
+  echo "Claude Codeのhookは設定済みです"
+else
+  echo "Claude Codeのhookを設定しました（通知イベントは間引き済み）"
+  if [ -n "$backup" ]; then
     echo "  $backup にバックアップしました"
   fi
-
-  moshi-hook install --target claude
-  if [ $? -ne 0 ]; then
-    echo "Claude Codeのhook設定に失敗しました"
-    exit 1
-  fi
-else
-  echo "Claude Codeのhookは設定済みです"
 fi
 
 # run moshi-hook daemon

@@ -17,6 +17,9 @@ set -u
 
 MOSHI_TOKEN_FILE="${MOSHI_TOKEN_FILE:-$HOME/.config/moshi/token}"
 
+# herdr プラグインの場所をリポジトリ相対で解決するために使う
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
 # moshi-hook のインストール先。curl 版インストーラの既定値に合わせる
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -27,6 +30,13 @@ case "$(uname -s)" in
     exit 1
     ;;
 esac
+
+# settings.json の hook を間引くのに使う
+command -v jq > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "moshi.shにはjqが必要です"
+  exit 1
+fi
 
 # ペアリングトークンを解決して標準出力へ返す
 resolve_token() {
@@ -110,25 +120,104 @@ else
 fi
 
 # install claude code hooks
-moshi-hook status 2>/dev/null | grep -qE '^ +claude +current'
-if [ $? -ne 0 ]; then
-  echo "Claude Codeのhookを設定します"
+#
+# moshi-hook install は毎回実行する。実行条件に `moshi-hook status` の current/stale を
+# 使わないのは、下で通知イベントを間引くと status が必ず stale を報告するようになるため
+# （間引いた状態こそが狙いなので stale は異常ではない）。install はべき等で moshi 以外の
+# hook も保持するので、毎回 install -> 間引き の順に流して最終形を固定する。
+#
+# 通知は herdr プラグイン（config/herdr/moshi-agent-notify）へ一本化するので、
+# moshi-hook が書く hook のうち残すのは PermissionRequest だけにする。
+#
+# PermissionRequest は async:false（同期実行）で、Moshi 側の承認・拒否を
+# Claude Code の権限判断へ返す唯一の経路になっている。herdr のプラグインイベントは
+# コマンドを起動するだけで戻り値を返せないため、この承認往復は代替できない。
+# 残り（UserPromptSubmit / PreToolUse / PostToolUse / Stop / SessionStart /
+# SessionEnd）は herdr の状態変化通知と重複するので落とす。
+prune_claude_hooks() {
+  jq '
+    def is_moshi: (.command // "") | test("moshi-hook") and test("claude-hook");
+    def drop_moshi: .hooks |= map(select(is_moshi | not));
+    def drop_empty: map(select((.hooks | length) > 0));
 
-  # install は ~/.claude/settings.json を書き換えるので事前に控えを取る
-  CLAUDE_SETTINGS="$HOME/.claude/settings.json"
-  if [ -f "$CLAUDE_SETTINGS" ]; then
-    backup="$CLAUDE_SETTINGS.bak.$(date +%Y%m%d%H%M%S)"
-    cp "$CLAUDE_SETTINGS" "$backup"
+    .hooks = ((.hooks // {})
+      | with_entries(
+          if .key == "PermissionRequest" then .
+          else .value = ((.value // []) | map(drop_moshi) | drop_empty)
+          end)
+      | with_entries(select((.value | length) > 0)))
+  ' "$1"
+}
+
+CLAUDE_SETTINGS="$HOME/.claude/settings.json"
+
+# install も間引きも ~/.claude/settings.json を書き換えるので事前に控えを取る
+backup=""
+if [ -f "$CLAUDE_SETTINGS" ]; then
+  backup="$CLAUDE_SETTINGS.bak.$(date +%Y%m%d%H%M%S)"
+  cp "$CLAUDE_SETTINGS" "$backup"
+fi
+
+moshi-hook install --target claude
+if [ $? -ne 0 ]; then
+  echo "Claude Codeのhook設定に失敗しました"
+  exit 1
+fi
+
+if [ ! -f "$CLAUDE_SETTINGS" ]; then
+  echo "$CLAUDE_SETTINGS が見つかりません"
+  exit 1
+fi
+
+# jq の出力は一度一時ファイルへ落とす（途中で失敗しても settings.json を壊さないため）。
+# 書き戻しは cat のリダイレクトで行い、元のパーミッションを保つ
+tmp="$CLAUDE_SETTINGS.tmp.$$"
+prune_claude_hooks "$CLAUDE_SETTINGS" > "$tmp"
+if [ $? -ne 0 ] || [ ! -s "$tmp" ]; then
+  rm -f "$tmp"
+  echo "hookの間引きに失敗しました"
+  if [ -n "$backup" ]; then
+    echo "  $backup から復元してください"
+  fi
+  exit 1
+fi
+cat "$tmp" > "$CLAUDE_SETTINGS"
+rm -f "$tmp"
+
+if [ -n "$backup" ] && cmp -s "$backup" "$CLAUDE_SETTINGS"; then
+  # 差分が無ければ控えは不要
+  rm -f "$backup"
+  echo "Claude Codeのhookは設定済みです"
+else
+  echo "Claude Codeのhookを設定しました（通知イベントは間引き済み）"
+  if [ -n "$backup" ]; then
     echo "  $backup にバックアップしました"
   fi
+fi
 
-  moshi-hook install --target claude
+# install herdr plugin
+#
+# 通知そのものは herdr のプラグインが担う。エージェントの状態が blocked / done へ
+# 変わったときに moshi-notify を呼ぶので、Claude Code に限らず herdr が面倒を見る
+# エージェントすべてが同じ経路で通知される。
+# herdr を使っていない環境では moshi-hook の PermissionRequest だけが残る。
+HERDR_PLUGIN_DIR="$(dirname "$SCRIPT_DIR")/config/herdr/moshi-agent-notify"
+
+command -v herdr > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "herdrが無いのでmoshi-agent-notifyプラグインの登録はスキップします"
+elif [ ! -f "$HERDR_PLUGIN_DIR/herdr-plugin.toml" ]; then
+  # このスクリプトだけを単体で持ち出した場合など。ここまでの設定は済んでいるので、
+  # 中断せずプラグインの登録だけ諦める
+  echo "$HERDR_PLUGIN_DIR が見つからないのでmoshi-agent-notifyプラグインの登録はスキップします"
+else
+  # 同じパスへの再リンクは上書きになるので、何度実行しても安全
+  herdr plugin link "$HERDR_PLUGIN_DIR" --enabled > /dev/null
   if [ $? -ne 0 ]; then
-    echo "Claude Codeのhook設定に失敗しました"
+    echo "moshi-agent-notifyプラグインの登録に失敗しました"
     exit 1
   fi
-else
-  echo "Claude Codeのhookは設定済みです"
+  echo "moshi-agent-notifyプラグインを登録しました"
 fi
 
 # run moshi-hook daemon

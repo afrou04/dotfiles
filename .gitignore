@@ -1,3 +1,7 @@
 # Claude Code が生成するローカル作業用ファイル
 .claude/worktrees/
 .claude/settings.local.json
+
+# Python が生成するキャッシュ
+__pycache__/
+

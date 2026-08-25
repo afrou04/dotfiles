@@ -32,6 +32,23 @@ if len(s:removed_plugins) > 0
     call dein#recache_runtimepath()
 endif
 
+" NOTE: deinのhookはluaプラグインの設定読み込みには使えない
+"       - hook_add はruntimepathへの追加前に走るのでrequireが 'module not found' で落ちる
+"       - hook_post_source は起動処理中(vim_starting)にはスキップされる
+"         @see: dein.vim autoload/dein/autoload.vim の `if !has('vim_starting')`
+"       前者はstateキャッシュが効いている間は表面化しないが、tomlを編集した直後の
+"       初回起動でまとめてエラーになる。設定の読み込みはdein#end()後のここへ集約する。
+if !exists('g:vscode')
+  lua require('plugins/telescope')
+  lua require('plugins/transparent')
+  lua require('plugins/nui')
+  " trouble.luaはtelescope.actionsに依存するのでtelescopeより後に読む
+  lua require('plugins/trouble')
+  lua require('plugins/render-markdown')
+
+  colorscheme github_dark_colorblind
+endif
+
 " coc-import-costでtsconfigのimportエラーなどが出る場合があるので注意
 " @see: https://github.com/wix/import-cost/issues/281#issuecomment-1629997498
 if !exists('g:vscode')

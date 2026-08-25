@@ -8,8 +8,6 @@ repo = 'nvim-telescope/telescope.nvim'
 depends = ['nvim-lua/plenary.nvim']
 if = "!exists('g:vscode')"
 hook_add = '''
-  lua require('plugins/telescope')
-
   nnoremap <silent><C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
   nnoremap <silent><S-f> <cmd>lua require('telescope.builtin').live_grep()<cr>
   nnoremap <silent><S-p> <cmd>lua require('telescope.builtin').buffers()<cr>
@@ -24,9 +22,6 @@ hook_add = '''
 [[plugins]]
 repo = 'xiyaowong/transparent.nvim'
 if = "!exists('g:vscode')"
-hook_add = '''
-  lua require('plugins/transparent')
-'''
 
 ################## UI
 
@@ -34,10 +29,18 @@ hook_add = '''
 [[plugins]]
 repo = 'kyazdani42/nvim-web-devicons'
 
+# markdownをバッファ内でレンダリングする
+# markdown/markdown_inlineのparserはNeovim 0.12本体に同梱されているのでnvim-treesitterは不要。
+# setupはバッファが作られる前に呼ぶ必要があるため、hookではなくinit.vimの末尾から読み込んでいる。
+[[plugins]]
+repo = 'MeanderingProgrammer/render-markdown.nvim'
+depends = ['nvim-web-devicons']
+if = "!exists('g:vscode')"
+
 # github theme
+# NOTE: colorschemeは起動直後に適用したいので遅延させない
 [[plugins]]
 repo = 'projekt0n/github-nvim-theme'
-on_event = ['BufReadPost','BufNewFile']
 if = "!exists('g:vscode')"
 hook_add = '''
   autocmd ColorScheme * hi diffAdded      guifg=NONE guibg=#20303b 
@@ -52,25 +55,17 @@ hook_add = '''
   autocmd ColorScheme * hi StatusLineNC gui=NONE guifg=grey  guibg=NONE 
   " nvim-treeに依存しているので注意
   autocmd ColorScheme * highlight link NvimTreeNormal Normal
-
-  colorscheme github_dark_colorblind
 '''
 
 # UI Component
 [[plugins]]
 repo = 'MunifTanjim/nui.nvim'
-hook_add = '''
-  lua require('plugins/nui')
-'''
 
 # show trouble code
 [[plugins]]
 repo = 'folke/trouble.nvim'
-depends = ['nvim-tree/nvim-web-devicons']
+depends = ['nvim-web-devicons']
 if = "!exists('g:vscode')"
-hook_add = '''
-  lua require('plugins/trouble')
-'''
 
 ################ LSP manager
 
@@ -99,15 +94,15 @@ hook_add = '''
 ################## AI
 
 # Git ~でgit commandを提供する
-[[plugins]]
-repo = 'jackmort/chatgpt.nvim'
-depends = [
-  "MunifTanjim/nui.nvim",
-  "nvim-lua/plenary.nvim",
-  "folke/trouble.nvim",
-  "nvim-telescope/telescope.nvim"
-]
-hook_add = '''
-  echo "chatgpt.nvim is installed"
-  lua require('plugins/chatgpt')
-'''
+# [[plugins]]
+# repo = 'jackmort/chatgpt.nvim'
+# depends = [
+#   "MunifTanjim/nui.nvim",
+#   "nvim-lua/plenary.nvim",
+#   "folke/trouble.nvim",
+#   "nvim-telescope/telescope.nvim"
+# ]
+# hook_add = '''
+#   echo "chatgpt.nvim is installed"
+#   lua require('plugins/chatgpt')
+# '''

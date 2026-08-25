@@ -2,6 +2,22 @@ if exists('g:vscode')
   finish
 endif
 
+" coc.nvimは起動時のシェルのnodeをそのまま使う。fnmでプロジェクトのnodeがv18以下に
+" 切り替わっていると `crypto is not defined` で落ちるため、coc用のnodeだけを固定する。
+" (cryptoがグローバルに入ったのはNode 19から)
+if !exists('g:coc_node_path')
+  let s:coc_node_candidates = [
+    \ '/home/linuxbrew/.linuxbrew/bin/node',
+    \ expand('~/.local/share/fnm/node-versions/v22.18.0/installation/bin/node'),
+    \]
+  for s:node in s:coc_node_candidates
+    if executable(s:node)
+      let g:coc_node_path = s:node
+      break
+    endif
+  endfor
+endif
+
 " base setting
 set updatetime=300
 set cmdheight=2

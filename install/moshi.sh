@@ -17,6 +17,9 @@ set -u
 
 MOSHI_TOKEN_FILE="${MOSHI_TOKEN_FILE:-$HOME/.config/moshi/token}"
 
+# herdr プラグインの場所をリポジトリ相対で解決するために使う
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+
 # moshi-hook のインストール先。curl 版インストーラの既定値に合わせる
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -123,12 +126,14 @@ fi
 # （間引いた状態こそが狙いなので stale は異常ではない）。install はべき等で moshi 以外の
 # hook も保持するので、毎回 install -> 間引き の順に流して最終形を固定する。
 #
-# 間引く対象は「こちらが操作したタイミングで飛んでくる通知」:
-#   UserPromptSubmit               セッション最初のプロンプト送信時に「Session started」を通知する
-#   PostToolUse (AskUserQuestion)  こちらが質問へ回答した直後に発火する
-#   PostToolUse (ExitPlanMode)     こちらがプランを承認した直後に発火する
-# 残すのは PermissionRequest（承認待ち・同期実行）、PreToolUse（質問・プラン提示の瞬間）、
-# Stop（作業完了）、SessionStart / SessionEnd（通知は出さず状態を記録するだけ）。
+# 通知は herdr プラグイン（config/herdr/moshi-agent-notify）へ一本化するので、
+# moshi-hook が書く hook のうち残すのは PermissionRequest だけにする。
+#
+# PermissionRequest は async:false（同期実行）で、Moshi 側の承認・拒否を
+# Claude Code の権限判断へ返す唯一の経路になっている。herdr のプラグインイベントは
+# コマンドを起動するだけで戻り値を返せないため、この承認往復は代替できない。
+# 残り（UserPromptSubmit / PreToolUse / PostToolUse / Stop / SessionStart /
+# SessionEnd）は herdr の状態変化通知と重複するので落とす。
 prune_claude_hooks() {
   jq '
     def is_moshi: (.command // "") | test("moshi-hook") and test("claude-hook");
@@ -136,13 +141,10 @@ prune_claude_hooks() {
     def drop_empty: map(select((.hooks | length) > 0));
 
     .hooks = ((.hooks // {})
-      | .UserPromptSubmit = ((.UserPromptSubmit // []) | map(drop_moshi) | drop_empty)
-      | .PostToolUse = ((.PostToolUse // [])
-          | map(if (.matcher // "") == "AskUserQuestion" or (.matcher // "") == "ExitPlanMode"
-                then drop_moshi
-                else .
-                end)
-          | drop_empty)
+      | with_entries(
+          if .key == "PermissionRequest" then .
+          else .value = ((.value // []) | map(drop_moshi) | drop_empty)
+          end)
       | with_entries(select((.value | length) > 0)))
   ' "$1"
 }
@@ -191,6 +193,31 @@ else
   if [ -n "$backup" ]; then
     echo "  $backup にバックアップしました"
   fi
+fi
+
+# install herdr plugin
+#
+# 通知そのものは herdr のプラグインが担う。エージェントの状態が blocked / done へ
+# 変わったときに moshi-notify を呼ぶので、Claude Code に限らず herdr が面倒を見る
+# エージェントすべてが同じ経路で通知される。
+# herdr を使っていない環境では moshi-hook の PermissionRequest だけが残る。
+HERDR_PLUGIN_DIR="$(dirname "$SCRIPT_DIR")/config/herdr/moshi-agent-notify"
+
+command -v herdr > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "herdrが無いのでmoshi-agent-notifyプラグインの登録はスキップします"
+elif [ ! -f "$HERDR_PLUGIN_DIR/herdr-plugin.toml" ]; then
+  # このスクリプトだけを単体で持ち出した場合など。ここまでの設定は済んでいるので、
+  # 中断せずプラグインの登録だけ諦める
+  echo "$HERDR_PLUGIN_DIR が見つからないのでmoshi-agent-notifyプラグインの登録はスキップします"
+else
+  # 同じパスへの再リンクは上書きになるので、何度実行しても安全
+  herdr plugin link "$HERDR_PLUGIN_DIR" --enabled > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "moshi-agent-notifyプラグインの登録に失敗しました"
+    exit 1
+  fi
+  echo "moshi-agent-notifyプラグインを登録しました"
 fi
 
 # run moshi-hook daemon

@@ -70,3 +70,5 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # talent_profile_tasks <-> Drive 双方向同期（過去プロダクト除外・Zoneゴミ掃除）
 alias tpsync='find ~/work/talent_profile_tasks -name "*Zone.Identifier" -delete 2>/dev/null; rclone bisync tpdrive: ~/work/talent_profile_tasks --filter-from ~/.config/rclone/tp-tasks.filter --conflict-resolve newer --resilient -P'
+
+export NODE_OPTIONS="--dns-result-order=ipv4first"

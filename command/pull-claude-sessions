@@ -1,0 +1,165 @@
+#!/bin/bash
+
+# 別マシンで動かしている Claude Code の会話履歴をこのマシンへ取り込む。
+#
+#   pull-claude-sessions                # wsl-herdr から取り込む (確認プロンプトあり)
+#   pull-claude-sessions --dry-run      # 何が起きるか見るだけ
+#   pull-claude-sessions --host afyoga  # 別ホストから
+#   pull-claude-sessions --yes          # 確認を飛ばす
+#
+# 一方向のプルに限定している。双方向で同期すると、同じプロジェクトで両マシンから
+# Claude を動かしたときに append-only の jsonl へ同時追記が走ってセッションが壊れる。
+#
+# 取り込む対象は会話ログ (~/.claude/projects/<プロジェクト>/*.jsonl とサイドカー) と
+# プロンプト履歴 (~/.claude/history.jsonl) だけ。
+# 以下は意図的に対象外:
+#   .credentials.json  OAuthトークン。持ってくるとこのマシンの認証も壊れる
+#   .claude.json       プロジェクト状態とMCP認証。会話履歴ではない
+#   sessions/ tasks/ teams/ shell-snapshots/
+#                      実行中の状態を指すマシンローカルな情報。移しても意味がない
+#
+# ローカルに既にあるファイルは上書きしない (rsync --ignore-existing)。
+# 実行中のセッションのログを壊さないための保険。セッションIDはUUIDなので
+# 両マシンでファイル名がぶつかることは実質ないが、事故ったときの損失が大きいため。
+#
+# プロジェクトディレクトリ名は絶対パスを / -> - に潰したもので、逆変換は一意に定まらない
+# (talent-profile のようにハイフンを含む名前と区別がつかない)。
+# そのため各 jsonl の1行目にある cwd を読んで、こちらに同じパスがあるかで整合を判定する。
+# パスが無いプロジェクトも取り込むが、--resume してもディレクトリが無いため使えない。
+
+set -euo pipefail
+
+REMOTE_HOST='wsl-herdr'
+DRY_RUN=0
+ASSUME_YES=0
+
+usage() {
+    sed -n '3,8p' "$0" | sed 's/^# \{0,1\}//'
+    exit "${1:-0}"
+}
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --host)
+            [ $# -ge 2 ] || { echo 'エラー: --host にホスト名がありません' >&2; exit 2; }
+            REMOTE_HOST="$2"
+            shift 2
+            ;;
+        --host=*)
+            REMOTE_HOST="${1#--host=}"
+            shift
+            ;;
+        --dry-run) DRY_RUN=1; shift ;;
+        --yes|-y)  ASSUME_YES=1; shift ;;
+        --help|-h) usage 0 ;;
+        *) echo "エラー: 不明な引数 '$1'" >&2; usage 2 ;;
+    esac
+done
+
+[ -n "$REMOTE_HOST" ] || { echo 'エラー: ホスト名が空です' >&2; exit 2; }
+
+LOCAL_CLAUDE="$HOME/.claude"
+LOCAL_PROJECTS="$LOCAL_CLAUDE/projects"
+
+command -v rsync >/dev/null || { echo 'エラー: ローカルに rsync がありません' >&2; exit 1; }
+command -v ssh   >/dev/null || { echo 'エラー: ローカルに ssh がありません' >&2; exit 1; }
+[ -d "$LOCAL_CLAUDE" ] || { echo "エラー: $LOCAL_CLAUDE がありません" >&2; exit 1; }
+
+echo "接続先: $REMOTE_HOST"
+
+# リモートの前提を1回のsshでまとめて確認する。
+# 各プロジェクトの jsonl から cwd を抜き、"<ディレクトリ名>\t<cwd>" で返す。
+#
+# bash -s で明示的にbashへ流し込む。ssh host 'コマンド' はリモートのログインシェルで
+# 実行されるため、zshだとマッチしないglobが「no matches found」で即エラーになる
+# (bashはマッチしないパターンをそのまま文字列として返す)。
+remote_survey=$(ssh -o ConnectTimeout=10 "$REMOTE_HOST" bash -s <<'REMOTE_SCRIPT'
+set -e
+command -v rsync >/dev/null || { echo "__NO_RSYNC__"; exit 0; }
+[ -d "$HOME/.claude/projects" ] || { echo "__NO_PROJECTS__"; exit 0; }
+for d in "$HOME"/.claude/projects/*/; do
+    [ -d "$d" ] || continue
+    cwd=""
+    # 先頭行がsummaryなどcwdを持たないレコードのことがあるので数行見る。
+    # それでも取れなければ同じプロジェクトの別のjsonlを試す
+    for f in "$d"*.jsonl; do
+        [ -f "$f" ] || continue
+        cwd=$(head -5 "$f" | sed -n 's/.*"cwd":"\([^"]*\)".*/\1/p' | head -1)
+        if [ -n "$cwd" ]; then
+            break
+        fi
+    done
+    printf '%s\t%s\n' "$(basename "$d")" "$cwd"
+done
+REMOTE_SCRIPT
+) || { echo "エラー: $REMOTE_HOST へ ssh できません" >&2; exit 1; }
+
+case "$remote_survey" in
+    *__NO_RSYNC__*)   echo "エラー: $REMOTE_HOST に rsync がありません" >&2; exit 1 ;;
+    *__NO_PROJECTS__*) echo "エラー: $REMOTE_HOST に ~/.claude/projects がありません" >&2; exit 1 ;;
+esac
+
+[ -n "$remote_survey" ] || { echo "$REMOTE_HOST に取り込めるプロジェクトがありません"; exit 0; }
+
+# 計画を出す。cwd がこちらに無いものと、こちらに既にあるプロジェクトを見分けられるようにする
+total=0
+missing=0
+echo
+echo '取り込むプロジェクト:'
+while IFS=$'\t' read -r dir cwd; do
+    [ -n "$dir" ] || continue
+    total=$((total + 1))
+    mark='  '
+    note=''
+    if [ -z "$cwd" ]; then
+        mark='? '
+        note='  (cwdを読めず)'
+        missing=$((missing + 1))
+    elif [ ! -d "$cwd" ]; then
+        mark='! '
+        note="  (こちらに $cwd が無い)"
+        missing=$((missing + 1))
+    fi
+    if [ -d "$LOCAL_PROJECTS/$dir" ]; then
+        note="$note  [ローカルにも同名あり]"
+    fi
+    printf '%s%s%s\n' "$mark" "$dir" "$note"
+done <<< "$remote_survey"
+
+echo
+echo "合計 $total 件 (うち $missing 件はこちらに対応するディレクトリが無い)"
+echo "history.jsonl は $LOCAL_CLAUDE/history.$REMOTE_HOST.jsonl として保存する"
+echo '既にローカルにあるファイルは上書きしない'
+
+if [ "$DRY_RUN" -eq 1 ]; then
+    echo
+    echo '--dry-run のためここで終了'
+    exit 0
+fi
+
+if [ "$ASSUME_YES" -eq 0 ]; then
+    echo
+    printf '実行しますか? [y/N] '
+    read -r answer
+    case "$answer" in
+        y|Y|yes|YES) ;;
+        *) echo '中止しました'; exit 0 ;;
+    esac
+fi
+
+mkdir -p "$LOCAL_PROJECTS"
+
+echo
+echo '会話ログを取り込み中...'
+rsync -az --ignore-existing --info=stats1 \
+    "$REMOTE_HOST:.claude/projects/" "$LOCAL_PROJECTS/"
+
+echo 'プロンプト履歴を取り込み中...'
+if rsync -az "$REMOTE_HOST:.claude/history.jsonl" "$LOCAL_CLAUDE/history.$REMOTE_HOST.jsonl" 2>/dev/null; then
+    echo "  -> $LOCAL_CLAUDE/history.$REMOTE_HOST.jsonl"
+else
+    echo "  警告: $REMOTE_HOST に history.jsonl がありません" >&2
+fi
+
+echo
+echo '完了。取り込んだセッションは対象ディレクトリで claude --resume から選べる'

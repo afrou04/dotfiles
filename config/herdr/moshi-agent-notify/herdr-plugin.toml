@@ -1,0 +1,10 @@
+id = "moshi-agent-notify"
+name = "herdr agent status -> Moshi"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "herdr のエージェント状態変化 (blocked / done) を Moshi のプッシュ通知として送る"
+platforms = ["linux", "macos"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["python3", "notify.py"]

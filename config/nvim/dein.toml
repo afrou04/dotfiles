@@ -5,6 +5,8 @@ repo = 'nvim-lua/plenary.nvim'
 # ファイル検索
 [[plugins]]
 repo = 'nvim-telescope/telescope.nvim'
+# NOTE: 2023-12版はNeovim 0.12でparserの無いfiletypeのpreviewが落ちる(#3308で修正済み)
+rev = 'v0.2.2'
 depends = ['nvim-lua/plenary.nvim']
 if = "!exists('g:vscode')"
 hook_add = '''
